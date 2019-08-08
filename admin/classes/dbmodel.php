@@ -25,11 +25,12 @@ class DbModel{
         global $db;
         $result = $db->query($query);
         if(empty($result)) return false;
-        
+
+
         $obj = array();
         while($row = mysqli_fetch_assoc($result))
-                //create an array of Class Inherited Objects
-                $obj[] = static::build($row);
+            //create an array of Class Inherited Objects
+            $obj[] = static::build($row);
         return $obj;
     }
     
@@ -78,7 +79,7 @@ class DbModel{
         global $db;
         $props = $this->clear_props();
         $sql = "INSERT INTO ".static::$db_table."(".implode(",",array_keys($props)).") ";
-        $sql.= "VALUES ('".implode(" ',' ", array_values($props))." ') ";
+        $sql.= "VALUES ('".implode("','", array_values($props))."') ";
         if(!$db->query($sql))
             return false;
     }
@@ -87,7 +88,7 @@ class DbModel{
         $props = $this->clear_props();
         $ar = array();
         foreach($props as $key => $value)
-            $ar[] = "$key = '$value'";
+            $ar[] = "$key='$value'";
         $sql = "UPDATE ".static::$db_table." SET ".implode(",", $ar)." WHERE id=".$db->escape_string($this->id);
         if(!$db->query($sql))
             return false;

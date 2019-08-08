@@ -1,3 +1,8 @@
+<?php require_once('./classes/init.php') ?>
+<?php 
+if($session->isLogged())
+header("Location: /admin")
+?>
 <!DOCTYPE html>
 <html lang="en">
 

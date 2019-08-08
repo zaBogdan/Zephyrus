@@ -1,5 +1,4 @@
 <?php include "widgets/header.php"?>
-<?php include "classes/init.php"  ?>
 
 
 <body id="page-top">
@@ -23,7 +22,7 @@
           // $_SESSION['username']='zaBogdan';
           // $_SESSION['uuid'] = "4080b4d1-addc-43aa-9f51-94f10a7040e6";
           // $session->login($user);
-          echo "Stauts: ".$session->isLogged();
+          // echo "Stauts: ".$session->isLogged();
 
 
           // $session->logout();

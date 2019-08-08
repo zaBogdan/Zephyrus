@@ -37,35 +37,42 @@ class Session extends DbModel{
         unset($_SESSION['userID']);
         unset($_SESSION['username']);
         unset($_SESSION['isLogged']);
+        unset($_SESSION['token']);
         unset($_COOKIE['loginCookie']);
         setcookie('loginCookie', "", time()-100);
     }
 
     public function isLogged(){
         if(isset($_SESSION['isLogged'])){
-            return true;
+            if(isset($_SESSION['token'])){
+                $data = TokenAuth::validateToken($_SESSION['token']);
+                if(!empty($data))
+                    return true;
+            }
         }
         else{
             if(isset($_COOKIE['loginCookie'])){
-                $uuid = TokenAuth::validateToken($_COOKIE['loginCookie']);
-                if(!empty($uuid)){
-                    $this->setSession($uuid);
+                $data = TokenAuth::validateToken($_COOKIE['loginCookie']);
+                if(!empty($data)){
+                    $this->setSession($data->uuid,$data->token);
                     return true;
                 }
             }
-            return false;
         }
+        $this->logout();
+        return false;
     }
 
 
     /**
      * Private functions
      */
-    private function setSession(String $uuid){
+    private function setSession(String $uuid, String $token){
         $user = Users::find_by_attribute("uuid",$uuid);
         $_SESSION['userID'] = $user->id;
         $_SESSION['username'] = $user->username;
         $_SESSION['isLogged'] = true;
+        $_SESSION['token'] = $token;
     }
     private function loginLonger(){
         //Get the data needed
@@ -81,6 +88,7 @@ class Session extends DbModel{
 
         //remove the uuid
         unset($_SESSION['uuid']);
+        $_SESSION['token']=$token;
        
         //Save the cookie token on the client side
         setcookie("loginCookie", $token, $expiry_date);

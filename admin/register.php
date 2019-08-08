@@ -6,12 +6,12 @@
     <div class="card card-register mx-auto mt-5">
       <div class="card-header">Register an Account</div>
       <div class="card-body">
-        <form>
+        <form action="" method="post">
           <div class="form-group">
             <div class="form-row">
               <div class="col-md-6">
                 <div class="form-label-group">
-                  <input type="text" id="firstName" class="form-control" placeholder="First name" required="required" autofocus="autofocus">
+                  <input type="text" id="firstName" class="form-control" name="username" placeholder="First name" required="required" autofocus="autofocus">
                   <label for="firstName">First name</label>
                 </div>
               </div>

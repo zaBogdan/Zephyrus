@@ -1,6 +1,5 @@
 <?php
 
-
 class TokenAuth extends DbModel{
     protected static $db_table = "token_auth";
     protected static $db_fields = array('id','uuid','token','is_expired','expiry_date');
@@ -31,7 +30,7 @@ class TokenAuth extends DbModel{
         if(!empty($data)){
             //if is not expired
             if(!$data->is_expired && time()<$data->expiry_date)
-                return $data->uuid;
+                return $data;
             //daca e expirat deja
             if($data->is_expired)
                 return false;

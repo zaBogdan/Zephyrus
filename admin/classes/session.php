@@ -5,7 +5,7 @@
  * 
  * Token authentification, User sessions 
  */
-class Session extends DbModel{
+class Session{
 
     public $user_id;
 
@@ -22,13 +22,13 @@ class Session extends DbModel{
      */
     public function login(Users $user){
         //functia aceasta nu poate fii apelata cand isLogged=true ( nu ar avea sens )
-        if(!$this->isLogged)
-            if($user){
-                $_SESSION['isLogged'] = true;
-                $this->user_id = $_SESSION['userID'] =  $user->id;
-                if(isset($_SESSION['uuid']))
-                    $this->loginLonger();
-            }
+        if($user){
+            $_SESSION['isLogged'] = true;
+            $_SESSION['userID'] = $user->id;
+            $_SESSION['username'] = $user->username;
+            if(isset($_SESSION['uuid']))
+                $this->loginLonger();
+        }
     }
 
     public function logout(){
@@ -42,16 +42,28 @@ class Session extends DbModel{
         setcookie('loginCookie', "", time()-100);
     }
 
+    public function isActivated(int $userID){
+        $user = Users::find_by_attribute("id",$userID);
+        return $user->confirmedStatus;
+    } 
+
     public function isLogged(){
+        //current session credentials check
         if(isset($_SESSION['isLogged'])){
+            //check the token to be valid while the current session is active. 
             if(isset($_SESSION['token'])){
                 $data = TokenAuth::validateToken($_SESSION['token']);
                 if(!empty($data))
                     return true;
+                return false;
             }
+            //login without remember me. 
+            return true;
         }
         else{
+            //login from previous session
             if(isset($_COOKIE['loginCookie'])){
+                //if token is valid we setup the credentials for the current session
                 $data = TokenAuth::validateToken($_COOKIE['loginCookie']);
                 if(!empty($data)){
                     $this->setSession($data->uuid,$data->token);
@@ -74,17 +86,14 @@ class Session extends DbModel{
         $_SESSION['isLogged'] = true;
         $_SESSION['token'] = $token;
     }
+    
     private function loginLonger(){
         //Get the data needed
         $expiry_date = time() + (30 * 24 * 60 * 60); // 1 month
-        $token = TokenAuth::generateToken(15);
         
         // Save the token to the database. 
         $tokenAuth = new TokenAuth();
-        $tokenAuth->uuid = $_SESSION['uuid'];
-        $tokenAuth->token = $token;
-        $tokenAuth->expiry_date = $expiry_date;
-        $tokenAuth->save_to_db();
+        $tokenAuth->linkToken($_SESSION['uuid'], $expiry_date);
 
         //remove the uuid
         unset($_SESSION['uuid']);

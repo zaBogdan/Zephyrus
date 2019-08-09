@@ -13,6 +13,16 @@ class TokenAuth extends DbModel{
     public static function generateToken($length){
         return bin2hex(random_bytes($length));
     }
+    public static function getUUID(){
+        return sprintf( 
+            '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+            mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
+            mt_rand( 0, 0xffff ),
+            mt_rand( 0, 0x0fff ) | 0x4000,
+            mt_rand( 0, 0x3fff ) | 0x8000,
+            mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
+        );
+    }
 
     public static function revokeToken($token){
         global $db;
@@ -41,5 +51,15 @@ class TokenAuth extends DbModel{
             }
         }
         return false;
+    }
+
+    public function linkToken($uuid, $timeStamp, $lenght=NULL){
+        $lenght = $lenght==NULL ? 15 : $lenght;
+        $token = self::generateToken($lenght);
+        $this->uuid = $uuid;
+        $this->token = $token;
+        $this->expiry_date = $timeStamp;
+        $this->save_to_db();
+        return $token;
     }
 }

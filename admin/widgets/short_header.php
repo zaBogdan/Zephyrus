@@ -1,7 +1,8 @@
-<?php require_once('./classes/init.php') ?>
+<?php require_once('../classes/init.php') ?>
 <?php 
-if($session->isLogged())
-header("Location: /admin")
+if(isset($redirect))
+if($session->isLogged()) 
+header("Location: /admin");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,9 +18,9 @@ header("Location: /admin")
   <title>AdminCP</title>
 
   <!-- Custom fonts for this template-->
-  <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
   <!-- Custom styles for this template-->
-  <link href="../vendor/css/sb-admin.css" rel="stylesheet">
+  <link href="/vendor/css/sb-admin.css" rel="stylesheet">
 
 </head>

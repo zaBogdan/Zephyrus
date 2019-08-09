@@ -1,3 +1,10 @@
+<?php
+$user = Users::find_by_attribute("id",$_SESSION['userID']);
+if(isset($_GET['send_email'])){
+  $user->send_confirmation();
+  header("Refresh: 1");
+}
+?>
 <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
 <a class="navbar-brand mr-1" href="index.php">Start Bootstrap</a>
@@ -26,10 +33,7 @@
       <span class="badge badge-danger">9+</span>
     </a>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-      <a class="dropdown-item" href="#">Action</a>
-      <a class="dropdown-item" href="#">Another action</a>
-      <div class="dropdown-divider"></div>
-      <a class="dropdown-item" href="#">Something else here</a>
+      
     </div>
   </li>
   <li class="nav-item dropdown no-arrow mx-1">
@@ -100,5 +104,11 @@
     <a class="nav-link" href="tables.php">
       <i class="fas fa-fw fa-table"></i>
       <span>Tables</span></a>
+  </li>
+  <div class="dropdown-divider"></div>
+  <li class="nav-item">
+    <a class="nav-link" href="users.php">
+    <i class="fas fa-user-shield"></i>
+      <span>Users</span></a>
   </li>
 </ul>

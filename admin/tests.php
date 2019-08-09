@@ -1,6 +1,12 @@
 <?php include "widgets/header.php"?>
 
-
+<?php
+$user = Users::find_by_attribute("id",$_SESSION['userID']);
+if(isset($_GET['send_email'])){
+  $user->send_confirmation();
+  header("Refresh: 1");
+}
+?>
 <body id="page-top">
 
   <?php include "widgets/navbar.php" ?>
@@ -16,23 +22,13 @@
         <hr>
         <p>
         <?php
-          $user = new Users();
+  if(!$user->confirmedStatus)
+  echo '<div class="alert alert-danger text-center" role="alert">
+  You have not confirmed your email'.$user->email.' Click the button to send a confirmation link
+  <a href="?send_email=true" class="btn btn-link">Send Email</a>
+  </div>';
+?>
 
-          // $_SESSION['userID']=1;
-          // $_SESSION['username']='zaBogdan';
-          // $_SESSION['uuid'] = "4080b4d1-addc-43aa-9f51-94f10a7040e6";
-          // $session->login($user);
-          // echo "Stauts: ".$session->isLogged();
-
-
-          // $session->logout();
-          // print_r($_COOKIE);
-          // $length = 15;
-          // echo bin2hex(random_bytes($length))
-          // $token = $session->create_token(1, "zaBogdan");
-          // echo "encoded: ".$token."<br>";
-          // $session->decode_token($token);
-        ?>  
 
         </p>
 

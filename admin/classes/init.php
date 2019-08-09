@@ -1,12 +1,14 @@
 <?php
-require_once '../vendor/autoload.php';
-require_once 'dbmodel.php';
-require_once 'database.php';
-require_once 'users.php';
-require_once 'session.php';
-require_once 'tokenauth.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/vendor/autoload.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/admin/classes/dbmodel.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/admin/classes/database.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/admin/classes/users.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/admin/classes/session.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/admin/classes/emailhandler.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/admin/classes/tokenauth.php';
 
 
 $secretKey = "d29sdmVzWm9uZTRFdmVy";
 
 $db = new Database();
+$email = new EmailHandler();

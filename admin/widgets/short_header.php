@@ -1,6 +1,5 @@
 <?php require_once('../classes/init.php') ?>
 <?php 
-if(isset($redirect))
 if($session->isLogged()) 
 header("Location: /admin");
 ?>

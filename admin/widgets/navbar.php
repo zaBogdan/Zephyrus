@@ -1,9 +1,9 @@
 <?php
-$user = Users::find_by_attribute("id",$_SESSION['userID']);
-if(isset($_GET['send_email'])){
-  $user->send_confirmation();
-  header("Refresh: 1");
-}
+$user = Users::find_by_attribute("uuid",$_SESSION['uuid']);
+// if(isset($_GET['send_email'])){
+//   $user->send_confirmation();
+//   header("Refresh: 1");
+// }
 ?>
 <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
@@ -33,7 +33,30 @@ if(isset($_GET['send_email'])){
       <span class="badge badge-danger">9+</span>
     </a>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-      
+      <div class="card dropdown-item">
+        <img class="card-img-left" src="https://place-hold.it/64">
+        <div class="card-body">
+          <h4 class="card-title">Card title</h4>
+          <p class="card-text">Some example text. Some example text.</p>
+       </div>
+      </div>
+      <div class="card dropdown-item">
+        <div class="card-body">
+          <h4 class="card-title">Card title</h4>
+          <p class="card-text">Some example text. Some example text.</p>
+       </div>
+      </div>
+      <div class="card dropdown-item">
+        <div class="card-body">
+          <h4 class="card-title">Card title</h4>
+          <p class="card-text">Some example text. Some example text.</p>
+       </div>
+      </div>
+        <!-- <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">Action</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">Action</a>
+        <div class="dropdown-divider"></div> -->
     </div>
   </li>
   <li class="nav-item dropdown no-arrow mx-1">
@@ -53,7 +76,7 @@ if(isset($_GET['send_email'])){
       <i class="fas fa-user-circle fa-fw"></i>
     </a>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-      <a class="dropdown-item" href="#"><?=$_SESSION['username']?></a>
+      <a class="dropdown-item" href="#"><?=$user->username?></a>
       <div class="dropdown-divider"></div>
       <a class="dropdown-item" href="#">Settings</a>
       <a class="dropdown-item" href="#">Activity Log</a>

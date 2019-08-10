@@ -13,9 +13,9 @@
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a href="#">Dashboard</a>
+            <a href="#">Home</a>
           </li>
-          <li class="breadcrumb-item active">Tables</li>
+          <li class="breadcrumb-item active">Users</li>
         </ol>
 
         <!-- DataTables Example -->
@@ -55,9 +55,9 @@
                     <td><?=$user->email?></td>
                     <td><?=$user->confirmedStatus ? "YES" : "NO" ?></td>
                     <td>
-                      <a href="" class="btn btn-info"><i class="fas fa-user-alt"></i></a>
-                      <a href="" class="btn btn-success"><i class="fas fa-user-edit"></i></a>
-                      <a href="" class="btn btn-danger"><i class="fas fa-user-times"></i></a>
+                      <a href="/profile.php?username=<?=$user->username?>" class="btn btn-info"><i class="fas fa-user-alt"></i></a>
+                      <a href="/admin/profile.php?uuid=<?=$user->uuid?>" class="btn btn-success"><i class="fas fa-user-edit"></i></a>
+                      <a href="?delete=<?=$user->uuid?>" class="btn btn-danger"><i class="fas fa-user-times"></i></a>
                     </td>
                   </tr>
                   <?php endforeach;?>
@@ -68,9 +68,6 @@
           <div class="card-footer small text-muted">Last updated <b><?=date('d-M-Y H:i:s')?></b></div>
         </div>
 
-        <p class="small text-center text-muted my-5">
-          <em>More table examples coming soon...</em>
-        </p>
 
       </div>
       <!-- /.container-fluid -->

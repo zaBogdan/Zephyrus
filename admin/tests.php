@@ -1,12 +1,4 @@
 <?php include "widgets/header.php"?>
-
-<?php
-$user = Users::find_by_attribute("id",$_SESSION['userID']);
-if(isset($_GET['send_email'])){
-  $user->send_confirmation();
-  header("Refresh: 1");
-}
-?>
 <body id="page-top">
 
   <?php include "widgets/navbar.php" ?>
@@ -27,11 +19,8 @@ if(isset($_GET['send_email'])){
   You have not confirmed your email'.$user->email.' Click the button to send a confirmation link
   <a href="?send_email=true" class="btn btn-link">Send Email</a>
   </div>';
-?>
-
-
+  ?>
         </p>
-
 
 
 
@@ -42,4 +31,6 @@ if(isset($_GET['send_email'])){
 
 <?php include "widgets/footer.php"?>
 
+<script>
+$('.toast').toast(option)</script>
 

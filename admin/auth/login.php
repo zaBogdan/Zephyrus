@@ -5,7 +5,8 @@ if(isset($_POST['submit'])){
   $user = Users::check_user($_POST['username'],$_POST['password']);
   if(!empty($user)){
     if(isset($_POST['remember-me']))
-      $_SESSION['uuid']=$user->uuid;
+      $_SESSION['rememberMe']=true;
+      
     $session->login($user);
     header("Location: /admin");
   }else{

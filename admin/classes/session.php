@@ -7,13 +7,10 @@
  */
 class Session{
 
-    public $user_id;
-
     public function __construct(){
         session_start();
         ob_start();
     }
-
     /**
      * Public functions
      * -> login()
@@ -24,9 +21,8 @@ class Session{
         //functia aceasta nu poate fii apelata cand isLogged=true ( nu ar avea sens )
         if($user){
             $_SESSION['isLogged'] = true;
-            $_SESSION['userID'] = $user->id;
-            $_SESSION['username'] = $user->username;
-            if(isset($_SESSION['uuid']))
+            $_SESSION['uuid'] = $user->uuid;
+            if(isset($_SESSION['rememberMe']))
                 $this->loginLonger();
         }
     }
@@ -34,19 +30,14 @@ class Session{
     public function logout(){
         if(isset($_COOKIE['loginCookie']))
             TokenAuth::revokeToken($_COOKIE['loginCookie']);
-        unset($_SESSION['userID']);
-        unset($_SESSION['username']);
         unset($_SESSION['isLogged']);
+        unset($_SESSION['uuid']);
         unset($_SESSION['token']);
         unset($_COOKIE['loginCookie']);
         setcookie('loginCookie', "", time()-100);
     }
 
-    public function isActivated(int $userID){
-        $user = Users::find_by_attribute("id",$userID);
-        return $user->confirmedStatus;
-    } 
-
+    
     public function isLogged(){
         //current session credentials check
         if(isset($_SESSION['isLogged'])){
@@ -62,6 +53,7 @@ class Session{
         }
         else{
             //login from previous session
+            echo "SET";
             if(isset($_COOKIE['loginCookie'])){
                 //if token is valid we setup the credentials for the current session
                 $data = TokenAuth::validateToken($_COOKIE['loginCookie']);
@@ -80,9 +72,7 @@ class Session{
      * Private functions
      */
     private function setSession(String $uuid, String $token){
-        $user = Users::find_by_attribute("uuid",$uuid);
-        $_SESSION['userID'] = $user->id;
-        $_SESSION['username'] = $user->username;
+        $_SESSION['uuid'] = $uuid;
         $_SESSION['isLogged'] = true;
         $_SESSION['token'] = $token;
     }
@@ -93,13 +83,14 @@ class Session{
         
         // Save the token to the database. 
         $tokenAuth = new TokenAuth();
-        $tokenAuth->linkToken($_SESSION['uuid'], $expiry_date);
+        $token = $tokenAuth->linkToken($_SESSION['uuid'], $expiry_date);
 
         //remove the uuid
-        unset($_SESSION['uuid']);
+        unset($_SESSION['rememberMe']);
         $_SESSION['token']=$token;
        
         //Save the cookie token on the client side
+        // $token = TokenAuth::encryptToken($token);
         setcookie("loginCookie", $token, $expiry_date);
     }
 }

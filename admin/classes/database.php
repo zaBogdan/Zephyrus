@@ -3,11 +3,6 @@
 
 class Database{
 
-    protected $db_name = "zaEngine"; //Database Name
-    protected $db_username = "root"; //Database Username
-    protected $db_password = ""; //Database password
-    protected $db_host = "localhost"; //Database host
-
     public $connection;
 
     public function __construct(){
@@ -15,7 +10,12 @@ class Database{
     }
 
     private function connect_to_db(){
-        $this->connection = new mysqli($this->db_host, $this->db_username, $this->db_password, $this->db_name);
+        $this->connection = new mysqli(
+            env('DATABASE_HOST'), 
+            env('DATABASE_USERNAME'), 
+            env('DATABASE_PASSWORD',''), 
+            env('DATABASE_NAME')
+        );
 
         if($this->connection->connect_errno)
             die("Failed to connecto to the Database! Error message: ".$this->connection->connect_errno);

@@ -7,8 +7,5 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/admin/classes/session.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/admin/classes/emailhandler.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/admin/classes/tokenauth.php';
 
-
-$secretKey = "d29sdmVzWm9uZTRFdmVy";
-
 $db = new Database();
 $email = new EmailHandler();

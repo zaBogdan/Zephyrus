@@ -3,7 +3,7 @@
 $msg = "Reset your password";
 if(isset($_GET['id'])){
   $token = $_GET['id'];
-  $user = TokenAuth::validateToken($token);
+  $user = TokenAuth::validateToken($token,"reset_password");
   if(empty($user))
     header("Location: /admin");
 }else header("Location: /admin");

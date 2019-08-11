@@ -19,6 +19,7 @@
   You have not confirmed your email'.$user->email.' Click the button to send a confirmation link
   <a href="?send_email=true" class="btn btn-link">Send Email</a>
   </div>';
+  
   ?>
         </p>
 

@@ -25,5 +25,5 @@ Some features that will be added in the next couple weeks:
 - [ ] User roles ( example: Administrator, Moderator, Writer, Reader )
 
 # Known bugs
-- [ ] Session, Confirmation and Reset password tokens doesn't keep track where you use them ( You can use the session token to reset your password, or even confirm your account ) 
+- [x] ~~Session, Confirmation and Reset password tokens doesn't keep track where you use them ( You can use the session token to reset your password, or even confirm your account )~~ 
 - [ ] When sending an email, the style is removed from the initial page ( Reset password and Confirmation for now )

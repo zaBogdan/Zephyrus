@@ -5,6 +5,9 @@ class Users extends DbModel{
     protected static $db_table = "users";
     protected static $db_fields = array('id', 'uuid', 'username', 'email', 'password', 'firstname', 'lastname', 'registration_date', 'notifications','confirmedStatus');
 
+    private static $token_reset = "reset_password";
+    private $token_confirm = "confirm_email";
+
     public $id;
     public $uuid;
     public $username;
@@ -46,7 +49,7 @@ class Users extends DbModel{
             $expiry_date = time() + (2 * 60 * 60); // 2 hours
 
             $tokenAuth = new TokenAuth();
-            $token = $tokenAuth->linkToken($user->uuid, $expiry_date,20);
+            $token = $tokenAuth->linkToken($user->uuid, $expiry_date,self::$token_reset,20);
 
             $to = $email;
             $link = "http://zaengine.php/admin/auth/reset_password.php?id=$token";
@@ -77,7 +80,7 @@ class Users extends DbModel{
         $expiry_date = time() + (2 * 60 * 60); // 2 hours
 
         $tokenAuth = new TokenAuth();
-        $token = $tokenAuth->linkToken($this->uuid, $expiry_date,20);
+        $token = $tokenAuth->linkToken($this->uuid, $expiry_date,$this->token_confirm,20);
 
         $to = $this->email;
         $subject = "zaEngine -> Confirm email!";

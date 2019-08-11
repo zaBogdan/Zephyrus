@@ -6,6 +6,8 @@
  * Token authentification, User sessions 
  */
 class Session{
+    
+    private $token_usage = "login";
 
     public function __construct(){
         session_start();
@@ -43,7 +45,7 @@ class Session{
         if(isset($_SESSION['isLogged'])){
             //check the token to be valid while the current session is active. 
             if(isset($_SESSION['token'])){
-                $data = TokenAuth::validateToken($_SESSION['token']);
+                $data = TokenAuth::validateToken($_SESSION['token'],$this->token_usage);
                 if(!empty($data))
                     return true;
                 return false;
@@ -56,7 +58,7 @@ class Session{
             echo "SET";
             if(isset($_COOKIE['loginCookie'])){
                 //if token is valid we setup the credentials for the current session
-                $data = TokenAuth::validateToken($_COOKIE['loginCookie']);
+                $data = TokenAuth::validateToken($_COOKIE['loginCookie'],$this->token_usage);
                 if(!empty($data)){
                     $this->setSession($data->uuid,$data->token);
                     return true;
@@ -83,7 +85,7 @@ class Session{
         
         // Save the token to the database. 
         $tokenAuth = new TokenAuth();
-        $token = $tokenAuth->linkToken($_SESSION['uuid'], $expiry_date);
+        $token = $tokenAuth->linkToken($_SESSION['uuid'], $expiry_date,$this->token_usage);
 
         //remove the uuid
         unset($_SESSION['rememberMe']);

@@ -3,7 +3,7 @@
 $msg = "Confirm the user";
 if(isset($_GET['id'])){
   $token = $_GET['id'];
-  $user = TokenAuth::validateToken($token);
+  $user = TokenAuth::validateToken($token,"confirm_email");
   if(empty($user))
     header("Location: /admin");
 }else header("Location: /admin");

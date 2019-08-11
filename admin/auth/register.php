@@ -11,7 +11,6 @@ if(isset($_POST['submit'])){
     header("Refresh:5; url=/admin", true, 303);
   }
 }
-
 ?>
 <body class="bg-dark">
 
@@ -30,7 +29,7 @@ if(isset($_POST['submit'])){
                 type="text" 
                 id="inputUsername" 
                 class="form-control" 
-                value="<?=isset($_POST['username'])? $_POST['username'] : false?>" 
+                <?=isset($_POST['username'])? 'value="'.$_POST['username'].'"' : 'placeholder="Username"'?>
                 name="username" 
                 required="required" 
                 autofocus="autofocus"
@@ -47,7 +46,7 @@ if(isset($_POST['submit'])){
                   id="firstName" 
                   class="form-control" 
                   name="firstname" 
-                  value="<?=isset($_POST['firstname'])? $_POST['firstname'] : false?>" 
+                  <?=isset($_POST['firstname'])? 'value="'.$_POST['firstname'].'"' : 'placeholder="Firstname"'?>                  
                   required="required"
                   >
                   <label for="firstName">First name</label>
@@ -60,7 +59,7 @@ if(isset($_POST['submit'])){
                   id="lastName" 
                   class="form-control" 
                   name="lastname" 
-                  value="<?=isset($_POST['lastname'])? $_POST['lastname'] : false?>" 
+                  <?=isset($_POST['lastname'])? 'value="'.$_POST['lastname'].'"' : 'placeholder="Lastname"'?>
                   required="required">
                   <label for="lastName">Last name</label>
                 </div>
@@ -74,7 +73,7 @@ if(isset($_POST['submit'])){
               id="inputEmail" 
               class="form-control" 
               name="email" 
-              value="<?=isset($_POST['email'])? $_POST['email'] : false?>" 
+              <?=isset($_POST['email'])? 'value="'.$_POST['email'].'"' : 'placeholder="Email"'?>              
               required="required">
               <label for="inputEmail">Email address</label>
             </div>

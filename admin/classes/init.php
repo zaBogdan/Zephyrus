@@ -6,6 +6,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/admin/classes/users.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/admin/classes/session.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/admin/classes/emailhandler.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/admin/classes/tokenauth.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/admin/classes/filehandler.php';
 
 
 $env = $_SERVER['DOCUMENT_ROOT'].'/vendor/env.php';

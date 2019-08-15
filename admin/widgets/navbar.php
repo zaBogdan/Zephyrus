@@ -97,6 +97,7 @@ $user = Users::find_by_attribute("uuid",$_SESSION['uuid']);
       <span>Dashboard</span>
     </a>
   </li>
+  <div class="dropdown-divider"></div>
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <i class="fas fa-fw fa-folder"></i>
@@ -128,10 +129,24 @@ $user = Users::find_by_attribute("uuid",$_SESSION['uuid']);
       <i class="fas fa-fw fa-table"></i>
       <span>Tables</span></a>
   </li>
+  <!-- manager stuff -->
   <div class="dropdown-divider"></div>
   <li class="nav-item">
     <a class="nav-link" href="users.php">
     <i class="fas fa-user-shield"></i>
       <span>Users</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="users.php">
+    <i class="fas fa-folder"></i> 
+      <span>Posts</span></a>
+  </li>
+
+  <!-- Test stuff -->
+  <div class="dropdown-divider"></div>
+  <li class="nav-item">
+    <a class="nav-link" href="upload.php">
+    <i class="fas fa-file-upload"></i>
+      <span>Upload a file</span></a>
   </li>
 </ul>

@@ -1,4 +1,7 @@
 <?php include "widgets/header.php"?>
+<?php
+
+?>
 <body id="page-top">
 
   <?php include "widgets/navbar.php" ?>
@@ -19,8 +22,10 @@
   You have not confirmed your email'.$user->email.' Click the button to send a confirmation link
   <a href="?send_email=true" class="btn btn-link">Send Email</a>
   </div>';
-  
   ?>
+
+
+
         </p>
 
 

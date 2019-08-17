@@ -1,18 +1,20 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/vendor/autoload.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/admin/classes/dbmodel.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/admin/classes/database.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/admin/classes/users.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/admin/classes/session.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/admin/classes/emailhandler.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/admin/classes/tokenauth.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/admin/classes/filehandler.php';
+define("ROOT_DIR",$_SERVER['DOCUMENT_ROOT']);
+
+require_once ROOT_DIR.'/vendor/autoload.php';
+require_once ROOT_DIR.'/admin/classes/dbmodel.php';
+require_once ROOT_DIR.'/admin/classes/database.php';
+require_once ROOT_DIR.'/admin/classes/users.php';
+require_once ROOT_DIR.'/admin/classes/session.php';
+require_once ROOT_DIR.'/admin/classes/emailhandler.php';
+require_once ROOT_DIR.'/admin/classes/tokenauth.php';
+require_once ROOT_DIR.'/admin/classes/filehandler.php';
 
 
-$env = $_SERVER['DOCUMENT_ROOT'].'/vendor/env.php';
+$env = ROOT_DIR.'/vendor/env.php';
 if(file_exists($env)){
     require_once $env;
-}
+}else die("Please setup the env.php file!");
 if(!function_exists('env')){
     function env($key, $default = null){
         $value = getenv($key);
@@ -25,3 +27,4 @@ if(!function_exists('env')){
 
 $db = new Database();
 $email = new EmailHandler();
+$files = new FileHandler();

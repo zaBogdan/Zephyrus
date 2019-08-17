@@ -4,11 +4,16 @@ class FileHandler{
 
     private static $location = '/storage/';
 
+    public function __construct(){
+        if(!file_exists(ROOT_DIR.self::$location))
+            mkdir(ROOT_DIR.self::$location,0777, true);
+        
+    }
     public static function getAllUploaded(){
-        $directories = array_diff(scandir($_SERVER['DOCUMENT_ROOT'].self::$location),array('..', '.'));
+        $directories = array_diff(scandir(ROOT_DIR.self::$location),array('..', '.'));
         $sum = 0;
         foreach($directories as $dir){
-            $files = array_diff(scandir($_SERVER['DOCUMENT_ROOT'].self::$location.$dir),array('..', '.'));
+            $files = array_diff(scandir(ROOT_DIR.self::$location.$dir),array('..', '.'));
             $sum += sizeof($files);
         }
         return $sum;
@@ -20,7 +25,7 @@ class FileHandler{
         elseif($file['error']!=0)
             return "There is an error with the file upload.";
         else{
-            $path = $_SERVER['DOCUMENT_ROOT'].self::$location.$user;
+            $path = ROOT_DIR.self::$location.$user;
             if(!file_exists($path))
                 mkdir($path,0777, true);
             $name = self::create_name($file['name']);
@@ -35,7 +40,7 @@ class FileHandler{
     }
 
     public static function delete_directory($user){
-        $dir = $_SERVER['DOCUMENT_ROOT'].self::$location.$user;
+        $dir = ROOT_DIR.self::$location.$user;
         if(is_dir($dir)){
             $files = array_diff(scandir($dir), array('.','..')); 
             foreach ($files as $file) { 
@@ -48,7 +53,7 @@ class FileHandler{
         return "This directory doesn't exists";
     }
     public static function delete_file(String $user,String $name){
-        if(unlink($_SERVER['DOCUMENT_ROOT'].self::$location.$user.'/'.$name))
+        if(unlink(ROOT_DIR.self::$location.$user.'/'.$name))
             return "File deleted!";
         return "Couldn't delete the file!";
     }

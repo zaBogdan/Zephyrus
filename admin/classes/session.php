@@ -55,7 +55,6 @@ class Session{
         }
         else{
             //login from previous session
-            echo "SET";
             if(isset($_COOKIE['loginCookie'])){
                 //if token is valid we setup the credentials for the current session
                 $data = TokenAuth::validateToken($_COOKIE['loginCookie'],$this->token_usage);
@@ -86,7 +85,6 @@ class Session{
         // Save the token to the database. 
         $tokenAuth = new TokenAuth();
         $token = $tokenAuth->linkToken($_SESSION['uuid'], $expiry_date,$this->token_usage);
-
         //remove the uuid
         unset($_SESSION['rememberMe']);
         $_SESSION['token']=$token;

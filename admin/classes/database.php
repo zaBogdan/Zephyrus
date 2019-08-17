@@ -18,11 +18,12 @@ class Database{
         );
 
         if($this->connection->connect_errno)
-            die("Failed to connecto to the Database! Error message: ".$this->connection->connect_errno);
+            die("Failed to connect to the Database! Error message: ".$this->connection->connect_errno);
         
     }
     
     public function query(string $query){
+        
         $result = $this->connection->query($query);
 
         return $result;

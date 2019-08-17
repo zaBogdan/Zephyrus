@@ -1,7 +1,7 @@
 <?php require_once('./classes/init.php') ?>
 <?php 
-if(!$session->isLogged())
-  header("Location: /admin/auth/login.php");
+// if(!$session->isLogged())
+//   header("Location: /admin/auth/login.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">

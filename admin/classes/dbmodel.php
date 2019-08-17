@@ -80,8 +80,10 @@ class DbModel{
         $props = $this->clear_props();
         $sql = "INSERT INTO ".static::$db_table."(".implode(",",array_keys($props)).") ";
         $sql.= "VALUES ('".implode("','", array_values($props))."') ";
+
         if(!$db->query($sql))
             return false;
+        return true;
     }
     private function update(){
         global $db;
@@ -92,5 +94,6 @@ class DbModel{
         $sql = "UPDATE ".static::$db_table." SET ".implode(",", $ar)." WHERE id=".$db->escape_string($this->id);
         if(!$db->query($sql))
             return false;
+        return true;
     }
 }

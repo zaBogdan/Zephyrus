@@ -22,10 +22,9 @@
   // You have not confirmed your email'.$user->email.' Click the button to send a confirmation link
   // <a href="?send_email=true" class="btn btn-link">Send Email</a>
   // </div>';
-  echo env("DATABASE_HOST");
   $token = new TokenAuth();
-  $token->linkToken("test",time()+60,"test");
-
+  // $token->linkToken("test",time()+60,"test");
+    $token->revokeToken("28ecb079a320c3880b5e0719b0b0f8");
 
 ?>
 

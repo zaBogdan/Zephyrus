@@ -62,8 +62,10 @@ class DbModel{
     protected function properties(){
         $props = array();
         foreach(static::$db_fields as $field)
-            if(property_exists($this, $field))
-                $props[$field] = $this->$field;
+            if(property_exists($this, $field)){
+                if(!empty($this->$field))
+                    $props[$field] = $this->$field;
+            }
         return $props;
 
     }
@@ -73,7 +75,6 @@ class DbModel{
         $mprops = $this->properties();
         foreach($mprops as $key => $value){
             $props[$key] = $db->escape_string($value);
-            if($props[$key]=='') $props[$key]=NULL;
         }
         return $props;
     }
@@ -82,7 +83,6 @@ class DbModel{
         $props = $this->clear_props();
         $sql = "INSERT INTO ".static::$db_table."(".implode(",",array_keys($props)).") ";
         $sql.= "VALUES ('".implode("','", array_values($props))."') ";
-        echo $sql;
         if(!$db->query($sql))
             return false;
         return true;

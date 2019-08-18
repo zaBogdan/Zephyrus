@@ -44,7 +44,7 @@ class TokenAuth extends DbModel{
                 return false;
             //if is already expired
             if($data->is_expired)
-            return false;
+                return false;
 
             //if is expired by time, we revoke the toke
             if(time()>=$data->expiry_date){
@@ -65,7 +65,6 @@ class TokenAuth extends DbModel{
         $this->token = $token;
         $this->expiry_date = $timeStamp;
         $this->used_for = $used_for;
-        echo "OK!";
         if($this->save_to_db())
             return $token;
         return false;

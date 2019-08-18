@@ -21,11 +21,11 @@
   // echo '<div class="alert alert-danger text-center" role="alert">
   // You have not confirmed your email'.$user->email.' Click the button to send a confirmation link
   // <a href="?send_email=true" class="btn btn-link">Send Email</a>
-  // </div>';
-  echo env("DATABASE_HOST");
-  $token = new TokenAuth();
-  $token->linkToken("test",time()+60,"test");
-
+  // </div>
+  
+  $tokens = new TokenAuth();
+  echo "status: ".$tokens->linkToken("test",time()+60,"test");
+  
 
 ?>
 

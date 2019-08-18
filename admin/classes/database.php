@@ -23,9 +23,9 @@ class Database{
     }
     
     public function query(string $query){
-        
+        echo $query;
         $result = $this->connection->query($query);
-
+        var_dump($result);
         return $result;
     }
 

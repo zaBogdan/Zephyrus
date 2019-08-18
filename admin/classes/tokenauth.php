@@ -65,7 +65,9 @@ class TokenAuth extends DbModel{
         $this->token = $token;
         $this->expiry_date = $timeStamp;
         $this->used_for = $used_for;
-        $this->save_to_db();
-        return $token;
+        echo "OK!";
+        if($this->save_to_db())
+            return $token;
+        return false;
     }
 }

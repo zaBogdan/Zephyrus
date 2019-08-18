@@ -71,8 +71,10 @@ class DbModel{
         global $db;
         $props = array();
         $mprops = $this->properties();
-        foreach($mprops as $key => $value)
+        foreach($mprops as $key => $value){
             $props[$key] = $db->escape_string($value);
+            if($props[$key]=='') $props[$key]=NULL;
+        }
         return $props;
     }
     private function create(){
@@ -80,7 +82,7 @@ class DbModel{
         $props = $this->clear_props();
         $sql = "INSERT INTO ".static::$db_table."(".implode(",",array_keys($props)).") ";
         $sql.= "VALUES ('".implode("','", array_values($props))."') ";
-
+        echo $sql;
         if(!$db->query($sql))
             return false;
         return true;

@@ -1,5 +1,4 @@
 <?php
-$user = Users::find_by_attribute("uuid",$_SESSION['uuid']);
 // if(isset($_GET['send_email'])){
 //   $user->send_confirmation();
 //   header("Refresh: 1");
@@ -33,30 +32,10 @@ $user = Users::find_by_attribute("uuid",$_SESSION['uuid']);
       <span class="badge badge-danger">9+</span>
     </a>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-      <div class="card dropdown-item">
-        <img class="card-img-left" src="https://place-hold.it/64">
-        <div class="card-body">
-          <h4 class="card-title">Card title</h4>
-          <p class="card-text">Some example text. Some example text.</p>
-       </div>
-      </div>
-      <div class="card dropdown-item">
-        <div class="card-body">
-          <h4 class="card-title">Card title</h4>
-          <p class="card-text">Some example text. Some example text.</p>
-       </div>
-      </div>
-      <div class="card dropdown-item">
-        <div class="card-body">
-          <h4 class="card-title">Card title</h4>
-          <p class="card-text">Some example text. Some example text.</p>
-       </div>
-      </div>
-        <!-- <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#">Action</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#">Action</a>
-        <div class="dropdown-divider"></div> -->
+    <a class="dropdown-item" href="#">Action</a>
+      <a class="dropdown-item" href="#">Another action</a>
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="#">Something else here</a>
     </div>
   </li>
   <li class="nav-item dropdown no-arrow mx-1">
@@ -104,30 +83,16 @@ $user = Users::find_by_attribute("uuid",$_SESSION['uuid']);
       <span>Pages</span>
     </a>
     <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-      <h6 class="dropdown-header">Login Screens:</h6>
-      <a class="dropdown-item" href="login.php">Login</a>
-      <a class="dropdown-item" href="register.php">Register</a>
-      <a class="dropdown-item" href="forgot-password.php">Forgot Password</a>
-      <div class="dropdown-divider"></div>
       <h6 class="dropdown-header">Other Pages:</h6>
-      <a class="dropdown-item" href="404.php">404 Page</a>
-      <a class="dropdown-item" href="blank.php">Blank Page</a>
+      <a class="dropdown-item" href="404.php"><i class="fas fa-exclamation-triangle"></i> 404 Page</a>
+      <a class="dropdown-item" href="blank.php"><i class="far fa-file"></i> Blank Page</a>
+      <a class="dropdown-item" href="charts.php"><i class="fas fa-fw fa-chart-area"></i> Charts</a>
     </div>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="charts.php">
-      <i class="fas fa-fw fa-chart-area"></i>
-      <span>Charts</span></a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="tests.php">
-      <i class="fas fa-vial"></i>
-      <span>Tests</span></a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="tables.php">
-      <i class="fas fa-fw fa-table"></i>
-      <span>Tables</span></a>
+    <a class="nav-link" href="add_post.php">
+    <i class="fas fa-file-word"></i> 
+      <span>Add a post</span></a>
   </li>
   <!-- manager stuff -->
   <div class="dropdown-divider"></div>
@@ -137,16 +102,22 @@ $user = Users::find_by_attribute("uuid",$_SESSION['uuid']);
       <span>Users</span></a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="users.php">
-    <i class="fas fa-folder"></i> 
-      <span>Posts</span></a>
+    <a class="nav-link" href="tokens.php">
+    <i class="fas fa-key"></i>
+      <span>Tokens</span></a>
   </li>
 
   <!-- Test stuff -->
   <div class="dropdown-divider"></div>
   <li class="nav-item">
+    <a class="nav-link" href="tests.php">
+      <i class="fas fa-vial"></i>
+      <span>Tests</span></a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="upload.php">
     <i class="fas fa-file-upload"></i>
       <span>Upload a file</span></a>
   </li>
+
 </ul>

@@ -58,7 +58,6 @@ class TokenAuth extends DbModel{
         return false;
     }
 
-
     public function linkToken($uuid, $timeStamp,$used_for,$lenght=15){
         $token = self::generateToken($lenght);
         $this->uuid = $uuid;

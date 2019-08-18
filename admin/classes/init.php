@@ -8,6 +8,7 @@ require_once ROOT_DIR.'/admin/classes/users.php';
 require_once ROOT_DIR.'/admin/classes/session.php';
 require_once ROOT_DIR.'/admin/classes/emailhandler.php';
 require_once ROOT_DIR.'/admin/classes/tokenauth.php';
+require_once ROOT_DIR.'/admin/classes/contentmanager.php';
 require_once ROOT_DIR.'/admin/classes/filehandler.php';
 
 
@@ -28,3 +29,4 @@ if(!function_exists('env')){
 $db = new Database();
 $email = new EmailHandler();
 $files = new FileHandler();
+$post = new ContentManager();

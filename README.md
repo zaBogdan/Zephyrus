@@ -17,7 +17,8 @@ My project called `zaEngine` is still in its early alpha stage, having just some
 
 Some features that will be added in the next couple weeks:
 - [x] File upload system
-- [ ] Posts 
+- [ ] Posts
+- [ ] Link the front-end with the back-end 
 - [ ] Notification and Message handling
 - [ ] Follow system
 - [ ] Private messages ( end-to-end encryption )

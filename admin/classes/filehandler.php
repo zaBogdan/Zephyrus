@@ -32,7 +32,7 @@ class FileHandler{
             $path .='/'.$name;
 
             if(file_exists($path))
-                return "File already exists.";
+                return $path;
             if(move_uploaded_file($file['tmp_name'],$path))
                 return $path;
             return false;

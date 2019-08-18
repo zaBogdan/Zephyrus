@@ -12,10 +12,10 @@
 
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <a href="#">Home</a>
-          </li>
-          <li class="breadcrumb-item active">Users</li>
+        <li class="breadcrumb-item">
+          <a href="index.php">Administrator</a>
+        </li>
+          <li class="breadcrumb-item active">Users manager</li>
         </ol>
 <p>
 </p>

@@ -13,8 +13,12 @@
 
       
       <!-- Page Content -->
-        <h1>Test page</h1>
-        <hr>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="index.php">Administrator</a>
+        </li>
+        <li class="breadcrumb-item active">Test a function</li>
+      </ol>
         <p>
         <?php
   // if(!$user->confirmedStatus)
@@ -22,7 +26,6 @@
   // You have not confirmed your email'.$user->email.' Click the button to send a confirmation link
   // <a href="?send_email=true" class="btn btn-link">Send Email</a>
   // </div>';
-  
 
 ?>
 

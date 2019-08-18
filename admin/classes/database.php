@@ -2,11 +2,28 @@
 
 
 class Database{
-
+    protected $file = '/admin/database.sql';
     public $connection;
 
     public function __construct(){
         $this->connect_to_db();
+
+        $tempLine = '';
+        $lines = file(ROOT_DIR.$this->file);
+        foreach($lines as $line){
+            //Skip if line is  a comment
+            if(substr($line, 0,2)=='--' || $line='')
+                continue;
+
+            $tempLine .= $line;
+            if(substr(trim($line),-1,1)==';'){
+                $this->query($tempLine) or print(
+                    "Error performing query <strong>".$tempLine.
+                    " Mysql error:".$this->connection->error."</strong> <br /><br />"
+                    );
+                $tempLine='';
+            }
+        }
     }
 
     private function connect_to_db(){

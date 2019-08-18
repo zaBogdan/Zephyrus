@@ -20,7 +20,7 @@ if(isset($_POST['submit'])){
       <!-- Breadcrumbs-->
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="index.html">Dashboard</a>
+          <a href="index.php">Administrator</a>
         </li>
         <li class="breadcrumb-item active">Upload a file</li>
       </ol>

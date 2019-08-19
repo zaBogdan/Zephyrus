@@ -29,7 +29,13 @@
 
 ?>
 
+<pre>
 
+<?php
+       $t = $db->create_tables();
+       print_r($t);
+?>
+</pre>
 
         </p>
 

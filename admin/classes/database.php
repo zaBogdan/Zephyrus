@@ -2,28 +2,11 @@
 
 
 class Database{
-    protected $file = '/admin/database.sql';
+    protected $file = '/admin/classes/database.sql';
     public $connection;
 
     public function __construct(){
         $this->connect_to_db();
-
-        $tempLine = '';
-        $lines = file(ROOT_DIR.$this->file);
-        foreach($lines as $line){
-            //Skip if line is  a comment
-            if(substr($line, 0,2)=='--' || $line='')
-                continue;
-
-            $tempLine .= $line;
-            if(substr(trim($line),-1,1)==';'){
-                $this->query($tempLine) or print(
-                    "Error performing query <strong>".$tempLine.
-                    " Mysql error:".$this->connection->error."</strong> <br /><br />"
-                    );
-                $tempLine='';
-            }
-        }
     }
 
     private function connect_to_db(){
@@ -50,6 +33,31 @@ class Database{
     }
     public function escape_string($string){
         return $this->connection->real_escape_string($string);
+    }
+
+    public function create_tables(){
+        $lines = file_get_contents(ROOT_DIR.$this->file);
+        $lines = explode("\n", $lines);
+        $comand = '';
+        foreach($lines as $line){
+            $line = trim($line);
+            if($line && !$this->startsWith($line,'--'))
+                $comand .= $line."\n";
+        }
+        $commands = explode(";",$comand);
+        $total = $success = 0;
+        foreach($commands as $com){
+            if(trim($com)){
+                $success +=($this->query($com)==false? 0:1);
+                $total++;
+            }
+        }
+        return ($success === $total);
+    }
+
+    private function startsWith($string, $file){
+        $len = strlen($file);
+        return (substr($string, 0, $len)===$file);
     }
 
 }

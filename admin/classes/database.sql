@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 18, 2019 at 10:30 PM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 7.3.4
+-- Generation Time: Aug 19, 2019 at 02:36 PM
+-- Server version: 10.4.6-MariaDB
+-- PHP Version: 7.3.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `zaEngine`
+-- Database: `zaEngine2`
 --
 
 -- --------------------------------------------------------
@@ -34,7 +34,7 @@ CREATE TABLE `content` (
   `title` varchar(255) NOT NULL,
   `author` varchar(50) NOT NULL,
   `category` varchar(50) NOT NULL,
-  `image` varchar(255) NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
   `serial` varchar(25) NOT NULL,
   `content` text NOT NULL,
   `posted_on` varchar(20) NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE `token_auth` (
   `id` int(11) NOT NULL,
   `uuid` varchar(50) NOT NULL,
   `token` varchar(50) NOT NULL,
-  `is_expired` tinyint(1) NOT NULL DEFAULT '0',
+  `is_expired` tinyint(1) NOT NULL DEFAULT 0,
   `expiry_date` varchar(50) NOT NULL,
   `used_for` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -74,8 +74,8 @@ CREATE TABLE `users` (
   `firstname` varchar(50) NOT NULL,
   `lastname` varchar(50) NOT NULL,
   `registration_date` varchar(20) NOT NULL,
-  `confirmedStatus` tinyint(1) NOT NULL DEFAULT '0',
-  `notifications` text NOT NULL
+  `confirmedStatus` tinyint(1) NOT NULL DEFAULT 0,
+  `notifications` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

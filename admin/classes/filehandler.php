@@ -4,11 +4,6 @@ class FileHandler{
 
     private static $location = '/storage/';
 
-    public function __construct(){
-        if(!file_exists(ROOT_DIR.self::$location))
-            mkdir(ROOT_DIR.self::$location,0777, true);
-        
-    }
     public static function getAllUploaded(){
         $directories = array_diff(scandir(ROOT_DIR.self::$location),array('..', '.'));
         $sum = 0;

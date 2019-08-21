@@ -1,10 +1,3 @@
-<?php require_once('./classes/init.php') ?>
-<?php 
-// if(!$session->isLogged())
-//   header("Location: /admin/auth/login.php");
-// $user = Users::find_by_attribute("uuid",$_SESSION['uuid']);
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,5 +19,12 @@
 
   <!-- Custom styles for this template-->
   <link href="../vendor/css/sb-admin.css" rel="stylesheet">
+  <script src="../vendor/jquery/jquery.min.js"></script>
 
 </head>
+<?php require_once('./classes/init.php') ?>
+<?php 
+if(!$session->isLogged())
+  header("Location: /admin/auth/login.php");
+$user = Users::find_by_attribute("uuid",$_SESSION['uuid']);
+?>

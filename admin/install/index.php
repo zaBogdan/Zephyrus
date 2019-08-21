@@ -1,15 +1,41 @@
-<?php require_once('./classes/init.php') ?>
+<?php require_once('../classes/init.php') ?>
 <?php
-if(env('CORE_RUN_SCRIPT')){
+if(!env('CORE_RUN_SCRIPT')){
     $msg = "Start the setup, get more information on the run";
     if(isset($_GET['run']) && $_GET['run']==true){
         /**
          * Add here all the installation needed!
          */
-        if($db->create_tables())
-            $msg = "Go to /vendor/env.php and set the 'CORE_RUN_SCRIPT' to false.";
+        $msg = "<b>Core:</b> Settings things up.... <br>";
+
+        try{ 
+
+          $env = ROOT_DIR.'/vendor/env.php';
+          if(!file_exists($env))
+            throw new Exception("Please setup the env.php file!");
+
+          //Create the database
+          if(!$db->create_tables())
+            throw new Exception("Tables couldn't be created");
+          $msg .= "<b>Database:</b> Tables have been successfully created! <br>";
+          
+          //Create the storage files
+          if(!file_exists(ROOT_DIR.'/storage/'))
+            if(!mkdir(ROOT_DIR.'/storage/',0777, true))
+              throw new Exception("Permissions for the folders are wrong. Please set them to 777");
+          $msg .= "<b>FileHandler:</b> Storage files have been created! <br>";
+          
+
+
+          $msg .= "<b>Core:</b> Setup finished successfully<br>";
+          $msg .= "<b>Core:</b> Go to /vendor/env.php and set the 'CORE_RUN_SCRIPT' to TRUE.";
+
+        }catch (Exception $e){
+          $msg .="<b>ERROR:</b>  ".$e->getMessage().'<br>';
+        }
+
     }
-}else $msg = "Error: You've already installed the application";
+}else $msg = "<b>ERROR:</b> You've already installed the application";
 
 
 
@@ -44,7 +70,7 @@ if(env('CORE_RUN_SCRIPT')){
   <hr class="my-4">
   <p><?=$msg?></p>
   <p class="lead">
-  <?php if(env('CORE_RUN_SCRIPT')): ?>
+  <?php if(!env('CORE_RUN_SCRIPT')): ?>
     <a class="btn btn-primary btn-lg" href="?run=true" role="button">Go now</a>
 <?php endif; ?>
   </p>

@@ -17,12 +17,12 @@ class EmailHandler{
     }
 
     public static function loadTemplate(String $name,Array $args){
-      $file = $_SERVER['DOCUMENT_ROOT'].'/'.env('EMAIL_TEMPLATES_PATH').$name.'.php';
+      $file = ROOT_DIR.'/'.env('EMAIL_TEMPLATES_PATH').$name.'.php';
       if(file_exists($file)){
-          if(is_array($args))
-            extract($args);
-          include $file;
-          return ob_get_clean();
+          $file = file_get_contents($file);
+          foreach($args as $key => $value)
+            $file = str_replace("%%".$key."%%",$value,$file);
+          return $file;
       }
       return "File doesn't exists";
     }

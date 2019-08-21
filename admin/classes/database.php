@@ -2,7 +2,7 @@
 
 
 class Database{
-    protected $file = '/admin/classes/database.sql';
+    protected $file = '/admin/install/database.sql';
     public $connection;
 
     public function __construct(){
@@ -35,6 +35,7 @@ class Database{
         return $this->connection->real_escape_string($string);
     }
 
+    // run in the installation process
     public function create_tables(){
         $lines = file_get_contents(ROOT_DIR.$this->file);
         $lines = explode("\n", $lines);

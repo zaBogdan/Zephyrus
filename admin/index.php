@@ -25,7 +25,7 @@
               <div class="card-body-icon">
                 <i class="fas fa-fw fa-comments"></i>
               </div>
-              <div class="mr-5"><b>x</b> Files Uploaded</div>
+              <div class="mr-5"><b><?=FileHandler::getAllUploaded()?></b> Files Uploaded</div>
             </div>
             <a class="card-footer text-white clearfix small z-1" href="#">
               <span class="float-left">View Details</span>
@@ -96,7 +96,7 @@
                 <h4>To be done:</h4>
                 <ul>
                   <li><s>File upload system</s></li>
-                  <li>Posts</li>
+                  <li>Posts ( Status: 25% )</li>
                   <li>Link the front-end with the back-end</li>
                   <li>Notification and Message handling</li>
                   <li>Follow system</li>
@@ -105,6 +105,7 @@
                   <li>API Request</li>
                   <li>User roles ( example: Administrator, Moderator, Writer, Reader )</li>
                   <li>Automatic token expiry</li>
+                  <li>Reorganize files, a render engine</li>
                 </ul>
               </div>
               <div class="col-6">
@@ -117,8 +118,10 @@
                   </s>
                   </li>
                   <li>
+                  <s>
                   When sending an email, the style is removed from the initial page 
                   ( Reset password and Confirmation for now )
+                  </s>
                   </li>
                   <li>The login token of the cookie is set as it is found in the database.</li>
                 </ul>

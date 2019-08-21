@@ -7,7 +7,7 @@ This process is pretty straight forward. Clone this repository and than run `com
 
 > **Note:** You have to rename the `env.example.php` to `env.php` and fill up the data.
 
-After this, you should create the MySQL database, using the SQL found in `vendor/sql.txt` 
+After this, you should go to `localhost/admin/install.php` to setup all the basics to run the app properly
 
 Than you are ready to go!
 
@@ -17,7 +17,7 @@ My project called `zaEngine` is still in its early alpha stage, having just some
 
 Some features that will be added in the next couple weeks:
 - [x] File upload system
-- [ ] Posts
+- [ ] Posts ( Status: 25% )
 - [ ] Link the front-end with the back-end 
 - [ ] Notification and Message handling
 - [ ] Follow system
@@ -25,8 +25,9 @@ Some features that will be added in the next couple weeks:
 - [ ] Statistics system 
 - [ ] API Request
 - [ ] User roles ( example: Administrator, Moderator, Writer, Reader )
+- [ ] Reorganize files, a render engine
 
 # Known bugs
 - [x] ~~Session, Confirmation and Reset password tokens doesn't keep track where you use them ( You can use the session token to reset your password, or even confirm your account )~~ 
-- [ ] When sending an email, the style is removed from the initial page ( Reset password and Confirmation for now )
+- [x] When sending an email, the style is removed from the initial page ( Reset password and Confirmation for now )
 - [ ] The login token of the cookie is set as it is found in the database. 

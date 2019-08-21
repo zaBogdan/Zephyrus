@@ -26,20 +26,16 @@
   // You have not confirmed your email'.$user->email.' Click the button to send a confirmation link
   // <a href="?send_email=true" class="btn btn-link">Send Email</a>
   // </div>';
-
 ?>
+
 
 <pre>
-
 <?php
-       $t = $db->create_tables();
-       print_r($t);
-?>
+
+?> 
 </pre>
 
         </p>
-
-
 
 
       </div>
@@ -49,5 +45,8 @@
 <?php include "widgets/footer.php"?>
 
 <script>
-$('.toast').toast(option)</script>
+// $('.toast').toast(option)
+
+
+</script>
 

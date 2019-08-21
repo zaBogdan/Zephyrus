@@ -10,12 +10,25 @@ require_once ROOT_DIR.'/admin/classes/emailhandler.php';
 require_once ROOT_DIR.'/admin/classes/tokenauth.php';
 require_once ROOT_DIR.'/admin/classes/contentmanager.php';
 require_once ROOT_DIR.'/admin/classes/filehandler.php';
+require_once ROOT_DIR.'/admin/classes/errorhandler.php';
 
+
+
+
+
+
+
+if(!function_exists('errorhandler')){
+function errorhandler($errno, $errstr, $errfile, $errline){
+    $error = new ErrorHandler($errno, $errstr, $errfile, $errline);
+}
+}
+// set_error_handler("errorhandler", E_ALL);
 
 $env = ROOT_DIR.'/vendor/env.php';
-if(file_exists($env)){
-    require_once $env;
-}else die("Please setup the env.php file!");
+if(file_exists($env))
+require_once $env;
+
 if(!function_exists('env')){
     function env($key, $default = null){
         $value = getenv($key);
@@ -24,6 +37,9 @@ if(!function_exists('env')){
         return $value;
     }
 }
+
+
+
 
 
 $db = new Database();

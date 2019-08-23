@@ -66,7 +66,7 @@ if(isset($_POST['submit'])){
                 <p class="card-text">
                   <ul>
                     <li><b>Upload limit:</b> 100MB/file</li>
-                    <li><b>Files uploaded:</b> <?=FileHandler::getAllUploaded()?></li>
+                    <li><b>Files uploaded:</b> <?=sizeof(FileHandler::getAllFiles())?></li>
                     <li><b>Permission:</b> file.upload_file</li>
                   </ul>
                 </p>

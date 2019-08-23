@@ -1,0 +1,10 @@
+{#
+Name: bc
+Props: root, directory
+#}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="index.php">{{ bc.root | capitalize }}</a>
+    </li>
+    <li class="breadcrumb-item active">{{ bc.directory | capitalize }}</li>
+</ol>

@@ -11,6 +11,14 @@ class TokenAuth extends DbModel{
     public $expiry_date;
     public $used_for;
 
+    public static function revokeExpiredTokens(){
+        //loop throw all unexpired tokens  
+        $tokens = self::send_query("SELECT * FROM token_auth WHERE is_expired=0");
+        foreach($tokens as $token)
+            if(time()>=$token->expiry_date)
+                self::revokeToken($token->token);
+    }
+
     public static function generateToken($length){
         return bin2hex(random_bytes($length));
     }

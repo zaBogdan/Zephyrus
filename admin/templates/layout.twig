@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    {# Header module #}
+    {% include 'widgets/header.twig' %}
+    <body id="page-top">
+        
+        {# Navbar module #}
+        {% include 'widgets/navbar.twig' %}
+
+        {# Custom page creation #}
+        <div id="content-wrapper">
+            <div class="container-fluid">
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+        {% set vars = {'modal': {
+            'name': 'logoutModal',
+            'title': 'Ready to Leave?',
+            'text': 'Select "Logout" below if you are ready to end your current session.',
+            'button': 'Logout',
+            'link': '/admin/auth/logout.php'
+        }} %}
+        {% include 'components/modal.twig' with vars %}
+        {# Footer module #}        
+        {% include 'widgets/footer.twig' %}
+
+        {# Custom page scripts #}
+        {% block scripts %}{% endblock %}
+    </body>
+</html>
+

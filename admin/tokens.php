@@ -5,6 +5,7 @@
     TokenAuth::revokeToken($_GET['revoke']);
     header("Location: /admin/tokens.php");
   }
+  TokenAuth::revokeExpiredTokens();
 
 ?>
 <body id="page-top">

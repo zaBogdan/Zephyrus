@@ -25,7 +25,7 @@
               <div class="card-body-icon">
                 <i class="fas fa-fw fa-comments"></i>
               </div>
-              <div class="mr-5"><b><?=FileHandler::getAllUploaded()?></b> Files Uploaded</div>
+              <div class="mr-5"><b><?=sizeof(FileHandler::getAllFiles())?></b> Files Uploaded</div>
             </div>
             <a class="card-footer text-white clearfix small z-1" href="#">
               <span class="float-left">View Details</span>
@@ -104,7 +104,7 @@
                   <li>Statistics system </li>
                   <li>API Request</li>
                   <li>User roles ( example: Administrator, Moderator, Writer, Reader )</li>
-                  <li>Automatic token expiry</li>
+                  <li>Automatic token expiry | Use cron job </li>
                   <li>Reorganize files, a render engine</li>
                 </ul>
               </div>

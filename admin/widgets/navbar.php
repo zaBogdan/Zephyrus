@@ -119,5 +119,9 @@
     <i class="fas fa-file-upload"></i>
       <span>Upload a file</span></a>
   </li>
-
+  <li class="nav-item">
+    <a class="nav-link" href="show_uploads.php">
+    <i class="fas fa-file-download"></i>
+      <span>Files uploaded</span></a>
+  </li>
 </ul>

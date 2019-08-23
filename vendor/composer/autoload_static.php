@@ -10,6 +10,7 @@ class ComposerStaticInitc70e22a105ab464ceddda8512d2ba98e
         '9c67151ae59aff4788964ce8eb2a0f43' => __DIR__ . '/..' . '/clue/stream-filter/src/functions_include.php',
         '8cff32064859f4559445b89279f3199c' => __DIR__ . '/..' . '/php-http/message/src/filters.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -17,8 +18,13 @@ class ComposerStaticInitc70e22a105ab464ceddda8512d2ba98e
         array (
             'Webmozart\\Assert\\' => 17,
         ),
+        'T' => 
+        array (
+            'Twig\\' => 5,
+        ),
         'S' => 
         array (
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Component\\OptionsResolver\\' => 34,
         ),
@@ -54,6 +60,14 @@ class ComposerStaticInitc70e22a105ab464ceddda8512d2ba98e
         'Webmozart\\Assert\\' => 
         array (
             0 => __DIR__ . '/..' . '/webmozart/assert/src',
+        ),
+        'Twig\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/twig/twig/src',
+        ),
+        'Symfony\\Polyfill\\Mbstring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
         'Symfony\\Polyfill\\Ctype\\' => 
         array (
@@ -112,6 +126,13 @@ class ComposerStaticInitc70e22a105ab464ceddda8512d2ba98e
     );
 
     public static $prefixesPsr0 = array (
+        'T' => 
+        array (
+            'Twig_' => 
+            array (
+                0 => __DIR__ . '/..' . '/twig/twig/lib',
+            ),
+        ),
         'M' => 
         array (
             'Mailgun' => 

@@ -4,16 +4,23 @@ class FileHandler{
 
     private static $location = '/storage/';
 
-    public static function getAllUploaded(){
-        $directories = array_diff(scandir(ROOT_DIR.self::$location),array('..', '.'));
-        $sum = 0;
-        foreach($directories as $dir){
-            $files = array_diff(scandir(ROOT_DIR.self::$location.$dir),array('..', '.'));
-            $sum += sizeof($files);
+    public static function getAllFiles($dir=NULL,&$results=NULL){
+        if(empty($dir))
+            $dir=ROOT_DIR.self::$location;
+        $files = scandir($dir);
+        foreach($files as $key => $value){
+            $path = realpath($dir.'/'.$value);
+            if(!is_dir($path)) {
+                $results[] = $path;
+            } else if($value != "." && $value != "..") {
+                self::getAllFiles($path,$results);
+                // $results[] = $path;
+            }
         }
-        return $sum;
+        $results = self::removeFullPath($results);
+    
+        return $results;
     }
-
     public static function upload_file(String $user,Array $file){
         if(empty($file) || !$file || !is_array($file))
             return "You haven't uploaded any files.";
@@ -58,5 +65,13 @@ class FileHandler{
         for($i=0;$i<strlen($name);$i++)
             if(strchr($sep,$name[$i])) $name[$i]='_';
         return $name;
+    }
+
+    public static function removeFullPath(Array $results){
+        $resp = array();
+        foreach($results as $result)
+            $resp[] = str_replace(ROOT_DIR,'',$result);
+        
+        return $resp;
     }
 }

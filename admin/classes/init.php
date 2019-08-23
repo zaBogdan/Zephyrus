@@ -11,9 +11,8 @@ require_once ROOT_DIR.'/admin/classes/tokenauth.php';
 require_once ROOT_DIR.'/admin/classes/contentmanager.php';
 require_once ROOT_DIR.'/admin/classes/filehandler.php';
 require_once ROOT_DIR.'/admin/classes/errorhandler.php';
-
-
-
+require_once ROOT_DIR.'/admin/classes/renderengine.php';
+require_once ROOT_DIR.'/admin/classes/twigextension.php';
 
 
 
@@ -46,3 +45,4 @@ $db = new Database();
 $email = new EmailHandler();
 $files = new FileHandler();
 $post = new ContentManager();
+$template = new RenderEngine();

@@ -1,0 +1,16 @@
+{% extends 'auth.twig' %}
+
+
+{% block content %}
+{{activateUser()}}
+<div class="container mx-auto mt-5">
+        <div class="jumbotron text-center">
+          <h1 class="display-4">Thank you!</h1>
+          <p class="lead">You are now ready to use our application!</p>
+          <hr class="my-4">
+          <p>You will be redirected in 10 seconds!</p>
+          <p class="lead">
+            <a class="btn btn-primary btn-lg" href="/new" role="button">Go now</a>
+          </p>
+        </div>
+{% endblock %}

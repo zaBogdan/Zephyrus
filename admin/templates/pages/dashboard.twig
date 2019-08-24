@@ -3,30 +3,18 @@
 {% block body %}
 <!-- Breadcrumbs-->
 {% include "components/breadcrumb.twig" %}
-
 <!-- Icon Cards-->
 <div class="row">
-  {% set vars = {
-      'card': {
-        'background' : 'primary', 
-        'icon': 'fas fa-fw fa-comments', 
-        'text': '<b>{{dashboard.files}} </b> Files Uploaded', 
-        'info': 'Go here', 
-        'link': '#'
-      }
-    }
-    %}
   {% import "components/icon_card.twig" as icon %}
   {{ icon.card('primary', 'fas fa-fw fa-comments', 'Files Uploaded','View more', '#', {dynamic: dashboard.files})}}
   {{ icon.card('warning', 'fas fa-fw fa-list', 'Active users','View more', '#')}}
   {{ icon.card('success', 'fas fa-fw fa-shopping-cart', 'Posts created','View more', '#')}}
   {{ icon.card('danger', 'fas fa-fw fa-life-ring', 'Comments','View more', '#')}}
 </div>
-
 <!-- Area Chart Example-->
 <div class="card mb-3">
               <div class="card-header">
-                <i class="fas fa-info-circle"></i> Plans for future</div>
+                <i class="fas fa-info-circle"></i> Plans for future, {{navbar.username}}</div>
               <div class="card-body">
                 <div class="col-12">
                   <div class="row">

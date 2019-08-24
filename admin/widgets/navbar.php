@@ -73,7 +73,7 @@
   <li class="nav-item active">
     <a class="nav-link" href="index.php">
       <i class="fas fa-fw fa-tachometer-alt"></i>
-      <span>Dashboard</span>
+      <span>*Dashboard</span>
     </a>
   </li>
   <div class="dropdown-divider"></div>
@@ -94,26 +94,9 @@
     <i class="fas fa-file-word"></i> 
       <span>Add a post</span></a>
   </li>
-  <!-- manager stuff -->
-  <div class="dropdown-divider"></div>
-  <li class="nav-item">
-    <a class="nav-link" href="users.php">
-    <i class="fas fa-user-shield"></i>
-      <span>Users</span></a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="tokens.php">
-    <i class="fas fa-key"></i>
-      <span>Tokens</span></a>
-  </li>
 
   <!-- Test stuff -->
   <div class="dropdown-divider"></div>
-  <li class="nav-item">
-    <a class="nav-link" href="tests.php">
-      <i class="fas fa-vial"></i>
-      <span>Tests</span></a>
-  </li>
   <li class="nav-item">
     <a class="nav-link" href="upload.php">
     <i class="fas fa-file-upload"></i>

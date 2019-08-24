@@ -40,31 +40,7 @@ class Users extends DbModel{
         $this->registration_date = date('d-m-Y');
         $this->confirmedStatus = false;
 
-        return "OK";
-    }
-
-    public static function send_forgot_password(String $email){
-        $user = self::find_by_attribute("email",$email);
-        if(!empty($user)){
-            $expiry_date = time() + (2 * 60 * 60); // 2 hours
-
-            $tokenAuth = new TokenAuth();
-            $token = $tokenAuth->linkToken($user->uuid, $expiry_date,self::$token_reset,20);
-
-            $to = $email;
-            $link = "http://zaengine.php/admin/auth/reset_password.php?id=$token";
-            $subject = "zaEngine -> Reset your password!";
-            $args = array(
-                'username' => $user->username,
-                'text'     => "Here you have your reset password link!",
-                'text2'    => "<b>Note:</b> This link is available for 2 hours!",
-                'button_link' => $link,
-                'button_text' => "Reset password",
-            );
-            EmailHandler::send($to,$subject,'2_paragraph',$args);
-            return true;
-        }
-        return false;
+        return true;
     }
 
     public static function check_user(String $username, String $password){
@@ -84,16 +60,39 @@ class Users extends DbModel{
 
         $to = $this->email;
         $subject = "zaEngine -> Confirm email!";
-        $link = "http://zaengine.php/admin/auth/confirm_user.php?id=$token";
+        $link = "http://zaengine.php/new/auth/confirm-email/$token";
         $args = array(
             'username' => $this->username,
-            'text'     => "You are now registered on our site, but you need to do one more step! You need to activate your account",
-            'text2'    => "To do this, please click the link below!",
-            'button_link' => $link,
-            'button_text' => "Confirm email",
+            'p_one'     => "You are now registered on our site, but you need to do one more step! You need to activate your account",
+            'p_two'    => "To do this, please click the link below!",
+            'link' => $link,
+            'button' => "Confirm email",
         );
-        EmailHandler::send($to,$subject,'2_paragraph',$args);
+        EmailHandler::send($to,$subject,$args);
         return true;
+    }
+    public static function send_forgot_password(String $email){
+        $user = self::find_by_attribute("email",$email);
+        if(!empty($user)){
+            $expiry_date = time() + (2 * 60 * 60); // 2 hours
+
+            $tokenAuth = new TokenAuth();
+            $token = $tokenAuth->linkToken($user->uuid, $expiry_date,self::$token_reset,20);
+
+            $to = $email;
+            $link = "http://zaengine.php/new/auth/reset-password/$token";
+            $subject = "zaEngine -> Reset your password!";
+            $args = array(
+                'username' => $user->username,
+                'p_one'     => "Here you have your reset password link!",
+                'p_two'    => "<b>Note:</b> This link is available for 2 hours!",
+                'link' => $link,
+                'button' => "Reset password",
+            );
+            EmailHandler::send($to,$subject,$args);
+            return true;
+        }
+        return false;
     }
     public function hashPassword($password){
         return password_hash($password, PASSWORD_BCRYPT, ["cost" => 10]);

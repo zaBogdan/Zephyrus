@@ -18,4 +18,7 @@ class RenderEngine{
     public function render(String $name,Array $values){
         echo $this->twig->render($name.'.twig',$values);
     }
+    public function load(String $name,Array $values){
+        return $this->twig->render($name.'.twig',$values);
+    }
 }

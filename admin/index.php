@@ -1,142 +1,76 @@
-<?php include "widgets/header.php" ?>
+<?php 
+//to be changed with __DIR__
+require_once($_SERVER["DOCUMENT_ROOT"].'/admin/classes/init.php');
+
+if(env('CORE_RUN_SCRIPT')==false && $_GET['page']!=='install')
+header("Location: /admin/install");
+
+//to be changed! BUG: When install it crashes.
+if(!$session->isLogged())
+    header("Location: /admin/auth/login");
+$user = Users::find_by_attribute("uuid",$_SESSION['uuid']);
+
+// $expiry_date = time() + (2 * 60 * 60); // 2 hours
+
+// $tokenAuth = new TokenAuth();
+// $token = $tokenAuth->linkToken($user->uuid, $expiry_date,'testing',20);
 
 
-<body id="page-top">
+$page = 'dashboard';
+if(isset($_GET['page']))
+    $page = strtolower($_GET['page']);
 
-  <?php include "widgets/navbar.php" ?>
-
-  <div id="content-wrapper">
-
-    <div class="container-fluid">
-
-      <!-- Breadcrumbs-->
-      <div class="alert alert-warning" role="alert">Rework completed. Ready to be removed</div>
-
-      <ol class="breadcrumb">
-      <li class="breadcrumb-item">
-          <a href="index.php">Administrator</a>
-        </li>
-        <li class="breadcrumb-item active">Overview</li>
-      </ol>
-      <!-- Icon Cards-->
-      <div class="row">
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card text-white bg-primary o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fas fa-fw fa-comments"></i>
-              </div>
-              <div class="mr-5"><b><?=sizeof(FileHandler::getAllFiles())?></b> Files Uploaded</div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-              <span class="float-left">View Details</span>
-              <span class="float-right">
-                <i class="fas fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card text-white bg-warning o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fas fa-fw fa-list"></i>
-              </div>
-              <div class="mr-5"><b>x</b> Active users</div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-              <span class="float-left">View Details</span>
-              <span class="float-right">
-                <i class="fas fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card text-white bg-success o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fas fa-fw fa-shopping-cart"></i>
-              </div>
-              <div class="mr-5"><b>x</b> Posts created</div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-              <span class="float-left">View Details</span>
-              <span class="float-right">
-                <i class="fas fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card text-white bg-danger o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fas fa-fw fa-life-ring"></i>
-              </div>
-              <div class="mr-5"><b>x</b> Comments</div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-              <span class="float-left">View Details</span>
-              <span class="float-right">
-                <i class="fas fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Area Chart Example-->
-      <div class="card mb-3">
-        <div class="card-header">
-          <i class="fas fa-info-circle"></i> Plans for future</div>
-        <div class="card-body">
-          <div class="col-12">
-            <div class="row">
-              <div class="col-6">
-                <h4>To be done:</h4>
-                <ul>
-                  <li><s>File upload system</s></li>
-                  <li>Posts ( Status: 25% )</li>
-                  <li>Link the front-end with the back-end</li>
-                  <li>Notification and Message handling</li>
-                  <li>Follow system</li>
-                  <li>Private messages ( end-to-end encryption )</li>
-                  <li>Statistics system </li>
-                  <li>API Request</li>
-                  <li>User roles ( example: Administrator, Moderator, Writer, Reader )</li>
-                  <li>Automatic token expiry | Use cron job </li>
-                  <li>Reorganize files, a render engine</li>
-                </ul>
-              </div>
-              <div class="col-6">
-                <h4>Known bugs:</h4>
-                <ul>
-                  <li>
-                  <s>
-                  Session, Confirmation and Reset password tokens doesn't keep track where you use them 
-                  ( You can use the session token to reset your password, or even confirm your account )
-                  </s>
-                  </li>
-                  <li>
-                  <s>
-                  When sending an email, the style is removed from the initial page 
-                  ( Reset password and Confirmation for now )
-                  </s>
-                  </li>
-                  <li>The login token of the cookie is set as it is found in the database.</li>
-                </ul>
-              </div>
-            </div>
-          </div>
+$template->twig->addGlobal('current_page', $page);
 
 
-        </div>
-      </div>
+$vars = array(
+    'header' => array('title' => $page),
+    'navbar' => array('username'=> $user->username),
+    'bc' => array('root' => 'Administrator', 'directory'=> $page)
+);
 
+if($page==='dashboard'){
+    $vars['dashboard'] = array(
+        'files' => sizeof(FileHandler::getAllFiles()),
+    );
+}else if($page==='users'){
+    $vars['table'] = array(
+        'icon' => 'fas fa-users',
+        'name' => 'Users',
+        'rows' => array('UUID','Username', 'Email','Active','Actions'),
+        'data' => Users::find_all()
+    );
+}else if($page==='tokens'){
+    $vars['table'] = array(
+        'icon' => 'fas fa-key',
+        'name' => 'Tokens',
+        'rows' => array('UUID','Linked to', 'Status', 'Target', 'Actions'),
+        'data' => TokenAuth::find_all(),
+        'tableName' => 'dataTable2'
+    );
+}else if($page==='upload-files'){
+    $vars['header']['title']='Upload files';
+    $vars['bc']['directory']='Upload files';
+    $vars['upload']=array(
+        'files'=>sizeof(FileHandler::getAllFiles()),
+        'values'=> $_POST,
+    );
+}else if($page==='list-files'){
+    $vars['header']['title']='Show server files';
+    $vars['bc']['directory']='Show server files';
+    $vars['ls']['files'] = FileHandler::getAllFiles();
+}else if($page==='add-post'){
+    $vars['header']['title']='Add a post';
+    $vars['bc']['directory']='Add a post';
+    $vars['post'] = array(
+        'values' => $_POST,
+    );
+}else if($page==='install'){
+    $vars['install'] = array(
+        'must' => env('CORE_RUN_SCRIPT'),
+    );
+    $template->render('pages/'.$page, $vars);
+}
 
-
-    </div>
-    <!-- /.container-fluid -->
-
-    <?php include "widgets/footer.php" ?>
+if($page!=='install')
+$template->render('pages/home/'.$page, $vars);

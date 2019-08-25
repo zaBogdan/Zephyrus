@@ -1,0 +1,10 @@
+{% macro item(name, icon, label = null) %}
+
+{% set active = activeClass(name) %}
+<li class="nav-item {{ active }}">
+    <a class="nav-link" href="{{name}}">
+        <i class="{{ icon }}"></i>
+        <span>{{label|default(name|capitalize)|capitalize}}</span></a>
+</li>
+
+{% endmacro %}

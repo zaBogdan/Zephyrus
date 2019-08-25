@@ -1,0 +1,22 @@
+{% extends 'auth.twig' %}
+
+{% block content %}
+{% set responses = installDefaults() %}
+<div class="container mx-auto mt-5">
+        <div class="jumbotron text-center">
+          <h1 class="display-4">Run the initial setup</h1>
+          <p class="lead">Click down to automatically install the musts for the application</p>
+          <hr class="my-4">
+          <p>
+              {{(responses|join('<br>')|raw)}}
+            </p>
+          <p class="lead">
+            {% if install.must == false %}
+            <a class="btn btn-primary btn-lg" href="/admin/install/run" role="button">Install</a>
+            {% else %}
+            <a class="btn btn-success btn-lg" href="/admin" role="button">Go home</a>
+
+            {% endif %}
+        </p>
+        </div>
+{% endblock %}

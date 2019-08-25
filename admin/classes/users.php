@@ -60,7 +60,7 @@ class Users extends DbModel{
 
         $to = $this->email;
         $subject = "zaEngine -> Confirm email!";
-        $link = "http://zaengine.php/new/auth/confirm-email/$token";
+        $link = "http://zaengine.php/admin/auth/confirm-email/$token";
         $args = array(
             'username' => $this->username,
             'p_one'     => "You are now registered on our site, but you need to do one more step! You need to activate your account",
@@ -80,7 +80,7 @@ class Users extends DbModel{
             $token = $tokenAuth->linkToken($user->uuid, $expiry_date,self::$token_reset,20);
 
             $to = $email;
-            $link = "http://zaengine.php/new/auth/reset-password/$token";
+            $link = "http://zaengine.php/admin/auth/reset-password/$token";
             $subject = "zaEngine -> Reset your password!";
             $args = array(
                 'username' => $user->username,

@@ -17,7 +17,9 @@ class FileHandler{
                 // $results[] = $path;
             }
         }
+        if(!empty($results))
         $results = self::removeFullPath($results);
+        else $results = array();
     
         return $results;
     }

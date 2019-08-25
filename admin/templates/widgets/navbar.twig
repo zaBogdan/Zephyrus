@@ -68,28 +68,22 @@ Props: username
 <div id="wrapper">
 
 <!-- Sidebar -->
-<ul class="sidebar navbar-nav">
-  <li class="nav-item {{ activeClass('dashboard') }}">
-    <a class="nav-link" href="dashboard">
-      <i class="fas fa-fw fa-tachometer-alt"></i>
-      <span>Dashboard</span>
-    </a>
-  </li>
+{% import 'components/navs.twig' as nav %}
 
-  <!-- manager stuff -->
-  <li class="nav-item {{ activeClass('users') }}">
-    <a class="nav-link" href="users">
-    <i class="fas fa-user-shield"></i>
-      <span>Users</span></a>
-  </li>
-  <li class="nav-item {{ activeClass('tokens') }}">
-    <a class="nav-link" href="tokens">
-    <i class="fas fa-key"></i>
-      <span>Tokens</span></a>
-  </li>
-  <li class="nav-item {{ activeClass('tokens') }}">
-      <a class="nav-link" href="test">
-      <i class="fas fa-vial"></i>
-        <span>Tests</span></a>
-    </li>
+
+<ul class="sidebar navbar-nav">
+  {{ nav.item('dashboard','fas fa-fw fa-tachometer-alt')}}
+
+  {# manager stuff #}
+  {{ nav.item('users','fas fa-user-shield')}}
+  {{ nav.item('tokens','fas fa-key')}}
+  {{ nav.item('upload-files','fas fa-file-upload','Upload files')}}
+  {{ nav.item('list-files','fas fa-file-download','Uploaded files')}}
+  {{ nav.item('add-post','fas fa-file-word','Add post')}}
+  
+  {# experiments #}
+  <div class="dropdown-divider"></div>
+  {{ nav.item('charts','fas fa-fw fa-chart-area')}}
+  {{ nav.item('test','fas fa-vial','tests')}}
+
 </ul>

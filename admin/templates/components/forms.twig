@@ -10,9 +10,15 @@
 {% macro textarea(name, label, value = null, options = []) %}
 <div class="form-group {{ options.class }}">
     <label for="{{ name }}"> {{ label | capitalize }}</label>
-    <textarea type="text" onkeyup="textAreaAdjust(this)" class="form-control" id="{{ name }}"
-        name="{{ name }}"></textarea>
+    <textarea type="text" onkeyup="textAreaAdjust(this)" class="form-control" id="{{name}}"
+        name="{{ name }}">{{value}}</textarea>
 </div>
+
+
+<script src="https://rawgit.com/jackmoore/autosize/master/dist/autosize.min.js"></script>
+<script>
+    autosize(document.getElementById('{{ name }}'));
+</script>
 {% endmacro %}
 
 {% macro fileinput(name, label) %}

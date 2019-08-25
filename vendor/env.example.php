@@ -8,7 +8,6 @@ $variables = array(
     'MAILGUN_API_KEY' => '',
     'MAILGUN_DOMAIN' => '',
     'MAILGUN_EMAIL_SENDER' => '',
-    'EMAIL_TEMPLATES_PATH' => '',
     'CORE_SECRET_KEY' => '',
     'CORE_RUN_SCRIPT' => false,
 );

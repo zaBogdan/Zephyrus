@@ -2,7 +2,7 @@
 
 
 class Database{
-    protected $file = '/admin/install/database.sql';
+    protected $file = '/admin/classes/database.sql';
     public $connection;
 
     public function __construct(){

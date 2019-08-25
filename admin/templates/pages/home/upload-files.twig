@@ -1,0 +1,56 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+
+{% include "components/breadcrumb.twig" %}
+
+{% set response = uploadFile() %}
+
+{% import 'components/forms.twig' as forms %}
+
+{% if response != null %}
+<div class="alert alert-info" role="alert">
+    {{response}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true"><i class="fas fa-times"></i></span>
+    </button>
+</div>
+{% endif %}
+
+<div class="col-12">
+    <div class="row">
+        <div class="col-6">
+            <form action="" method="post" enctype="multipart/form-data">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        {{ forms.input("username","Enter your username",upload.values.username, {'autofocus': true}) }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{ forms.input("password","Enter your password",null, {'type': 'password'}) }}
+                    </div>
+                </div>
+                {{ forms.fileinput('file_upload','Choose a file to upload') }}
+                <br>
+                <br>
+                <button type="submit" name="submit" class="btn btn-primary">Upload file</button>
+            </form>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-3">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Upload information</h5>
+                    <p class="card-text">
+                        <ul>
+                            <li><b>Upload limit:</b> 100MB/file</li>
+                            <li><b>Files uploaded:</b> {{upload.files}}</li>
+                            <li><b>Permission:</b> file.upload_file</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

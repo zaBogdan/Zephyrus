@@ -25,9 +25,33 @@ Some features that will be added in the next couple weeks:
 - [ ] Statistics system 
 - [ ] API Request
 - [ ] User roles ( example: Administrator, Moderator, Writer, Reader )
-- [ ] Reorganize files, a render engine
+- [x] Reorganize files, a render engine
+- [ ] Routing engine and Event handler.
 
 # Known bugs
 - [x] ~~Session, Confirmation and Reset password tokens doesn't keep track where you use them ( You can use the session token to reset your password, or even confirm your account )~~ 
 - [x] When sending an email, the style is removed from the initial page ( Reset password and Confirmation for now )
 - [ ] The login token of the cookie is set as it is found in the database. 
+- [ ] If you are not logged in, you can't install the app.
+
+# Versions
+
+This application is in early Alpha stage! 
+
+Version 0.3
++ Posts added, early stage. 
++ Automatic installation, first thing that you must do.
++ Fixes for newer mysql and php versions.
++ Twig rendering added, early stage.
+
+Version 0.2
++ Security bugs fixed, Tokens now have specific usage, they are linked to a specific user and can be used for a specific task, before being revoked.
++ File upload system added, with implementation that can be used for future extensions
++ Mail system with `Account confirmation` and `Password reset` futures added. 
+- Removed early stage mail ( not working on UNIX based systems )
++ Now sensitive information is stored in `vendor/env.php` file
+
+Version 0.1
++ TokenAuth based authentification, UUID and Secure generated Tokens for all kinds of tasks
++ Users added with automatic handling of some events
++ Database communication and handle input/output

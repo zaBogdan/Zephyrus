@@ -16,7 +16,7 @@
     <td>{{token.used_for }} </td>
     <td>
         {% if token.is_expired == false %}
-        <a href="/new/tokens/id/{{token.token}}/revoke" class="btn btn-sm btn-link"><i class="fas fa-times-circle"></i>
+        <a href="/admin/tokens/id/{{token.token}}/revoke" class="btn btn-sm btn-link"><i class="fas fa-times-circle"></i>
             Revoke</a>
         {% endif %}
     </td>
@@ -29,6 +29,8 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="../vendor/datatables/jquery.dataTables.js"></script>
+<script src="../vendor/datatables/dataTables.bootstrap4.js"></script>
 <script>
     $(document).ready(function () {
         $('#dataTable2').DataTable({

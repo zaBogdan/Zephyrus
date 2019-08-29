@@ -1,5 +1,8 @@
 <?php
+namespace Core;
 use Mailgun\Mailgun;
+
+
 
 class EmailHandler{
   

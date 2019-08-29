@@ -1,6 +1,6 @@
 <?php
 
-class ContentManager extends DbModel{
+class ContentManager extends \Core\DbModel{
     protected static $db_table = "content";
     protected static $db_fields = array('id','title','author','category','image','serial','content','posted_on','status','format');
 
@@ -25,9 +25,9 @@ class ContentManager extends DbModel{
         //set the image there
         // print_r($file['file_upload']);
         $this->image = !$file['file_upload']['error'] ? 
-        FileHandler::upload_file($this->author.$this->storage_name,$file['file_upload']):
+        \Core\FileHandler::upload_file($this->author.$this->storage_name,$file['file_upload']):
         false;
-        $this->serial = TokenAuth::generateToken(10);
+        $this->serial = \Core\TokenAuth::generateToken(10);
         $this->content = $values['content'];
         $this->posted_on = date('d-m-Y');
         $this->status = $values['status'];

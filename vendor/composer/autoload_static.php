@@ -46,6 +46,11 @@ class ComposerStaticInitc70e22a105ab464ceddda8512d2ba98e
             'Http\\Client\\Common\\' => 19,
             'Http\\Client\\' => 12,
         ),
+        'G' => 
+        array (
+            'Gettext\\Languages\\' => 18,
+            'Gettext\\' => 8,
+        ),
         'C' => 
         array (
             'Clue\\StreamFilter\\' => 18,
@@ -114,6 +119,14 @@ class ComposerStaticInitc70e22a105ab464ceddda8512d2ba98e
         'Http\\Client\\' => 
         array (
             0 => __DIR__ . '/..' . '/php-http/httplug/src',
+        ),
+        'Gettext\\Languages\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/gettext/languages/src',
+        ),
+        'Gettext\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/gettext/gettext/src',
         ),
         'Clue\\StreamFilter\\' => 
         array (

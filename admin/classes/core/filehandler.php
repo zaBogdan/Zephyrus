@@ -1,5 +1,7 @@
 <?php
 
+namespace Core;
+
 class FileHandler{
 
     private static $location = '/storage/';

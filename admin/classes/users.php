@@ -1,7 +1,7 @@
 <?php
 
 
-class Users extends DbModel{
+class Users extends \Core\DbModel{
     protected static $db_table = "users";
     protected static $db_fields = array('id', 'uuid', 'username', 'email', 'password', 'firstname', 'lastname', 'registration_date', 'notifications','confirmedStatus');
 
@@ -22,11 +22,11 @@ class Users extends DbModel{
 
     public function create_user(Array $data){
         //user and email must be unique. 
+        $data['email']=strtolower($data['email']);
         if(self::find_by_attribute("email",$data['email']))
             return "Email already exists!";
         if(self::find_by_attribute("username",$data['username']))
             return "Username already exists";
-            // "Username already exists!"
 
         $this->username = $data['username'];
         $this->email = $data['email'];
@@ -36,7 +36,7 @@ class Users extends DbModel{
 
         //security for user
         $this->password = $this->hashPassword($data['password']);
-        $this->uuid = TokenAuth::getUUID();
+        $this->uuid = \Core\TokenAuth::getUUID();
         $this->registration_date = date('d-m-Y');
         $this->confirmedStatus = false;
 
@@ -55,7 +55,7 @@ class Users extends DbModel{
     public function send_confirmation(){
         $expiry_date = time() + (2 * 60 * 60); // 2 hours
 
-        $tokenAuth = new TokenAuth();
+        $tokenAuth = new \Core\TokenAuth();
         $token = $tokenAuth->linkToken($this->uuid, $expiry_date,$this->token_confirm,20);
 
         $to = $this->email;
@@ -76,7 +76,7 @@ class Users extends DbModel{
         if(!empty($user)){
             $expiry_date = time() + (2 * 60 * 60); // 2 hours
 
-            $tokenAuth = new TokenAuth();
+            $tokenAuth = new \Core\TokenAuth();
             $token = $tokenAuth->linkToken($user->uuid, $expiry_date,self::$token_reset,20);
 
             $to = $email;
@@ -89,7 +89,7 @@ class Users extends DbModel{
                 'link' => $link,
                 'button' => "Reset password",
             );
-            EmailHandler::send($to,$subject,$args);
+            \Core\EmailHandler::send($to,$subject,$args);
             return true;
         }
         return false;

@@ -1,5 +1,7 @@
 <?php
 
+namespace Core;
+
 class TokenAuth extends DbModel{
     protected static $db_table = "token_auth";
     protected static $db_fields = array('id','uuid','token','is_expired','expiry_date','used_for');

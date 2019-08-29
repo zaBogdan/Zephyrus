@@ -1,37 +1,27 @@
 <?php 
 //to be changed with __DIR__
-require_once($_SERVER["DOCUMENT_ROOT"].'/admin/classes/init.php');
+require_once(__DIR__.'/classes/init.php');
 
 if(env('CORE_RUN_SCRIPT')==false && $_GET['page']!=='install')
 header("Location: /admin/install");
-
 //to be changed! BUG: When install it crashes.
 if(!$session->isLogged())
     header("Location: /admin/auth/login");
 $user = Users::find_by_attribute("uuid",$_SESSION['uuid']);
 
-// $expiry_date = time() + (2 * 60 * 60); // 2 hours
-
-// $tokenAuth = new TokenAuth();
-// $token = $tokenAuth->linkToken($user->uuid, $expiry_date,'testing',20);
-
-
 $page = 'dashboard';
 if(isset($_GET['page']))
     $page = strtolower($_GET['page']);
 
+    
 $template->twig->addGlobal('current_page', $page);
 
-
-$vars = array(
-    'header' => array('title' => $page),
-    'navbar' => array('username'=> $user->username),
-    'bc' => array('root' => 'Administrator', 'directory'=> $page)
-);
+$vars = array();
+$name = $template->escape_name($page);
 
 if($page==='dashboard'){
     $vars['dashboard'] = array(
-        'files' => sizeof(FileHandler::getAllFiles()),
+        'files' => sizeof(\Core\FileHandler::getAllFiles()),
     );
 }else if($page==='users'){
     $vars['table'] = array(
@@ -45,23 +35,19 @@ if($page==='dashboard'){
         'icon' => 'fas fa-key',
         'name' => 'Tokens',
         'rows' => array('UUID','Linked to', 'Status', 'Target', 'Actions'),
-        'data' => TokenAuth::find_all(),
+        'data' => \Core\TokenAuth::find_all(),
         'tableName' => 'dataTable2'
     );
 }else if($page==='upload-files'){
     $vars['header']['title']='Upload files';
     $vars['bc']['directory']='Upload files';
     $vars['upload']=array(
-        'files'=>sizeof(FileHandler::getAllFiles()),
+        'files'=>sizeof(\Core\FileHandler::getAllFiles()),
         'values'=> $_POST,
     );
 }else if($page==='list-files'){
-    $vars['header']['title']='Show server files';
-    $vars['bc']['directory']='Show server files';
-    $vars['ls']['files'] = FileHandler::getAllFiles();
+    $vars['ls']['files'] = \Core\FileHandler::getAllFiles();
 }else if($page==='add-post'){
-    $vars['header']['title']='Add a post';
-    $vars['bc']['directory']='Add a post';
     $vars['post'] = array(
         'values' => $_POST,
     );
@@ -71,6 +57,11 @@ if($page==='dashboard'){
     );
     $template->render('pages/'.$page, $vars);
 }
+
+$vars['header'] = array('title'=>$name);
+$vars['navbar'] = array('username'=> $user->username);
+$vars['bc'] = array('root' => 'Administrator', 'directory'=> $name);
+
 
 if($page!=='install')
 $template->render('pages/home/'.$page, $vars);

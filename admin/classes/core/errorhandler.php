@@ -1,5 +1,7 @@
 <?php
 
+namespace Core;
+
 
 /**
  * Deprecated for a few updates!!

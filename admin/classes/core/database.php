@@ -1,5 +1,5 @@
 <?php
-
+namespace Core;
 
 class Database{
     protected $file = '/admin/classes/database.sql';
@@ -10,7 +10,7 @@ class Database{
     }
 
     private function connect_to_db(){
-        $this->connection = new mysqli(
+        $this->connection = new \mysqli(
             env('DATABASE_HOST'), 
             env('DATABASE_USERNAME'), 
             env('DATABASE_PASSWORD',''), 

@@ -1,17 +1,26 @@
 <?php
+use Gettext\Translator;
+use Gettext\Translations;
 define("ROOT_DIR",$_SERVER['DOCUMENT_ROOT']);
 
+// spl_autoload_register(function($class){
+//     echo "class: ".$class.'<br>';
+//     require_once ROOT_DIR.'/admin/classes/'.strtolower($class).'.php';
+// });
+
+
 require_once ROOT_DIR.'/vendor/autoload.php';
-require_once ROOT_DIR.'/admin/classes/dbmodel.php';
-require_once ROOT_DIR.'/admin/classes/database.php';
+require_once ROOT_DIR.'/admin/classes/core/dbmodel.php';
+require_once ROOT_DIR.'/admin/classes/core/database.php';
 require_once ROOT_DIR.'/admin/classes/users.php';
-require_once ROOT_DIR.'/admin/classes/session.php';
-require_once ROOT_DIR.'/admin/classes/emailhandler.php';
-require_once ROOT_DIR.'/admin/classes/tokenauth.php';
+require_once ROOT_DIR.'/admin/classes/core/session.php';
+require_once ROOT_DIR.'/admin/classes/core/emailhandler.php';
+require_once ROOT_DIR.'/admin/classes/core/tokenauth.php';
 require_once ROOT_DIR.'/admin/classes/contentmanager.php';
-require_once ROOT_DIR.'/admin/classes/filehandler.php';
-require_once ROOT_DIR.'/admin/classes/errorhandler.php';
-require_once ROOT_DIR.'/admin/classes/renderengine.php';
+require_once ROOT_DIR.'/admin/classes/core/filehandler.php';
+require_once ROOT_DIR.'/admin/classes/core/errorhandler.php';
+require_once ROOT_DIR.'/admin/classes/core/renderengine.php';
+require_once ROOT_DIR.'/admin/classes/core/eventhandler.php';
 require_once ROOT_DIR.'/admin/classes/twigextension.php';
 
 
@@ -37,12 +46,16 @@ if(!function_exists('env')){
     }
 }
 
+$translations = Translations::fromJsonDictionaryFile(ROOT_DIR.'/admin/lang/en_en.json');
+$translations->toPhpArrayFile(ROOT_DIR.'/admin/lang/en_en.php');
+
+
+$t = new Translator();
+$t->loadTranslations(ROOT_DIR.'/admin/lang/en_en.php');
+$t->register();
 
 
 
-
-$db = new Database();
-$email = new EmailHandler();
-$files = new FileHandler();
+$db = new \Core\Database();
 $post = new ContentManager();
-$template = new RenderEngine();
+$template = new \Core\RenderEngine();

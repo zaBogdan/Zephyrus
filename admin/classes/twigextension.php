@@ -13,6 +13,7 @@ class TwigExtension extends AbstractExtension{
   
     public function getFunctions()
     {
+      $events = new \Core\EventHandler;
       return array(
         new TwigFunction('activeClass', array($this, 'activeClass'), array('needs_context' => TRUE)),
         new TwigFunction('getUsername', array($this, 'getUsername')),
@@ -22,24 +23,24 @@ class TwigExtension extends AbstractExtension{
         new TwigFunction('sendResetPassword', array($this, 'sendResetPassword')),
         new TwigFunction('resetPassword', array($this, 'resetPassword')),
         new TwigFunction('revokeToken', array($this, 'revokeToken')),
-        new TwigFunction('testFunction', array($this, 'testFunction')),
+        // new TwigFunction('testFunction', array($this, 'testFunction')),
         new TwigFunction('uploadFile', array($this, 'uploadFile')),
         new TwigFunction('addPostEvent', array($this, 'addPostEvent')),
         new TwigFunction('installDefaults', array($this, 'installDefaults')),
-
-                
+        new TwigFunction('testFunction', array($events, 'testFunction')),
       );
     }
 
     public function activeClass(array $context, $page)
     {
-      if (isset($context['current_page']) && $context['current_page'] === $page) {
+      if (isset($context['current_page']) && $context['current_page'] === $page)
         return 'active';
-      }
     }
     public function getUsername(String $uuid){
       return Users::find_by_attribute("uuid",$uuid)->username;
     }
+
+
     public function loginProcess(){
       if(isset($_POST['submit'])){
           $user = Users::check_user($_POST['username'],$_POST['password']);
@@ -50,7 +51,6 @@ class TwigExtension extends AbstractExtension{
             $session->login($user);
             header('Location: /admin');
           }else return "Username and password doesn't match!";
-
       }else return "Please login to continue";
     }
 
@@ -71,7 +71,7 @@ class TwigExtension extends AbstractExtension{
       $user = $this->check_token("confirm_email");
       $user->confirmedStatus = true;
       $user->save_to_db();
-      TokenAuth::revokeToken($token);
+      \Core\TokenAuth::revokeToken($token);
       header("Refresh:5; url=/admin", true, 303);
     }
     public function sendResetPassword(){
@@ -92,7 +92,7 @@ class TwigExtension extends AbstractExtension{
           return "Passwords doesn't match!";
           $user = Users::find_by_attribute("uuid",$user->uuid);
           $user->password = $user->hashPassword($_POST['newpassword']);
-          TokenAuth::revokeToken($token);
+          \Core\TokenAuth::revokeToken($token);
           $user->save_to_db();
           header("Refresh:3; url=/admin", true, 303);
           return "Password was reseted successfully. You are redirected to the login screen now";
@@ -102,18 +102,20 @@ class TwigExtension extends AbstractExtension{
 
     public function revokeToken(){
       if(isset($_GET['task'])){
-        TokenAuth::revokeToken($_GET['id']);
+        \Core\TokenAuth::revokeToken($_GET['id']);
         header("Location: /admin/tokens");
       }
     }
+
     public function testFunction(){
+
     }
 
     public function uploadFile(){
       if(isset($_POST['submit'])){
         if(!Users::check_user($_POST['username'],$_POST['password']))
           return "Username and password doesn't match!";
-        $msg = FileHandler::upload_file($_POST['username'],$_FILES['file_upload']);
+        $msg = \Core\FileHandler::upload_file($_POST['username'],$_FILES['file_upload']);
         if($msg[0] == "/")
           return "File has been successfully uploaded";
         return $msg;
@@ -133,7 +135,7 @@ class TwigExtension extends AbstractExtension{
     private function check_token(String $scope){
       if(isset($_GET['id'])){
         $token = $_GET['id'];
-        $user = TokenAuth::validateToken($token,$scope);
+        $user = \Core\TokenAuth::validateToken($token,$scope);
         // Error handeling soon
         if(empty($user))
           header("Location: /admin");

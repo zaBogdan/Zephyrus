@@ -2,8 +2,8 @@
 //to be changed with __DIR__
 require_once(__DIR__.'/classes/init.php');
 
-if(env('CORE_RUN_SCRIPT')==false && $_GET['page']!=='install')
-header("Location: /admin/install");
+// if(env('CORE_RUN_SCRIPT')==false && $_GET['page']!=='install')
+// header("Location: /admin/install");
 //to be changed! BUG: When install it crashes.
 if(!$session->isLogged())
     header("Location: /admin/auth/login");

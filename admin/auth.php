@@ -1,8 +1,8 @@
 <?php
 require_once($_SERVER["DOCUMENT_ROOT"].'/admin/classes/init.php');
 
-if(env('CORE_RUN_SCRIPT')==false && $_GET['page']!=='install')
-header("Location: /admin/install");
+// if(env('CORE_RUN_SCRIPT')==false && $_GET['page']!=='install')
+// header("Location: /admin/install");
 
 $page = 'login';
 if(isset($_GET['page']))

@@ -33,7 +33,7 @@ function errorhandler($errno, $errstr, $errfile, $errline){
 }
 // set_error_handler("errorhandler", E_ALL);
 
-$env = ROOT_DIR.'/vendor/env.php';
+$env = __DIR__.'/env.php';
 if(file_exists($env))
 require_once $env;
 

@@ -11,10 +11,10 @@
   <title>Blog Post - Start Bootstrap Template</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="style/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="vendor/css/blog-post.css" rel="stylesheet">
+  <link href="style/css/blog-post.css" rel="stylesheet">
 
 </head>
 
@@ -223,8 +223,8 @@
   </footer>
 
   <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="style/jquery/jquery.min.js"></script>
+  <script src="style/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

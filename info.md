@@ -20,4 +20,5 @@ This project will be splitted into microservices. You will ned to create the fol
 
 Change the frontend to ExpressJS
 Add all of these to docker containers and send to AWS Kubernetes. 
+Thanks
 

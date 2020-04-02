@@ -1,13 +1,11 @@
 Options +FollowSymLinks
 RewriteEngine On
-
+ 
 RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteCond %{SCRIPT_FILENAME} !-f
+ 
+RewriteRule ^auth/([a-zA-Z0-9]+)$ auth.php?page=$1
+RewriteRule ^([a-zA-Z0-9]+)/([a-zA-Z0-9]+)$ index.php?page=$1
 
-RewriteRule ^auth/([^/]+)/?$ auth.php?page=$1 [L,QSA]
-RewriteRule ^auth/([^/]+)/([^/.]+)?$ auth.php?page=$1&id=$2 [L,QSA]
-RewriteRule ^([a-zA-Z0-9\-]+)$ index.php?page=$1
 
-# <data>/id/<id>/<task> 
-RewriteRule ^([a-zA-Z0-9]+)/id/([^/.]+)/([^/.]+)$ index.php?page=$1&id=$2&task=$3
-RewriteRule ^([a-zA-Z0-9]+)/([^/.]+)/?$ index.php?page=$1&task=$2 [L,QSA]
+

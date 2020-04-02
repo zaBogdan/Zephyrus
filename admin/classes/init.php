@@ -1,6 +1,6 @@
 <?php
-use Gettext\Translator;
-use Gettext\Translations;
+//use Gettext\Translator;
+//use Gettext\Translations;
 define("ROOT_DIR",$_SERVER['DOCUMENT_ROOT']);
 
 // spl_autoload_register(function($class){
@@ -23,7 +23,9 @@ require_once ROOT_DIR.'/admin/classes/core/renderengine.php';
 require_once ROOT_DIR.'/admin/classes/core/eventhandler.php';
 require_once ROOT_DIR.'/admin/classes/twigextension.php';
 
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 
 if(!function_exists('errorhandler')){
@@ -46,13 +48,13 @@ if(!function_exists('env')){
     }
 }
 
-$translations = Translations::fromJsonDictionaryFile(ROOT_DIR.'/admin/lang/en_en.json');
-$translations->toPhpArrayFile(ROOT_DIR.'/admin/lang/en_en.php');
+//$translations = Translations::fromJsonDictionaryFile(ROOT_DIR.'/admin/lang/en_en.json');
+//$translations->toPhpArrayFile(ROOT_DIR.'/admin/lang/en_en.php');
 
 
-$t = new Translator();
-$t->loadTranslations(ROOT_DIR.'/admin/lang/en_en.php');
-$t->register();
+//$t = new Translator();
+//$t->loadTranslations(ROOT_DIR.'/admin/lang/en_en.php');
+//$t->register();
 
 
 

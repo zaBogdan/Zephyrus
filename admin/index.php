@@ -6,7 +6,7 @@ require_once(__DIR__.'/classes/init.php');
 // header("Location: /admin/install");
 //to be changed! BUG: When install it crashes.
 if(!$session->isLogged())
-    header("Location: /admin/auth/login");
+    header("Location: /admin/auth.php?page=login");
 $user = Users::find_by_attribute("uuid",$_SESSION['uuid']);
 
 $page = 'dashboard';

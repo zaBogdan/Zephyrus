@@ -59,7 +59,7 @@ class TwigExtension extends AbstractExtension{
         $user = new Users();
         $msg = $user->create_user($_POST);
         if($msg===true){
-          $user->send_confirmation();
+          // $user->send_confirmation();
           $user->save_to_db();
           header("Refresh:5; url=/admin", true, 303);
           return "We've send you a confirmation email. Please confirm it to start using our application! You will shortly be redirected to the login screen!";

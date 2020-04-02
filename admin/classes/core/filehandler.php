@@ -4,7 +4,7 @@ namespace Core;
 
 class FileHandler{
 
-    private static $location = '/storage/';
+    private static $location = 'storage/';
 
     public static function getAllFiles($dir=NULL,&$results=NULL){
         if(empty($dir))
@@ -74,7 +74,7 @@ class FileHandler{
     public static function removeFullPath(Array $results){
         $resp = array();
         foreach($results as $result)
-            $resp[] = str_replace(ROOT_DIR,'',$result);
+            $resp[] = str_replace(ROOT_DIR,'../',$result);
         
         return $resp;
     }

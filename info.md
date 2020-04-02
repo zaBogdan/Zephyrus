@@ -1,45 +1,22 @@
-# zaEngine
+# zaEngine - short-term plans.
 
-### Technologies used
-- As the backend we will use a Python API, for user handling and content management. 
-- For the web frontend we will use PHP with **Twig** framework, using a custom **Router** and **API Request** engine.
-- For the mobile app we will use either React Native or Flutter. 
+### No longer supporting this project.
+This application needs to be finished as it is.
+Due to time I will not continue this project because is just a useless pain to do it. 
 
-### The API
-- Should handle both application, be RESTful and also should prioterize the requests.
-- This should be pulled from github, checking it every day. 
+### Left to finish this project
+[ ] Create an automated instalation process (implement it right this time)
+[ ] Link the backend with the frontend
+[ ] Add user roles
+[ ] Wrap around the project, make it work for everyone.
 
-##### Users endpoints
-```C
-    /users/<int:id> -> Returns information about a specific user [ Authentificated ]
-    /users/auth -> Authentificates a user, responding with a token
-    /users/register -> Registers a user, sending a confirmation email
-    /users/update -> Updates some information about the user [ Likes, Comments, Notifications etc. ] [ Authentificated ]
-```
 
-##### Post endpoints 
-```C
-     [ All requests must be authentificated ]
-/content/post/<int:id> -> Returns specific post information
-/content/add -> Creates a new post 
-/content/delete -> Deletes a post, 1 day delay
-/content/upload -> Uploads a photo/Some media
-```
+### Changes to be made
+This project will be splitted into microservices. You will ned to create the following:
+[ ] Authentification
+[ ] Logging server
+[ ] File Handler 
+[ ] Database Interaction
 
-##### Information
-```C
-/check -> Tests if it is web or mobile
-/version -> Returns the version of the API
-```
-
-### The Web Application
-- Should implement everything on the api, with a nice Design.
-- The API Handler should be as reusable as possible, also, the **Users** and **Content** clases should create objects with witch we are supposed to work, reducing a lot of the code. 
-- The Router class should handle all users requests with pretty urls and strong input checks, reusablitly is a must!
-- The Admin side should be secured by the same API, which will give real time information about it's status and version. 
-
-### The Mobile Application
-###### TO BE DONE. 
-
-### Bugs to be solved
-###### TO BE DONE
+Change the frontend to ExpressJS
+Add all of these to docker containers and send to AWS Kubernetes. 

@@ -1,4 +1,12 @@
 <?php 
+/**
+Review the code to find some security issues. 
+Don't forget to add ROLES & hide the file path. 
+-> https://www.cloudways.com/blog/php-security/#deploy
+-> https://www.tonymarston.net/php-mysql/role-based-access-control.html
+
+
+ */
 //to be changed with __DIR__
 require_once(__DIR__.'/classes/init.php');
 

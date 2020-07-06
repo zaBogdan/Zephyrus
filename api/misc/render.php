@@ -1,8 +1,8 @@
 <?php
 
-namespace Core;
+namespace Api\Misc;
 
-class RenderEngine{
+class Render{
 
     public $twig;
 
@@ -12,7 +12,7 @@ class RenderEngine{
             // 'cache' => ROOT_DIR.'/admin/cache',
             'cache' => false,
             ]);
-        $this->twig->addExtension(new \TwigExtension());
+        $this->twig->addExtension(new \Api\Misc\TwigExtension());
     }
 
     

@@ -1,3 +1,5 @@
 vendor/
-admin/classes/env.php
+api/env.php
 storage/
+Oadmin
+.env

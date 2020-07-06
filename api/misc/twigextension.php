@@ -1,5 +1,7 @@
 <?php
 
+namespace Api\Misc;
+// RESTRUCTURE THIS!!! NOT OK!  
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -13,7 +15,6 @@ class TwigExtension extends AbstractExtension{
   
     public function getFunctions()
     {
-      $events = new \Core\EventHandler;
       return array(
         new TwigFunction('activeClass', array($this, 'activeClass'), array('needs_context' => TRUE)),
         new TwigFunction('getUsername', array($this, 'getUsername')),
@@ -143,34 +144,36 @@ class TwigExtension extends AbstractExtension{
       }else header("Location: /admin");     
     }
     public function installDefaults(){
-      $response = array();
-      if(env('CORE_RUN_SCRIPT'))
-        return "<b>ERROR:</b> You've already installed the application";
-      if(isset($_GET['task']) && $_GET['task']==='run'){
-        $response[] = "<i>Core:</i> Setup process started.";
-        try{
-          // Set the envoirment file!
-          $env = ROOT_DIR.'/vendor/env.php';
-          if(!file_exists($env))
-            throw new Exception("Please setup the env.php file!");
-          // Create the database
-          global $db;
-          if(!$db->create_tables())
-            throw new Exception("Tables couldn't be created");
-          $response[] = "<i>Database:</i> Tables created successfully.";
+      // $response = array();
 
-          //Create the storage files
-          if(!file_exists(ROOT_DIR.'/storage/'))
-            if(!mkdir(ROOT_DIR.'/storage/',0777, true))
-              throw new Exception("Permissions for the folders are wrong. Please set them to 777");
-          $response[] = "<i>FileHandler:</i> Storage files have been created!";
-          $response[] = "<i>Core:</i> Setup process finished.";
-          $response[] = "<i>Core:</i> Go to /vendor/env.php and set the 'CORE_RUN_SCRIPT' to TRUE.";
+      // $response = array();
+      // if(env('CORE_RUN_SCRIPT'))
+      //   return "<b>ERROR:</b> You've already installed the application";
+      // if(isset($_GET['task']) && $_GET['task']==='run'){
+      //   $response[] = "<i>Core:</i> Setup process started.";
+      //   try{
+      //     // Set the envoirment file!
+      //     $env = ROOT_DIR.'/vendor/env.php';
+      //     if(!file_exists($env))
+      //       throw new Exception("Please setup the env.php file!");
+      //     // Create the database
+      //     global $db;
+      //     if(!$db->create_tables())
+      //       throw new Exception("Tables couldn't be created");
+      //     $response[] = "<i>Database:</i> Tables created successfully.";
 
-        }catch (Exception $e){
-          $response[] = "<i>Error:</i> ".$e->getMessage();
-        }
-      }
-      return $response;
+      //     //Create the storage files
+      //     if(!file_exists(ROOT_DIR.'/storage/'))
+      //       if(!mkdir(ROOT_DIR.'/storage/',0777, true))
+      //         throw new Exception("Permissions for the folders are wrong. Please set them to 777");
+      //     $response[] = "<i>FileHandler:</i> Storage files have been created!";
+      //     $response[] = "<i>Core:</i> Setup process finished.";
+      //     $response[] = "<i>Core:</i> Go to /vendor/env.php and set the 'CORE_RUN_SCRIPT' to TRUE.";
+
+      //   }catch (Exception $e){
+      //     $response[] = "<i>Error:</i> ".$e->getMessage();
+      //   }
+      // }
+      // return $response;
     }
 }

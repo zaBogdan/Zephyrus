@@ -1,8 +1,7 @@
 <?php
-namespace Core;
+namespace Api\Database;
 
 class Database{
-    protected $file = '/admin/classes/database.sql';
     public $connection;
 
     public function __construct(){
@@ -11,10 +10,10 @@ class Database{
 
     private function connect_to_db(){
         $this->connection = new \mysqli(
-            env('DATABASE_HOST'), 
-            env('DATABASE_USERNAME'), 
-            env('DATABASE_PASSWORD',''), 
-            env('DATABASE_NAME')
+            GET_ENV['DATABASE_HOST'],
+            GET_ENV['DATABASE_USERNAME'],
+            GET_ENV['DATABASE_PASSWORD'],
+            GET_ENV['DATABASE_NAME'],
         );
 
         if($this->connection->connect_errno)
@@ -37,7 +36,7 @@ class Database{
 
     // run in the installation process
     public function create_tables(){
-        $lines = file_get_contents(ROOT_DIR.$this->file);
+        $lines = file_get_contents(ROOT_DIR."/admin/install/database.sql");
         $lines = explode("\n", $lines);
         $comand = '';
         foreach($lines as $line){

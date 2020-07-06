@@ -4,7 +4,7 @@ namespace Core;
 
 class FileHandler{
 
-    private static $location = 'storage/';
+    private static $location = '/storage/';
     private static $banned = array(".", "..", ".htaccess");
     protected static $allowed_files = array('image/png', 'image/jpeg','image/gif');
     protected static $allowed_size = 1024*1024*10; #10mb

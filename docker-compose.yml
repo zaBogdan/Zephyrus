@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  web:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: zaEngine
+    depends_on: 
+      - database
+    volumes:
+      - /Users/zabogdan/Documents/Work/zaEngine:/var/www/html
+    ports:
+      - 8000:80
+  database:
+    container_name: DatabaseService
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 24N7QaOlD@Hzj
+      MYSQL_DATABASE: zaEngine
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: jYhbup^F3d6*%
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    links:
+      - database
+    restart: always
+    environment:
+      PMA_HOST: database
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    ports:
+      - 8080:80

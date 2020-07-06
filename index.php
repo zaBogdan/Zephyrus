@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Blog Home - Start Bootstrap Template</title>
+  <title>Docker Home - Start Bootstrap Template</title>
 
   <!-- Bootstrap core CSS -->
   <link href="style/bootstrap/css/bootstrap.min.css" rel="stylesheet">

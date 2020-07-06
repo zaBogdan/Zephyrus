@@ -8,6 +8,9 @@ define("ROOT_DIR",$_SERVER['DOCUMENT_ROOT']);
 //     require_once ROOT_DIR.'/admin/classes/'.strtolower($class).'.php';
 // });
 
+/**
+ * reworking the code down. restructure everything.
+ */
 
 require_once ROOT_DIR.'/vendor/autoload.php';
 require_once ROOT_DIR.'/admin/classes/core/dbmodel.php';

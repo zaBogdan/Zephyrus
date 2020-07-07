@@ -1,0 +1,10 @@
+{% extends 'auth.twig' %}
+
+{% block content %}
+{% import 'components/forms.twig'  as forms %}
+<div class="container mx-auto mt-5">
+        <div class="jumbotron text-center">
+          <h1 class="display-4">{{error.title|raw}}</h1>
+          <p class="lead text-muted">{{error.message|raw}}</p>
+        </div>
+{% endblock %}

@@ -7,13 +7,18 @@ class Sensitive{
     public $env=array();
 
     public function __construct(){
+        $this->env = self::read_env();
+    }
+
+    public static function read_env(){
         $file_location = ROOT_DIR."/.env";
         if(file_exists($file_location)){
             $file = file_get_contents($file_location);
-            $this->env = self::parse_env($file);
+            $env = self::parse_env($file);
         }else{
-            $this->env = array("CORE_RUN_SCRIPT"=>0);
+            $env = array("CORE_RUN_SCRIPT"=>0);
         }
+        return $env;
     }
 
     public static function parse_env(String $variables){

@@ -3,7 +3,7 @@
     <input type="{{ options.type|default('text') }}" id="{{ name }}" class="form-control" name="{{ name }}"
         placeholder="{{placeholder}}" value="{{ value }}" required="{{ options.required|default('true') }}"
         autofocus="{{ options.autofocus|default('false') }}">
-    <label for="{{ name }}">{{ options.name | default(name|capitalize) }}</label>
+    <label for="{{ name }}" class="ml-auto">{{ options.name | default(name|capitalize) }}</label>
 </div>
 {% endmacro input %}
 

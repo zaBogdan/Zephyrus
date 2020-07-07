@@ -1,5 +1,5 @@
 vendor/
-api/env.php
 storage/
 Oadmin
 .env
+docker-compose.yml

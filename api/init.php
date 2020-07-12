@@ -17,11 +17,17 @@ require_once ROOT_DIR.'/vendor/autoload.php';
 require_once ROOT_DIR.'/api/database/database.php';
 require_once ROOT_DIR.'/api/database/dbmodel.php';
 
+// Api\Management
+require_once ROOT_DIR.'/api/management/users.php';
+require_once ROOT_DIR.'/api/management/tokens.php';
 
 // Api\Misc
 require_once ROOT_DIR.'/api/misc/render.php';
 require_once ROOT_DIR.'/api/misc/twigextension.php';
 require_once ROOT_DIR.'/api/misc/sensitive.php';
+
+// Api\Security
+require_once ROOT_DIR.'/api/security/tokens.php';
 
 
 /**

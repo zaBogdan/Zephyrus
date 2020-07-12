@@ -1,5 +1,5 @@
 vendor/
 storage/
-Oadmin
+oldAdmin
 .env
 docker-compose.yml

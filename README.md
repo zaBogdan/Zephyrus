@@ -48,7 +48,7 @@ These are the bugs found during pentesting session. If you find more please info
 - [x] You can't install the application if you are not logged in, and you can't login because there is no database. (Only for 0.3)
 - [ ] Session cookies are not encrypted.
 - [x] Remote code execution in `Upload Files` page. (<0.4)
-- [ ] Tokens are the same as UUID, not generated securely.
+- [x] Tokens are the same as UUID, not generated securely. (<0.4)
 
 
 # Versions
@@ -62,7 +62,7 @@ Legend:
 ! Bug/Security issue fixed
 ```
 
-Version 0.4
+Version 0.4 - Close to finish the API
 + Service installation stage completed.
 + File restructuring to separate the backend and the frontend.
 + Working with docker containers now

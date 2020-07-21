@@ -14,22 +14,14 @@ namespace Api\Management;
 
 class Users extends \Api\Database\DbModel{
     protected static $db_table = "users";
-    protected static $db_fields = array('id', 'uuid', 'username', 'email', 'password', 'firstname', 'lastname', 'registration_date', 'notifications','status');
-
-    private static $token_reset = "reset_password";
-    private $token_confirm = "confirm_email";
+    protected static $db_fields = array('id', 'uuid', 'username', 'email', 'password', 'data');
 
     public $id;
     public $uuid;
     public $username;
     public $email;
     public $password;
-    public $firstname;
-    public $lastname;
-    public $registration_date;
-    public $status;
-    public $notifications;
-    public $role;
+    public $data;
 
     /**
      * This function validates the username, password and email.
@@ -139,19 +131,32 @@ class Users extends \Api\Database\DbModel{
          */
         $this->username = $data['username'];
         $this->email = $data['email'];
-        $this->firstname = $data['firstname'];
-        $this->lastname = $data['lastname'];
 
         /**
          * Adding the security layers
          */
         $this->password = $this->hashPassword($data['password']);
-        // $this->uuid = \Core\TokenAuth::getUUID();
-        $this->registration_date = date('d-m-Y');
-        $this->confirmedStatus = false;
-            
+        $this->uuid = \Api\Security\Tokens::UUID();
+        
+        /**
+         * Adding personal information about the user
+         */
+        $user_data = array(
+            "firstname" => $data['firstname'],
+            "lastname" => $data['lastname'],
+            "registrationDate" => time(),
+            "role" => null,
+            "status" => "notConfirmed",
+        );
+        $this->data = json_encode($user_data);
 
-        return true;
+        if($this->save_to_db()){
+            /**
+             * Send a confirmation email (must be done)
+             */
+            return true;
+        }
+        return false;
     }
 
     public static function check_user(String $username, String $password){

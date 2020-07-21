@@ -19,22 +19,28 @@ if(intval(GET_ENV['CORE_RUN_SCRIPT'])!==2){
 /**
  * Checking if the user is logged in
  */
-if(!$session->checkLogin()){
-    header("Refresh:0; url=/admin/auth.php", true, 303);
-    die("User is not logged in!");
+if($session->checkLogin()){
+    header("Refresh:0; url=/admin", true, 301);
+    die("User is logged in!");
 }
 
 /**
  * Work with rendering. Modify this, make it cleaner.
  */
 
-$page = 'dashboard';
+$page = 'login';
+if(isset($_GET['page']))
+    $page = $_GET['page'];
 $name = $page;
-$vars['dashboard'] = array(
-    'files' => 15,
-);
+if($page === 'login'){
+    $vars['login'] = array(
+        'values' => $_POST,
+    );
+}elseif($page === 'register'){
+    $vars['register'] = array(
+        'values' => $_POST,
+    );
+}
 $vars['header'] = array('title'=>$name);
-$vars['navbar'] = array('username'=> "zaBogdan");
-$vars['bc'] = array('root' => 'Administrator', 'directory'=> $name);
 $template = new \Api\Misc\Render();
-$template->render('pages/home/'.$page, $vars);
+$template->render('pages/auth/'.$page, $vars);

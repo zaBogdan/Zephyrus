@@ -18,8 +18,13 @@ class Tokens{
          * Make the lenght divisible by 8.
          */
         if($length%8!=0) $length += $length%8;
-        for($i=0;$i<=$length;$i+=8)
-            $string = $string.bin2hex(openssl_random_pseudo_bytes(8))."-";
+        for($i=0;$i<=$length;$i+=8){
+            $isStrong = false;
+            while(!$isStrong)
+                $byte = openssl_random_pseudo_bytes(8, $isStrong);
+            $string = $string.bin2hex($byte)."-";
+
+        }
         $string = substr($string, 0, -1);
         return $string;
     }

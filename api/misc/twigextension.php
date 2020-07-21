@@ -44,24 +44,25 @@ class TwigExtension extends AbstractExtension{
 
     public function loginProcess(){
       if(isset($_POST['submit'])){
-          $user = Users::check_user($_POST['username'],$_POST['password']);
+          
+        
+        $user = \Api\Management\Users::check_user($_POST['username'],$_POST['password']);
           if(!empty($user)){
+            $longTerm = false;
             if(isset($_POST['remember-me']))
-              $_SESSION['rememberMe']=true;
-            global $session;
-            $session->login($user);
-            header('Location: /admin');
+              $longTerm = true;
+              global $session;
+              return $session->handleSession($user, $longTerm);
+              // header('Location: /admin');
           }else return "Username and password doesn't match!";
       }else return "Please login to continue";
     }
 
     public function registerProcess(){
       if(isset($_POST['submit'])){
-        $user = new Users();
+        $user = new \Api\Management\Users();
         $msg = $user->create_user($_POST);
         if($msg===true){
-          // $user->send_confirmation();
-          $user->save_to_db();
           header("Refresh:5; url=/admin", true, 303);
           return "We've send you a confirmation email. Please confirm it to start using our application! You will shortly be redirected to the login screen!";
         }else return $msg;

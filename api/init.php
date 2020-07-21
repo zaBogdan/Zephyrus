@@ -28,6 +28,7 @@ require_once ROOT_DIR.'/api/misc/sensitive.php';
 
 // Api\Security
 require_once ROOT_DIR.'/api/security/tokens.php';
+require_once ROOT_DIR.'/api/security/sessions.php';
 
 
 /**
@@ -35,6 +36,7 @@ require_once ROOT_DIR.'/api/security/tokens.php';
  */
 $sensitive = new \Api\Misc\Sensitive();
 $db = new \Api\Database\Database();
+$session = new \Api\Security\Sessions();
 define("GET_ENV",$sensitive->env);
 
 ?>

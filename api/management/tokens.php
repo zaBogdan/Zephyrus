@@ -22,6 +22,7 @@ class Tokens extends \Api\Database\DbModel{
      * @param fresh if needed, this can be passed for different enviorments.  
      */
     public function validateToken(String $uuid, String $action, $fresh=NULL){
+        
         $this->status = json_decode($this->status);
         // var_dump($this->status);
 
@@ -55,7 +56,7 @@ class Tokens extends \Api\Database\DbModel{
         $this->initialtime = time();
         $this->status = \Api\Security\Tokens::genStatus($type['fresh'],$type['longTerm'],$type['specificTime']);
         if($this->save_to_db())
-            return true;
+            return $this;
         return false;
     }
 

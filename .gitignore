@@ -2,4 +2,3 @@ vendor/
 storage/
 oldAdmin
 .env
-docker-compose.yml

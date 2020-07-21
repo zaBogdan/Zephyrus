@@ -8,7 +8,7 @@ services:
     depends_on: 
       - database
     volumes:
-      - /Users/zabogdan/Documents/Work/zaEngine:/var/www/html
+      - /home/zabogdan/Documents/zaEngine:/var/www/html
     ports:
       - 8000:80
   database:

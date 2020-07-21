@@ -63,15 +63,16 @@ Legend:
 ```
 
 Version 0.4 - Close to finish the API
-+ Service installation stage completed.
-+ File restructuring to separate the backend and the frontend.
-+ Working with docker containers now
-? Roles for users (Administrator, Moderator and Reader)
-? Session cookies now generated securely
-? Posts are now completed
-? Home, Posts and Profile pages are now working and linked.
-- Removed first installation system, because it was broken.
-! Fixed the FileSystem. Now you can't upload the files with malicious content.
+- + Service installation stage completed.
+- + File restructuring to separate the backend and the frontend.
+- + Working with docker containers now
+- + Tokens now generate securely
+- ? Roles for users (Administrator, Moderator and Reader)
+- ? Session cookies now generated securely
+- ? Posts are now completed
+- ? Home, Posts and Profile pages are now working and linked.
+- - Removed first installation system, because it was broken.
+- ! Fixed the FileSystem. Now you can't upload the files with malicious content.
 > **Note** At this moment this version is in it's early alpha. Don't install this on your production system!
 
 Version 0.3

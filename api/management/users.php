@@ -149,7 +149,7 @@ class Users extends \Api\Database\DbModel{
         // $this->uuid = \Core\TokenAuth::getUUID();
         $this->registration_date = date('d-m-Y');
         $this->confirmedStatus = false;
-
+            
 
         return true;
     }

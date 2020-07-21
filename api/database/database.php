@@ -9,11 +9,12 @@ class Database{
     }
 
     private function connect_to_db(){
+        global $sensitive;
         $this->connection = new \mysqli(
-            GET_ENV['DATABASE_HOST'],
-            GET_ENV['DATABASE_USERNAME'],
-            GET_ENV['DATABASE_PASSWORD'],
-            GET_ENV['DATABASE_NAME'],
+            $sensitive->env['DATABASE_HOST'],
+            $sensitive->env['DATABASE_USERNAME'],
+            $sensitive->env['DATABASE_PASSWORD'],
+            $sensitive->env['DATABASE_NAME']
         );
 
         if($this->connection->connect_errno)

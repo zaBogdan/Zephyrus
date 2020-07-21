@@ -68,60 +68,38 @@ class Tokens{
      * 
      * @param String $fresh handles the case this token can be fresh
      * @param String $longTerm generates the expireTime based on the boolean value
+     * @param String $specificTime for those tokens who need smaller time than 1day
      * 
      * @return JSON to have it worked out.
      */
-    public static function genStatus(Bool $fresh, Bool $longTerm){
+    public static function genStatus(Bool $fresh=NULL, Bool $longTerm=NULL, $specificTime=NULL){
+        $fresh = isset($fresh) ? $fresh : false;
+        $longTerm = isset($longTerm) ? $longTerm : false;
         $status = array(
-            'usable'=>null, 
-            'fresh'=>null, 
             'freshUntil'=>null, 
-            'longTerm'=>null,
             'expireTime'=>null
         );
         if($fresh === true){
             $status['freshUntil'] = time() + 30*60; //a token can be fresh only for 30 mins
         }else {
-            $fresh=false;
             $status['freshUntil'] = time() - 30*60; //to be 100% sure it can't be fresh
         }
-        $status['fresh'] = $fresh;
         if($longTerm === true)
             $status['expireTime'] = time() + 14 * 24 * 60 * 60; //the token is valid for 2 weeks
         else{
-            $longTerm = false;
-            $status['expireTime'] = time() + 1 * 24 * 60 * 60; //else the token is valid for 24h
+            if(!$specificTime)
+                $status['expireTime'] = time() + 1 * 24 * 60 * 60; //else the token is valid for 24h
+            else $status['expireTime'] = time() + $specificTime;
         }
-        $status['longTerm'] = $longTerm;
-        $status['usable'] = true;
+        $status['status'] = "valid";
         return json_encode($status);
     }
 
-    public static function revokeToken(Array $status){
-        $status['usable'] = false;
-        $status['fresh'] = false;
+    public static function revokeStatus(){
+        $status['status'] = "revoked";
         $status['freshUntil'] = time() - 30*60;
         $status['expireTime'] = time() - 14 * 24 * 60 * 60;
         return \json_encode($status);
     }
-    /**
-     * Database handling for tokens
-     */
-    /**
-     * There are two types of tokens: 
-     * - fresh
-     * - long-term
-     * 
-     * Fresh
-     * The fresh tokens will expire after the session ends/after a limited period of time. 
-     * This only depends on it's usage.
-     * 
-     * Long-term
-     * You can login, do basic stuff with them, but you can't change important stuff (password,
-     * administrative stuff or do ireversible stuff)
-     * 
-     *  Table structure: ID, UUID, Actual Token, Timestamp from generation, Timestamp of expiration, Bound, Status
-     * 
-     */
 
 }

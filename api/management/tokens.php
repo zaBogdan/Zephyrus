@@ -5,62 +5,66 @@ namespace Api\Management;
 class Tokens extends \Api\Database\DbModel{
     protected static $db_table = "tokens";
     protected static $db_fields = array(
-        "id", "token", "bounder", "intialtime", "status"
+         "id", "token", "bounder", "initialtime", "status"
     );
 
     public $id;
     public $token;
     public $bounder;
-    public $intialtime;
+    public $initialtime;
     public $status;
 
-    // public function getToken(){
-    //     return $this->token;
-    // }
-
     /**
+     * @see This function checks the tokens and automaticaly revokes them if needed
      * 
+     * @param uuid this is needed for generating the bounder
+     * @param action this is also needed for generating the bounder
+     * @param fresh if needed, this can be passed for different enviorments.  
      */
-    public function validateToken(String $action, Bool $fresh_needed=false){
-        $time_of_request = time();
+    public function validateToken(String $uuid, String $action, $fresh=NULL){
+        $this->status = json_decode($this->status);
+        // var_dump($this->status);
+
         /**
-         * In case of a databreach and a token is modified we will check both
-         * timestamps saved at the moment of creation and the life of a token. 
+         * Time checks
+         * date("d-m-Y H:i:s");
          */
-        if($time_of_request < $this->intialtime)
+        if($this->initialtime > time())
             return false;
-        if($fresh_needed){
-            
+        if(time() > $this->status->expireTime){
+            $this->revokeToken($this->token);
+            return false;
         }
         /**
-         * Verify the bounder
-         * 
-         * THere are two checks: 
-         * -> if the user that uses this token is the intended one(token uuid and user uuid)
-         * -> bounder can be recrated.
+         * Freshness check
          */
-        if(\Api\Security\Token::bounder($action, $this->token)!==$this->bounder)
-            return false;
-        
+        if($fresh)
+            if(time() > $this->status->freshUntil)
+                return false;
         /**
-         * If everything is ok we return true
+         * Check the bounder
          */
+        if(\Api\Security\Tokens::bounder($action, $this->token, $uuid)!==$this->bounder)
+            return false;
         return true;
 
     }
-
     public function save_token(String $uuid, String $action, Array $type, $length=16){
-        global $session_user;
-        $this->token = \Api\Security\Tokens::secureTokens($length);
+        $this->token = \Api\Security\Tokens::secureTokens($length); 
         $this->bounder = \Api\Security\Tokens::bounder($action,$this->token,$uuid);
-        $this->intialtime = time();
-        $this->status = \Api\Security\Tokens::genStatus($type['fresh'],$type['longTerm']);
-        try{
-            $this->save_to_db();
-        }catch(Exception $e){
-            return "error";
-        }
-        return "Token saved";
+        $this->initialtime = time();
+        $this->status = \Api\Security\Tokens::genStatus($type['fresh'],$type['longTerm'],$type['specificTime']);
+        if($this->save_to_db())
+            return true;
+        return false;
+    }
+
+    public static function revokeToken(String $token){
+        $token = self::find_by_attribute("token",$token);
+        $token->status = \Api\Security\Tokens::revokeStatus();
+        if($token->save_to_db())
+            return true;
+        return false;
     }
 
 }

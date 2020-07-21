@@ -33,7 +33,8 @@ require_once ROOT_DIR.'/api/security/tokens.php';
 /**
  * Working with classes
  */
-$env = new \Api\Misc\Sensitive();
-define("GET_ENV",$env->env);
+$sensitive = new \Api\Misc\Sensitive();
+$db = new \Api\Database\Database();
+define("GET_ENV",$sensitive->env);
 
 ?>

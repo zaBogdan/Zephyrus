@@ -15,11 +15,13 @@ if(intval(GET_ENV['CORE_RUN_SCRIPT'])!==2){
     $template->render('pages/home/error', $vars);
     die();
 }
-
+$page = 'login';
+if(isset($_GET['page']))
+    $page = $_GET['page'];
 /**
  * Checking if the user is logged in
  */
-if($session->checkLogin()){
+if($session->checkLogin() && $page !=='logout'){
     header("Refresh:0; url=/admin", true, 301);
     die("User is logged in!");
 }
@@ -28,9 +30,7 @@ if($session->checkLogin()){
  * Work with rendering. Modify this, make it cleaner.
  */
 
-$page = 'login';
-if(isset($_GET['page']))
-    $page = $_GET['page'];
+
 $name = $page;
 if($page === 'login'){
     $vars['login'] = array(
@@ -40,6 +40,10 @@ if($page === 'login'){
     $vars['register'] = array(
         'values' => $_POST,
     );
+}else if($page === 'logout'){
+    $session->destroySession();
+    header("Refresh:0; url=/admin", true, 200);
+    die("You must have been redirected to /admin/auth");
 }
 $vars['header'] = array('title'=>$name);
 $template = new \Api\Misc\Render();

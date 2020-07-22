@@ -44,16 +44,14 @@ class TwigExtension extends AbstractExtension{
 
     public function loginProcess(){
       if(isset($_POST['submit'])){
-          
-        
         $user = \Api\Management\Users::check_user($_POST['username'],$_POST['password']);
           if(!empty($user)){
             $longTerm = false;
             if(isset($_POST['remember-me']))
               $longTerm = true;
               global $session;
-              return $session->handleSession($user, $longTerm);
-              // header('Location: /admin');
+              $session->handleSession($user, $longTerm);
+              header("Refresh:0; url=/admin", true, 200);
           }else return "Username and password doesn't match!";
       }else return "Please login to continue";
     }
@@ -143,38 +141,5 @@ class TwigExtension extends AbstractExtension{
           header("Location: /admin");
         return $user;
       }else header("Location: /admin");     
-    }
-    public function installDefaults(){
-      // $response = array();
-
-      // $response = array();
-      // if(env('CORE_RUN_SCRIPT'))
-      //   return "<b>ERROR:</b> You've already installed the application";
-      // if(isset($_GET['task']) && $_GET['task']==='run'){
-      //   $response[] = "<i>Core:</i> Setup process started.";
-      //   try{
-      //     // Set the envoirment file!
-      //     $env = ROOT_DIR.'/vendor/env.php';
-      //     if(!file_exists($env))
-      //       throw new Exception("Please setup the env.php file!");
-      //     // Create the database
-      //     global $db;
-      //     if(!$db->create_tables())
-      //       throw new Exception("Tables couldn't be created");
-      //     $response[] = "<i>Database:</i> Tables created successfully.";
-
-      //     //Create the storage files
-      //     if(!file_exists(ROOT_DIR.'/storage/'))
-      //       if(!mkdir(ROOT_DIR.'/storage/',0777, true))
-      //         throw new Exception("Permissions for the folders are wrong. Please set them to 777");
-      //     $response[] = "<i>FileHandler:</i> Storage files have been created!";
-      //     $response[] = "<i>Core:</i> Setup process finished.";
-      //     $response[] = "<i>Core:</i> Go to /vendor/env.php and set the 'CORE_RUN_SCRIPT' to TRUE.";
-
-      //   }catch (Exception $e){
-      //     $response[] = "<i>Error:</i> ".$e->getMessage();
-      //   }
-      // }
-      // return $response;
     }
 }

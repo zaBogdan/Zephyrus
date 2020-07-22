@@ -12,4 +12,10 @@ $logged_user = array(
 /**
  * Go check what you've done
  */
+
+echo "<pre>";
+var_dump(openssl_get_cipher_methods());
+echo "</pre>";
+//aes-256-gcm
+
 die("Nothing for now");

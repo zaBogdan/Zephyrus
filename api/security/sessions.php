@@ -2,10 +2,6 @@
 
 namespace Api\Security;
 
-/**
- * NOT FULLY IMPLEMENTED. 
- */
-
 class Sessions{
     
     public function __construct(){
@@ -20,37 +16,69 @@ class Sessions{
          * Generating the login token
          */
         $token =  new \Api\Management\Tokens();
-        $actualToken = $token->save_token($user->uuid, "freshLogin", array("fresh"=>true, "longTerm"=>$longTerm));
+        $array = $token->save_token($user->uuid, "login", array("fresh"=>true, "longTerm"=>$longTerm));
+        $actualToken = $array['token'];
+        $validator = $array['trueValidator'];
         $actualToken->status = json_decode($actualToken->status);
-        
+
         /**
-         * NEED TO BE WORKED ON!!!
-         * Must encrypt the token
+         * Encoding the token
          */
-        $data = $token;
+        $data = base64_encode($actualToken->selector.":".$validator);
         /**
          * Setting up the cookie
          */
         $validUntil = $actualToken->status->expireTime;
-        setcookie("loginCookie", json_encode($data), $validUntil);
+        setcookie("loginCookie", $data, $validUntil);
+        setcookie("userUUID", $user->uuid, $validUntil);
 
         /**
          * Setup the Session
          */
-        $actualToken->status = json_encode($actualToken->status);
-        $_SESSION['token'] = $actualToken;
-        $_SESSION['user'] = $user;
+        $_SESSION['token'] = $actualToken->selector.":".$validator;
+        $_SESSION['user'] = $user->uuid;
     }
 
     public static function checkLogin(){
-        if(isset($_SESSION['token']) && $_SESSION['user']){
-            var_dump($_SESSION['token']);
-            var_dump($_SESSION['user']);
-            echo $_SESSION['token']->validateToken($_SESSION['user']->uuid, "login");
-            if($_SESSION['token']->validateToken($_SESSION['user']->uuid, "login"))
+        /**
+         * If user just logged in
+         */
+        if(isset($_SESSION['token']) && isset($_SESSION['user'])){
+            $goodToken = \explode(":", $_SESSION['token']);
+            $token = \Api\Management\Tokens::find_by_attribute("selector", $goodToken[0]);
+            if($token->validateToken($_SESSION['user'], "login", $goodToken[1])){
                 return true;
+            }
         }
-
+        /**
+         * If user has a cookie set.
+         */
+        else if(isset($_COOKIE['loginCookie']) && isset($_COOKIE['userUUID'])){
+                $data = explode(":",base64_decode($_COOKIE['loginCookie']));
+                $token = \Api\Management\Tokens::find_by_attribute("selector", $data[0]);
+                if($token->validateToken($_COOKIE['userUUID'], "login", $data[1])){
+                    return true;
+                }
+            }
         return false;
     }
+
+    public static function destroySession(){
+        /**
+         * Remove the session
+         */
+        if(isset($_SESSION['token']))
+            \Api\Management\Tokens::revokeToken(\explode(":", $_SESSION['token'])[0]);
+        session_destroy();
+        /**
+         * Remove the long term tokens 
+         */
+        if(isset($_COOKIE['loginCookie']))
+            \Api\Management\Tokens::revokeToken(explode(":",base64_decode($_COOKIE['loginCookie']))[0]);
+        unset($_COOKIE['loginCookie']);
+        unset($_COOKIE['userUUID']);
+        setcookie('loginCookie', "", time()-1*60*60);
+        setcookie('userUUID', "", time()-1*60*60);
+    }
+
 }

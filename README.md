@@ -46,7 +46,7 @@ These are the bugs found during pentesting session. If you find more please info
 - [x] A valid token can be used anywhere, no matter of it's scope (<0.2)
 - [x] Emails lose their style (<0.3)
 - [x] You can't install the application if you are not logged in, and you can't login because there is no database. (Only for 0.3)
-- [ ] Session cookies are not encrypted.
+- [x] Session cookies are not encrypted. (<0.4)
 - [x] Remote code execution in `Upload Files` page. (<0.4)
 - [x] Tokens are the same as UUID, not generated securely. (<0.4)
 
@@ -67,11 +67,12 @@ Version 0.4 - Close to finish the API
 - + File restructuring to separate the backend and the frontend.
 - + Working with docker containers now
 - + Tokens now generate securely
+- + Session cookies now generated securely
 - ? Roles for users (Administrator, Moderator and Reader)
-- ? Session cookies now generated securely
 - ? Posts are now completed
 - ? Home, Posts and Profile pages are now working and linked.
 - - Removed first installation system, because it was broken.
+- - Removed old system of token & session generation. Now everything is more secure.
 - ! Fixed the FileSystem. Now you can't upload the files with malicious content.
 > **Note** At this moment this version is in it's early alpha. Don't install this on your production system!
 

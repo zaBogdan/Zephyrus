@@ -5,11 +5,12 @@ namespace Api\Management;
 class Tokens extends \Api\Database\DbModel{
     protected static $db_table = "tokens";
     protected static $db_fields = array(
-         "id", "token", "bounder", "initialtime", "status"
+         "id", "selector", "validator", "bounder", "initialtime", "status"
     );
 
     public $id;
-    public $token;
+    public $selector;
+    public $validator;
     public $bounder;
     public $initialtime;
     public $status;
@@ -21,7 +22,7 @@ class Tokens extends \Api\Database\DbModel{
      * @param action this is also needed for generating the bounder
      * @param fresh if needed, this can be passed for different enviorments.  
      */
-    public function validateToken(String $uuid, String $action, $fresh=NULL){
+    public function validateToken(String $uuid, String $action,String $validator, $fresh=NULL){
         
         $this->status = json_decode($this->status);
         // var_dump($this->status);
@@ -43,25 +44,32 @@ class Tokens extends \Api\Database\DbModel{
             if(time() > $this->status->freshUntil)
                 return false;
         /**
+         * Check the validator
+         */
+        if(!password_verify($validator, $this->validator))
+            return false;
+        /**
          * Check the bounder
          */
-        if(\Api\Security\Tokens::bounder($action, $this->token, $uuid)!==$this->bounder)
+        if(\Api\Security\Tokens::bounder($action, $validator, $uuid)!==$this->bounder)
             return false;
         return true;
 
     }
     public function save_token(String $uuid, String $action, Array $type, $length=16){
-        $this->token = \Api\Security\Tokens::secureTokens($length); 
-        $this->bounder = \Api\Security\Tokens::bounder($action,$this->token,$uuid);
+        $this->selector = \Api\Security\Tokens::secureTokens($length);
+        $validator = \Api\Security\Tokens::secureTokens($length*2);
+        $this->validator = \password_hash($validator, PASSWORD_DEFAULT); 
+        $this->bounder = \Api\Security\Tokens::bounder($action,$validator,$uuid);
         $this->initialtime = time();
         $this->status = \Api\Security\Tokens::genStatus($type['fresh'],$type['longTerm'],$type['specificTime']);
         if($this->save_to_db())
-            return $this;
+            return array("token"=> $this, "trueValidator"=> $validator);
         return false;
     }
 
-    public static function revokeToken(String $token){
-        $token = self::find_by_attribute("token",$token);
+    public static function revokeToken(String $selector){
+        $token = self::find_by_attribute("selector",$selector);
         $token->status = \Api\Security\Tokens::revokeStatus();
         if($token->save_to_db())
             return true;

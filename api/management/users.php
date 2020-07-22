@@ -66,35 +66,6 @@ class Users extends \Api\Database\DbModel{
             return 3;
         return 0;
     }
-    /**
-     * This function is not fully implemented but it will check if an user can acces specific
-     * restricted pages
-     * 
-     * @param
-     *  acess_level -> An integer that specifies the user access level, defined in role
-     *  operation -> Not nneded, but it can bypass certain access level restrictions.
-     * 
-     * @return
-     *  It can only return true or false, depdending on failchecks.
-     */
-    // params: Integers $acess_level, String $operation
-    public function userAcess(){
-        /**
-         * This user is banned or not confirmed, so he can't acces the application.
-         */
-        if($this->status == 1 || $this->status == 3)
-            return false;
-        /**
-         * check if he has enough acess to see that
-         * An implementation is needed. for now it's disabled.
-         */
-
-        /**
-         * If all tests pass he can enter.s
-         */
-
-       return true;
-    }
 
 
     /**

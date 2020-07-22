@@ -20,7 +20,7 @@ if(intval(GET_ENV['CORE_RUN_SCRIPT'])!==2){
  * Checking if the user is logged in
  */
 if(!$session->checkLogin()){
-    header("Refresh:0; url=/admin/auth.php", true, 303);
+    header("Refresh:0; url=/admin/auth.php", true, 401);
     die("User is not logged in!");
 }
 

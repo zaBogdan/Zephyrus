@@ -11,6 +11,7 @@ class Render{
         $this->twig = new \Twig\Environment($loader, [
             // 'cache' => ROOT_DIR.'/admin/cache',
             'cache' => false,
+            // 'debug' => true,
             ]);
         $this->twig->addExtension(new \Api\Misc\TwigExtension());
     }

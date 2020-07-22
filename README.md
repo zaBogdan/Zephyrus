@@ -64,32 +64,34 @@ Legend:
 
 Version 0.4 - Close to finish the API
 - + Service installation stage completed.
-- + File restructuring to separate the backend and the frontend.
-- + Working with docker containers now
-- + Tokens now generate securely
-- + Session cookies now generated securely
-- ? Roles for users (Administrator, Moderator and Reader)
+- + Project files restructured. (backend is now separated from frontend)
+- + Docker has been added to the project.
+- + Tokens now generate securely and use Selector:Validation schema.
+- + Authentification system (Sessions) is now more secure and checks are made properly.
+- ? Roles for users (next queued)
 - ? Posts are now completed
 - ? Home, Posts and Profile pages are now working and linked.
 - - Removed first installation system, because it was broken.
 - - Removed old system of token & session generation. Now everything is more secure.
-- ! Fixed the FileSystem. Now you can't upload the files with malicious content.
-> **Note** At this moment this version is in it's early alpha. Don't install this on your production system!
+> **Note** At this moment this version is in it's late alpha. Don't install this on your production system!
 
 Version 0.3
-+ Posts added, early stage.
-+ Automatic installation, first thing that you must do.
-+ Fixes for newer mysql and php versions.
-+ Twig rendering added, early stage.
+- + Posts added, early stage.
+- + Automatic installation, first thing that you must do.
+- + Fixes for newer mysql and php versions.
+- + Twig rendering added, early stage.
+- ! You can't install the application if you are not logged in, and you can't login because there is no database.
+- ! Remote code execution in `Upload Files` page.
+- ! Tokens are the same as UUID, not generated securely. 
 
 Version 0.2
-+ Security bugs fixed, Tokens now have specific usage, they are linked to a specific user and can be used for a specific task, before being revoked.
-+ File upload system added, with implementation that can be used for future extensions
-+ Mail system with 'Account confirmation' and 'Password reset' futures added.
-- Removed early stage mail ( not working on UNIX based systems )
-+ Now sensitive information is stored in 'vendor/env.php' file
+- + Security bugs fixed, Tokens now have specific usage, they are linked to a specific user and can be used for a specific task, before being revoked.
+- + File upload system added, with implementation that can be used for future extensions
+- + Mail system with 'Account confirmation' and 'Password reset' futures added.
+- - Removed early stage mail ( not working on UNIX based systems )
+- + Now sensitive information is stored in 'vendor/env.php' file
 
 Version 0.1
-+ TokenAuth based authentication, UUID and Secure generated Tokens for all kinds of tasks
-+ Users added with automatic handling of some events
-+ Database communication and handle input/output
+- + TokenAuth based authentication, UUID and Secure generated Tokens for all kinds of tasks
+- + Users added with automatic handling of some events
+- + Database communication and handle input/output

@@ -7,6 +7,7 @@
 - [ ] Routing/Rendering engine implementation must be redone
 - [ ] Autoload files
 - [ ] Finish the transfer from oldAdmin to API 
+- [ ] Rebrand it: Zephyrus
 
 > **Note**: Everything that's under this is not implemented yet. To be done.
 

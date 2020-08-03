@@ -1,4 +1,5 @@
 # zaEngine
+![New logo](https://i.imgur.com/iTvx0Z6.jpg)
 This is a Content Management System created for learning purposes. It has suffered a lot of changes and improves during this commits. If you want to see a changelog of this look at the [Versions ](#versions). Project is not regularly maintained and can have severe security issues because of the little time I have.
 
 # Installation with Docker

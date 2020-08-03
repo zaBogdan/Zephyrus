@@ -21,7 +21,7 @@ if(isset($_GET['page']))
 /**
  * Checking if the user is logged in
  */
-if($session->checkLogin() && $page !=='logout'){
+if($session->checkLogin() && $page !=='logout' && $page!=='confirm-email'){
     header("Refresh:0; url=/admin", true, 301);
     die("User is logged in!");
 }
@@ -44,7 +44,11 @@ if($page === 'login'){
     $session->destroySession();
     header("Refresh:0; url=/admin", true, 200);
     die("You must have been redirected to /admin/auth");
+}else if($page === 'confirm-email'){
+    $name = "Confirm email";
 }
 $vars['header'] = array('title'=>$name);
 $template = new \Api\Misc\Render();
 $template->render('pages/auth/'.$page, $vars);
+
+

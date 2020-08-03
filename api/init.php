@@ -27,6 +27,7 @@ require_once ROOT_DIR.'/api/management/roles.php';
 require_once ROOT_DIR.'/api/misc/render.php';
 require_once ROOT_DIR.'/api/misc/twigextension.php';
 require_once ROOT_DIR.'/api/misc/sensitive.php';
+require_once ROOT_DIR.'/api/misc/emails.php';
 
 // Api\Security
 require_once ROOT_DIR.'/api/security/tokens.php';

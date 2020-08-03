@@ -124,13 +124,32 @@ class Users extends \Api\Database\DbModel{
 
         if($this->save_to_db()){
             /**
-             * Send a confirmation email (must be done)
+             * Send a confirmation email
              */
-            return true;
+            if($this->send_confirmation())
+                return true;
         }
         return false;
     }
-
+    public function send_confirmation(){
+        $token =  new \Api\Management\Tokens();
+        $tokens= $token->save_token($this->uuid, "confirmEmail", array("fresh"=>false, "longTerm"=>false, "specificTime"=> 15*60));
+        $email = new \Api\Misc\Email();
+        $val = array(
+            'username' => $this->username, 
+            'p_one' => "Thank you for joining our community and we want
+            to wish you a warm Welcome!", 
+            'p_two' => "In order to increase the security you need to confirm your 
+            email, by clicking the link down below (which is valid for only 15 minutes). If you don't recognize this email please
+            contact us at `support@zaengine.ro`",
+            'link' => "http://localhost:8000/admin/auth.php?page=confirm-email&selector=".$tokens['token']->selector."&validator=".$tokens['trueValidator']."&email=".$this->email, 
+            'button'  => "Confirm Email!"
+        );
+        $response = $email->sendMessage($this->email, "Confirm your email",$val);
+        if(!$response)
+            return false;
+        return true;
+    }
     public static function check_user(String $username, String $password){
         $user = self::find_by_attribute("username",$username);
         if(!empty($user)){

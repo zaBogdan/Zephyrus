@@ -68,8 +68,8 @@ Version 0.4 - Close to finish the API
 - (+) Docker has been added to the project.
 - (+) Tokens now generate securely and use Selector:Validation schema.
 - (+) Authentification system (Sessions) is now more secure and checks are made properly.
-- (?) Roles for users (next queued)
-- (?) Posts are now completed
+- (+) Roles for users
+- (?) Posts are now completed (next queued)
 - (?) Home, Posts and Profile pages are now working and linked.
 - (-) Removed first installation system, because it was broken.
 - (-) Removed old system of token & session generation. Now everything is more secure.

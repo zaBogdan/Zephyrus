@@ -67,11 +67,18 @@ class TwigExtension extends AbstractExtension{
       }else return "Complete this form to start using our application";
     } 
     public function activateUser(){
-      $token = $_GET['id'];
-      $user = $this->check_token("confirm_email");
-      $user->confirmedStatus = true;
-      $user->save_to_db();
-      \Core\TokenAuth::revokeToken($token);
+      $selector = $_GET['selector'];
+      $validator = $_GET['validator'];
+      $email = $_GET['email'];
+      $token = \Api\Management\Tokens::find_by_attribute("selector", $selector);
+      $user = \Api\Management\Users::find_by_attribute("email", $email);
+      if($token->validateToken($user->uuid, "confirmEmail", $validator)){
+        $user->data = json_decode($user->data);
+        $user->data->status = "confirmed";
+        $user->data = json_encode($user->data);
+        $user->save_to_db();
+        $token->revokeToken($selector);
+      }
       header("Refresh:5; url=/admin", true, 303);
     }
     public function sendResetPassword(){

@@ -10,6 +10,16 @@
 
 > **Note**: Everything that's under this is not implemented yet. To be done.
 
+# Phase: Users must be refreshed 
+
+Done now:
+ - Users have now Roles (explained down)
+ - Permissions & Roles can be added only by code (UI will be in 0.5)
+ - Confirmation email phase 1 is now done
+Next to do
+ - Get all the checks done for confirmation email, forgot password 
+ - Make sure that everything is secured (using permissions).
+
 # List of permissions (this will be updated with features)
 
 ### Moderation
@@ -61,11 +71,6 @@
 ### Guest (non logged user)
 - readPosts
 
-# Database structure
-
-- Permissions & their fancy description (not really needed, but it can be nice to UI when creating roles) `id, permission, description`
-- Roles `id, role, descendantID(only 1 number), premissionsID(array of numbers), description`
-- An user can have on it's `data` section alongside `role` a category named `specialPermissions` which can grant him and only him some non group specific perms (like Reader 1 can have accessAdmin perm, but all other Readers don't have this permission).
 
 
 

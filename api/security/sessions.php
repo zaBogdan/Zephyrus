@@ -57,6 +57,11 @@ class Sessions{
                 $data = explode(":",base64_decode($_COOKIE['loginCookie']));
                 $token = \Api\Management\Tokens::find_by_attribute("selector", $data[0]);
                 if($token->validateToken($_COOKIE['userUUID'], "login", $data[1])){
+                    /**
+                     * Reconstruct the session
+                     */
+                    $_SESSION['token'] = $data[0].":".$data[1];
+                    $_SESSION['user'] = $_COOKIE['userUUID'];
                     return true;
                 }
             }

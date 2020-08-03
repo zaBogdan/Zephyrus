@@ -116,8 +116,9 @@ class Users extends \Api\Database\DbModel{
             "firstname" => $data['firstname'],
             "lastname" => $data['lastname'],
             "registrationDate" => time(),
-            "role" => null,
+            "role" => "User",
             "status" => "notConfirmed",
+            "special_perms" => array(),
         );
         $this->data = json_encode($user_data);
 

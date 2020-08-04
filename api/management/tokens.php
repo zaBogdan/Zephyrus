@@ -34,7 +34,7 @@ class Tokens extends \Api\Database\DbModel{
         if($this->initialtime > time())
             return false;
         if(time() > $this->status->expireTime){
-            $this->revokeToken($this->token);
+            $this->revokeToken($this->selector);
             return false;
         }
         /**

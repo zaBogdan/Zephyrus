@@ -23,25 +23,26 @@ class TwigExtension extends AbstractExtension{
         new TwigFunction('activateUser', array($this, 'activateUser')),
         new TwigFunction('sendResetPassword', array($this, 'sendResetPassword')),
         new TwigFunction('resetPassword', array($this, 'resetPassword')),
-        new TwigFunction('revokeToken', array($this, 'revokeToken')),
-        // new TwigFunction('testFunction', array($this, 'testFunction')),
-        new TwigFunction('uploadFile', array($this, 'uploadFile')),
-        new TwigFunction('addPostEvent', array($this, 'addPostEvent')),
-        new TwigFunction('installDefaults', array($this, 'installDefaults')),
-        new TwigFunction('testFunction', array($events, 'testFunction')),
+        new TwigFunction('generateReset', array($this, 'generateReset')),
+        new TwigFunction('generateConfirmation', array($this, 'generateConfirmation')),
       );
     }
 
+    /**
+     * Some getters for the UI part
+     */
     public function activeClass(array $context, $page)
     {
       if (isset($context['current_page']) && $context['current_page'] === $page)
         return 'active';
     }
     public function getUsername(String $uuid){
-      return Users::find_by_attribute("uuid",$uuid)->username;
+      return \Api\Management\Users::find_by_attribute("uuid",$uuid)->username;
     }
 
-
+    /**
+     * This function handles the login process (UI to API)
+     */
     public function loginProcess(){
       if(isset($_POST['submit'])){
         $user = \Api\Management\Users::check_user($_POST['username'],$_POST['password']);
@@ -55,7 +56,10 @@ class TwigExtension extends AbstractExtension{
           }else return "Username and password doesn't match!";
       }else return "Please login to continue";
     }
-
+    
+    /**
+     * This function handles the registration process (UI to API)
+     */
     public function registerProcess(){
       if(isset($_POST['submit'])){
         $user = new \Api\Management\Users();
@@ -66,87 +70,123 @@ class TwigExtension extends AbstractExtension{
         }else return $msg;
       }else return "Complete this form to start using our application";
     } 
+
+    /**
+     * This is called when you need to confirm your email.
+     */
     public function activateUser(){
-      $selector = $_GET['selector'];
-      $validator = $_GET['validator'];
-      $email = $_GET['email'];
+      $response = array("email"=>NULL, "msg"=> NULL);
+      if(!(isset($_GET['selector']) && isset($_GET['validator']) && isset($_GET['email']))){
+        $response['msg'] = "The requested variables are not set!";
+        if(isset($_GET['email']))
+        $response['email'] = $_GET['email'];
+        else $response['msg'] = "We can't regenerate a new request because your email is missing!";
+        return $response;
+      }
+        $selector = $_GET['selector'];
+        $validator = $_GET['validator'];
+        $email = $_GET['email'];
+      $response = array("email"=>$email, "msg"=> NULL);
       $token = \Api\Management\Tokens::find_by_attribute("selector", $selector);
       $user = \Api\Management\Users::find_by_attribute("email", $email);
+      $user->data = json_decode($user->data);
+      if($user->data->status=== "confirmed"){
+        $token->revokeToken($selector);
+        $response['msg'] = "This account is already confirmed!";
+        return $response;
+      }
       if($token->validateToken($user->uuid, "confirmEmail", $validator)){
-        $user->data = json_decode($user->data);
         $user->data->status = "confirmed";
         $user->data = json_encode($user->data);
         $user->save_to_db();
         $token->revokeToken($selector);
+        header("Refresh:5; url=/admin", true, 303);
+        $response['msg'] = 'Account is now confirmed!';
+        return $response;
       }
-      header("Refresh:5; url=/admin", true, 303);
+      $response['msg'] = "This token is revoked or didn't pass the validation.";
+      return $response;
     }
+
+    /**
+     * This handles the process of sending an email!
+     */
     public function sendResetPassword(){
       if(isset($_POST['submit'])){
-        if(!Users::send_forgot_password($_POST['email']))
+        $email = $_POST['email'];
+        $user = \Api\Management\Users::find_by_attribute("email", $email);
+        if(!$user)
           return "Email doesn't exists in the database.";
-        return "Please check your email! We've sent you rest link there!";
+        if($user->send_resetPassword());
+          return "Please check your email! We've sent you rest link there!";
+        return "There was an error with our servers! Please try again!";
       }
       return "Enter your email address and we will send you instructions on how to reset your password.";
     }
 
+    /**
+     * This function is the actual reset 
+     */
     public function resetPassword(){
-      $token = $_GET['id'];
-      $user = $this->check_token("reset_password");
-
+      $response = array("email"=>NULL, "msg"=> NULL);
+      if(!(isset($_GET['selector']) && isset($_GET['validator']) && isset($_GET['email']))){
+        $response['msg'] = "The requested variables are not set!";
+        if(isset($_GET['email']))
+        $response['email'] = $_GET['email'];
+        else $response['msg'] = "We can't regenerate a new request because your email is missing!";
+        return $response;
+      }
+      $selector = $_GET['selector'];
+      $validator = $_GET['validator'];
+      $email = $_GET['email'];
+      $response['email'] = $email;
+      $token = \Api\Management\Tokens::find_by_attribute("selector", $selector);
+      $user = \Api\Management\Users::find_by_attribute("email",$email);
+      if(!$token->validateToken($user->uuid,"resetPassword",$validator)){
+        $token->revokeToken($selector);
+        $response['msg'] = "Tokens are not valid! Click the button to get a reset password email!";
+        return $response;
+      }
       if(isset($_POST['submit'])){
-        if($_POST['newpassword']!==$_POST['confirm_password'])
+        if($_POST['newpassword'] !== $_POST['confirm_password'])
           return "Passwords doesn't match!";
-          $user = Users::find_by_attribute("uuid",$user->uuid);
-          $user->password = $user->hashPassword($_POST['newpassword']);
-          \Core\TokenAuth::revokeToken($token);
-          $user->save_to_db();
-          header("Refresh:3; url=/admin", true, 303);
-          return "Password was reseted successfully. You are redirected to the login screen now";
+        $user->password = $user->hashPassword($_POST['newpassword']);
+        $token->revokeToken($selector);
+        $user->save_to_db();
+        header("Refresh:3; url=/admin", true, 303);
+        $response['msg'] = "Password was reseted successfully. You are redirected to the login screen now";
+        return $response;
       }
-      return "Enter your new password!";
+      $response['msg'] = "Enter your new password!";
+      return $response;
     }
-
-    public function revokeToken(){
-      if(isset($_GET['task'])){
-        \Core\TokenAuth::revokeToken($_GET['id']);
-        header("Location: /admin/tokens");
+    /**
+     * In case something went wrong
+     */
+    public function generateReset(){
+      if(!isset($_GET['email'])){
+        return "The email is not set!";
       }
+      $email = $_GET['email'];
+      $user = \Api\Management\Users::find_by_attribute("email",$email);
+      if(!$user)
+        return "User doesn't exist in our database!";
+      if(!$user->send_resetPassword())
+        return "There was an internal error! Please try again!";
+      return "Success";
     }
 
-    public function testFunction(){
-
-    }
-
-    public function uploadFile(){
-      if(isset($_POST['submit'])){
-        if(!Users::check_user($_POST['username'],$_POST['password']))
-          return "Username and password doesn't match!";
-        $msg = \Core\FileHandler::upload_file($_POST['username'],$_FILES['file_upload']);
-        if($msg[0] == "/")
-          return "File has been successfully uploaded";
-        return $msg;
+    public function generateConfirmation(){
+      if(!isset($_GET['email'])){
+        return "The email is not set!";
       }
+      $email = $_GET['email'];
+      $user = \Api\Management\Users::find_by_attribute("email",$email);
+      if(!$user)
+        return "User doesn't exist in our database!";
+      if(!$user->send_confirmation())
+        return "There was an internal error! Please try again!";
+      return "Success";
     }
 
-    public function addPostEvent(){
-      if(isset($_POST['submit'])){
-        $post = new ContentManager();
-        $post->createPost($_POST,$_FILES);
-        $post->save_to_db();
-        header("Refresh:3; url=add-post", true, 303);
-        return "Post was created without any errors!";
-      }
-    }
-
-    private function check_token(String $scope){
-      if(isset($_GET['id'])){
-        $token = $_GET['id'];
-        $user = \Core\TokenAuth::validateToken($token,$scope);
-        // Error handeling soon
-        if(empty($user))
-          header("Location: /admin");
-        return $user;
-      }else header("Location: /admin");     
-    }
 }

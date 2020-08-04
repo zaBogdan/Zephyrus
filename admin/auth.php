@@ -46,6 +46,14 @@ if($page === 'login'){
     die("You must have been redirected to /admin/auth");
 }else if($page === 'confirm-email'){
     $name = "Confirm email";
+}else if($page === 'forgot-password'){
+    $name = "Reset Password";
+}else if($page === 'reset-password'){
+    $name ='Reset your password';
+}else if($page === 'generate-reset'){
+    $name = 'Regenerate confirmation email';
+}else if($page === 'generate-confirmation'){
+    $name = 'Regenerate confirmation email';
 }
 $vars['header'] = array('title'=>$name);
 $template = new \Api\Misc\Render();

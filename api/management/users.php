@@ -150,6 +150,22 @@ class Users extends \Api\Database\DbModel{
             return false;
         return true;
     }
+    public function send_resetPassword(){
+        $token =  new \Api\Management\Tokens();
+        $tokens= $token->save_token($this->uuid, "resetPassword", array("fresh"=>false, "longTerm"=>false, "specificTime"=> 15*60));
+        $email = new \Api\Misc\Email();
+        $val = array(
+            'username' => $this->username, 
+            'p_one' => "This is a request for reseting you password on Zephyrus CMS.", 
+            'p_two' => "The link down below is available for only 15 minutes.",
+            'link' => "http://localhost:8000/admin/auth.php?page=reset-password&selector=".$tokens['token']->selector."&validator=".$tokens['trueValidator']."&email=".$this->email, 
+            'button'  => "Reset..."
+        );
+        $response = $email->sendMessage($this->email, "Reset your password",$val);
+        if(!$response)
+            return false;
+        return true;
+    }
     public static function check_user(String $username, String $password){
         $user = self::find_by_attribute("username",$username);
         if(!empty($user)){

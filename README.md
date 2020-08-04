@@ -1,4 +1,4 @@
-# zaEngine
+# Zephyrus
 <p align="center">
   <img src="https://imgur.com/uHDcZyk.jpg" alt="New logo"/>
 </p>

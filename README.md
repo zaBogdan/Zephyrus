@@ -72,6 +72,7 @@ Version 0.4 - Close to finish the API
 - (+) Tokens now generate securely and use Selector:Validation schema.
 - (+) Authentification system (Sessions) is now more secure and checks are made properly.
 - (+) Roles for users
+- (+) Rebranded to `Zephyrus`
 - (?) Posts are now completed (next queued)
 - (?) Home, Posts and Profile pages are now working and linked.
 - (-) Removed first installation system, because it was broken.

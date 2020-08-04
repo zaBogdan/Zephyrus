@@ -6,15 +6,17 @@
 {% embed "components/table.twig" %}
 {% block table_data %}
 {% for user in table.data %}
+{% set data = jsonDecode(user.data) %}
 <tr>
     <td>{{user.id}}</td>
     <td>{{user.uuid}}</td>
     <td>{{user.username}} </td>
     <td>{{user.email}} </td>
-    <td>{{ (user.confirmedStatus) ? "Yes" : "No" }} </td>
+    <td>{{ (data.status=="confirmed") ? "Yes" : "No" }} </td>
+    <td>{{data.role}} </td>
     <td>
         <a href="/profile.php?username={{ user.username }}" class="btn btn-info"><i class="fas fa-user-alt"></i></a>
-        <a href="/admin/profile.php?uuid={{ user.uuid }}" class="btn btn-success"><i class="fas fa-user-edit"></i></a>
+        <a href="/admin/manage/user.php?action=edit&uuid={{ user.uuid }}" class="btn btn-success"><i class="fas fa-user-edit"></i></a>
         <!-- To be solved -->
         <a href="delete={{ user.uuid }}" class="btn btn-danger"><i class="fas fa-user-times"></i></a>
     </td>

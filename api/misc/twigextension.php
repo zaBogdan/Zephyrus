@@ -25,6 +25,7 @@ class TwigExtension extends AbstractExtension{
         new TwigFunction('resetPassword', array($this, 'resetPassword')),
         new TwigFunction('generateReset', array($this, 'generateReset')),
         new TwigFunction('generateConfirmation', array($this, 'generateConfirmation')),
+        new TwigFunction('jsonDecode', array($this, 'jsonDecode')),
       );
     }
 
@@ -187,6 +188,11 @@ class TwigExtension extends AbstractExtension{
       if(!$user->send_confirmation())
         return "There was an internal error! Please try again!";
       return "Success";
+    }
+
+
+    public function jsonDecode(String $val){
+        return json_decode($val);
     }
 
 }

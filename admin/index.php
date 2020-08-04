@@ -42,14 +42,27 @@ if(!$role->hasPermission($user, "accessAdmin")){
  * Work with rendering. Modify this, make it cleaner.
  */
 
-$page = 'dashboard';
+$page = $_GET['page'];
 $name = $page;
-$vars['dashboard'] = array(
-    'files' => 15,
-    'role' => $user->data->role,
-);
+
+if($page === 'dashboard'){
+    $vars['dashboard'] = array(
+        'files' => 15,
+        'role' => $user->data->role,
+    );
+}else if($page === 'users'){
+    $vars['table'] = array(
+        'icon' => 'fas fa-users',
+        'name' => 'Users',
+        'rows' => array('UUID','Username', 'Email','Confirmed','Role','Actions'),
+        'data' => \Api\Management\Users::find_all()
+    );
+}
+
+
+
 $vars['header'] = array('title'=>$name);
-$vars['navbar'] = array('username'=> "zaBogdan");
+$vars['navbar'] = array('username'=> $user->username);
 $vars['bc'] = array('root' => 'Administrator', 'directory'=> $name);
 $template = new \Api\Misc\Render();
 $template->render('pages/home/'.$page, $vars);

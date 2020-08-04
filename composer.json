@@ -4,6 +4,7 @@
         "kriswallsmith/buzz": "^1.0",
         "nyholm/psr7": "^1.1",
         "twig/twig": "^2.0",
-        "gettext/gettext": "^4.6"
+        "gettext/gettext": "^4.6",
+        "froala/wysiwyg-editor-php-sdk": "^1.1"
     }
 }

@@ -1,7 +1,7 @@
 {% macro input(name,placeholder, value, options = []) %}
 <div class="form-label-group">
     <input type="{{ options.type|default('text') }}" id="{{ name }}" class="form-control" name="{{ name }}"
-        placeholder="{{placeholder}}" value="{{ value }}" required="{{ options.required|default('true') }}"
+        placeholder="{{placeholder}}" value="{{ value }}" required="{{ options.required|default('false') }}"
         autofocus="{{ options.autofocus|default('false') }}">
     <label for="{{ name }}" class="ml-auto">{{ options.name | default(name|capitalize) }}</label>
 </div>

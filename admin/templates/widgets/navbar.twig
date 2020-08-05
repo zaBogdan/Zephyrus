@@ -78,10 +78,12 @@ Props: username
 
   {# manager stuff #}
   {{ nav.item('users','fas fa-user-shield')}}
+  {% if checkPermission('readTokens') == true %}
   {{ nav.item('tokens','fas fa-key')}}
-  {{ nav.item('upload-files','fas fa-file-upload','Upload files')}}
-  {{ nav.item('list-files','fas fa-file-download','Uploaded files')}}
-  {{ nav.item('add-post','fas fa-file-word','Add post')}}
+  {% endif %}
+  {# {{ nav.item('upload-files','fas fa-file-upload','Upload files')}} #}
+  {# {{ nav.item('list-files','fas fa-file-download','Uploaded files')}} #}
+  {# {{ nav.item('add-post','fas fa-file-word','Add post')}} #}
   
   {# experiments #}
   <div class="dropdown-divider"></div>

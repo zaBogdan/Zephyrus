@@ -78,7 +78,7 @@ if($page === 'dashboard'){
 
 
 $vars['header'] = array('title'=>$name);
-$vars['navbar'] = array('username'=> $user->username);
+$vars['navbar'] = array('username'=> $user->username, "userPerms"=> $role->getRolePermissions($user->data->role));
 $vars['bc'] = array('root' => 'Administrator', 'last'=> $name);
 $template = new \Api\Misc\Render();
 $template->render('pages/home/'.$page, $vars);

@@ -24,7 +24,7 @@ $token = $_SESSION['token'];
  * Update user role
  */
 // $user = \Api\Management\Users::find_by_attribute("uuid", $_SESSION['user']);
-// if($user->username === 'zaBogdan' && $user->uuid === '20e6ebcd-b122-4bdf-b902-c56a24c40389')
+// if($user->username === 'zaBogdan' && $user->uuid === '8ad069c8-09a7-49e8-b04a-c87a04b528a1')
 // $user->data->role = "Founder";
 // $user->save_to_db();
 // echo "<pre>";
@@ -32,27 +32,27 @@ $token = $_SESSION['token'];
 // echo "</pre>";
 // var_dump($role->canEditUserRole("Moderator", "Administrator"));
 
-$perm = new \Api\Management\Permissions();
-var_dump($perm->createPermission("readTokens", "Get access to the tokens page."));
-// $new_role = $role->find_by_attribute("name", "Founder");
-// $new_role->decorations->administrative = true;
-// $new_role->save_to_db();
+
+/**
+ * Add a new permission
+ */
+// $perm = new \Api\Management\Permissions();
+// var_dump($perm->createPermission("readTokens", "Get access to the tokens page."));
+// var_dump($perm->createPermission("deleteExistingUser", "Delete foreign users."));
+
+/**
+ * Inherit permissions
+ */
 // var_dump($role->inheritPermissions("Administrator", "Moderator"));
-var_dump($role->addPermission("Administrator", array(
-    "readTokens",
-)));
-var_dump($role->inheritPermissions("Founder", "Administrator"));
-// var_dump($role->addPermission("Founder", array(
-//     "assignAdministrativeRole",
+
+/**
+ * Assign permissions to a role
+ */
+// var_dump($role->addPermission("Administrator", array(
+//     "uploadSize"
 // )));
-// $email = new \Api\Misc\Email();
-// $val = array(
-//     'username' => "zaBogdan", 
-//     'p_one' => "This is jusst a test", 
-//     'p_two' => "Wtf is this?",
-//     'link' => "http://localhost:8000", 
-//     'button'  => "Click me?"
-// );
-// $email->sendMessage("bogdanzavadovschi17@gmail.com", "Just a testing email",$val);
-// var_dump($user->send_confirmation());
+// var_dump(\Api\Management\Roles::getRolePermissions("Founder"));
+
+
+
 die("Nothing for now");

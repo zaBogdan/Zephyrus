@@ -28,8 +28,10 @@ class TwigExtension extends AbstractExtension{
         new TwigFunction('jsonDecode', array($this, 'jsonDecode')),
         new TwigFunction('updateUserInfo', array($this, 'updateUserInfo')),
         new TwigFunction('deleteUserInfo', array($this, 'deleteUserInfo')),
+        new TwigFunction('checkPermission', array($this, 'checkPermission')),
         new TwigFunction('updateTokens', array($this, 'updateTokens')),
         new TwigFunction('isJson', array($this, 'isJson')),
+        
       );
     }
 
@@ -272,6 +274,11 @@ class TwigExtension extends AbstractExtension{
         // $user->data->status = "queued-delete-1";
         $user->delete();
       }
+    }
+
+    public function checkPermission($perm){
+      global $role,$user;
+      return $role->hasPermission($user, $perm);
     }
     public function jsonDecode($val){
         if($this->isJson($val)){

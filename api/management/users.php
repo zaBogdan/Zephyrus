@@ -112,7 +112,7 @@ class Users extends \Api\Database\DbModel{
         /**
          * Adding personal information about the user
          */
-        $user_data = array(
+        $this->data = array(
             "firstname" => $data['firstname'],
             "lastname" => $data['lastname'],
             "registrationDate" => time(),
@@ -121,14 +121,14 @@ class Users extends \Api\Database\DbModel{
             "special_perms" => array(),
         );
 
-        if($this->save_to_db()){
+        if(!$this->save_to_db())
+            return "There was an error trying to save this to the database! Please try again";
             /**
              * Send a confirmation email
              */
-            if($this->send_confirmation())
-                return true;
-        }
-        return false;
+        if(!$this->send_confirmation())
+            return "We weren't able to send the confirmation email! Please try again!";
+        return true;
     }
     public function send_confirmation(){
         $token =  new \Api\Management\Tokens();

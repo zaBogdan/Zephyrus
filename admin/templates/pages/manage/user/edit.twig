@@ -39,9 +39,9 @@
                 <div class="col-md-6">
                     <label for="checkConfirmation">Status</label>
                 {% set confirmed = (user.data.status=="confirmed") ? true : false %}
-                {% if confirmed != true %}
+                {% if confirmed == true %}
                     <br>
-                    <h4><b>User is confirmed!</b></h4>
+                    <h4>User is <span style="color:green">confirmed</span>!</h4>
                 {% else %}
                 <p class="text-muted">
                 With this you can resend the confirmation email to the user.

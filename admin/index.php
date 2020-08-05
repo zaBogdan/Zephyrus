@@ -60,12 +60,25 @@ if($page === 'dashboard'){
         'rows' => array('UUID','Username', 'Email','Confirmed','Role','Actions'),
         'data' => \Api\Management\Users::find_all()
     );
+}else if($page === 'tokens'){
+    if(!$role->hasPermission($user, "readTokens")){
+        header("Refresh:0; url=/admin/", true, 401);
+        die("Insufficient permissions!");
+    }
+    $vars['table'] = array(
+        'icon' => 'fas fa-key',
+        'name' => 'Tokens',
+        'rows' => array('Selector','Created at', 'Expiring at','Status', 'Fresh', 'Action'),
+        'data' => \Api\Management\Tokens::find_all(),
+        'tableName' => 'dataTable2',
+    );
+    $vars['time'] = time();
 }
 
 
 
 $vars['header'] = array('title'=>$name);
 $vars['navbar'] = array('username'=> $user->username);
-$vars['bc'] = array('root' => 'Administrator', 'directory'=> $name);
+$vars['bc'] = array('root' => 'Administrator', 'last'=> $name);
 $template = new \Api\Misc\Render();
 $template->render('pages/home/'.$page, $vars);

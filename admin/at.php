@@ -32,17 +32,14 @@ $token = $_SESSION['token'];
 // echo "</pre>";
 // var_dump($role->canEditUserRole("Moderator", "Administrator"));
 
-// $perm = new \Api\Management\Permissions();
-// var_dump($perm->createPermission("deleteExistingUser", "Delete an user from the database."));
+$perm = new \Api\Management\Permissions();
+var_dump($perm->createPermission("readTokens", "Get access to the tokens page."));
 // $new_role = $role->find_by_attribute("name", "Founder");
 // $new_role->decorations->administrative = true;
 // $new_role->save_to_db();
 // var_dump($role->inheritPermissions("Administrator", "Moderator"));
 var_dump($role->addPermission("Administrator", array(
-    "uploadSize",
-//     "accessAdmin",
-//     "assignRole",
-//     "revokeForeignToken",
+    "readTokens",
 )));
 var_dump($role->inheritPermissions("Founder", "Administrator"));
 // var_dump($role->addPermission("Founder", array(

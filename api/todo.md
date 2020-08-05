@@ -40,6 +40,7 @@ Next to do
 - assignAdministrativeRole
 - revokeForeignToken
 - deleteExistingUser
+- readTokens
 
 
 ### UserContent

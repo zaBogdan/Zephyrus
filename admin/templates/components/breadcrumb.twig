@@ -4,7 +4,13 @@ Props: root, directory
 #}
 <ol class="breadcrumb">
     <li class="breadcrumb-item">
-        <a href="index.php">{{ bc.root | capitalize }}</a>
+        <a href="{{bc.url}}">{{ bc.root | capitalize }}</a>
     </li>
-    <li class="breadcrumb-item active">{{ bc.directory | capitalize }}</li>
+
+    {% for directory in bc.directory %}
+        <li class="breadcrumb-item">
+            <a href="#"> {{ directory | capitalize }} </a>
+        </li>
+    {% endfor %}
+        <li class="breadcrumb-item active">{{ bc.last | capitalize }}</li>
 </ol>

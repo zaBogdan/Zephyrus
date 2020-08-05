@@ -2,40 +2,52 @@
 
 {% block body %}
 {% include "components/breadcrumb.twig" %}
-{{revokeToken()}}
+{% set response = updateTokens() %}
+<form action="" method="post" enctype="multipart/form-data">
+<div class="text-right">
+    <button class="btn btn-info" name="updateTokens">Update status</button>
+</div>
+</form>
+<hr>
+{% if response != null %}
+    <div class="alert alert-warning" role="alert">{{response}}</div>
+{% endif %}
 {% embed "components/table.twig" %}
 {% block table_data %}
 {% for token in table.data %}
+{% if token.status.expireTime<=time %}
 <tr>
 
     <td>{{token.id}}</td>
-    <td>{{token.uuid}}</td>
-    <td>{{getUsername(token.uuid)}}</td>
-    <td> {{ (token.is_expired) ?  "Expired." : "Valid until: %s"|format(token.expiry_date|date('d-M-Y h:i:s')) }}
-    </td>
-    <td>{{token.used_for }} </td>
+    <td>{{token.selector}}</td>
+    <td>{{token.initialtime|date('d-M-Y h:i:s')}} </td>
+    <td>{{token.status.expireTime|date('d-M-Y h:i:s')}} </td>
+    <td>{{token.status.status}} </td>
+    <td>{{(token.status.freshUntil>=time) ? "Yes" : "No"}} </td>
     <td>
-        {% if token.is_expired == false %}
-        <a href="/admin/tokens/id/{{token.token}}/revoke" class="btn btn-sm btn-link"><i class="fas fa-times-circle"></i>
+        {% if (time>=token.status.expireTime) == false %}
+        <a href="/admin/manage/tokens.php?action=revoke&selector={{token.selector}}" class="btn btn-sm btn-link"><i class="fas fa-times-circle"></i>
             Revoke</a>
+        {% else %}
+        <p>Token expired</p>
         {% endif %}
     </td>
 </tr>
+{% endif %}
 {% endfor %}
 {% endblock %}
 {% endembed  %}
 
-
 {% endblock %}
 
 {% block scripts %}
-<script src="../style/datatables/jquery.dataTables.js"></script>
-<script src="../style/datatables/dataTables.bootstrap4.js"></script>
+<script src="/style/datatables/jquery.dataTables.js"></script>
+<script src="/style/datatables/dataTables.bootstrap4.js"></script>
 <script>
     $(document).ready(function () {
         $('#dataTable2').DataTable({
             "order": [
-                [3, "desc"]
+                [0, "desc"]
             ]
         });
     });

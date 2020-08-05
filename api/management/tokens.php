@@ -66,6 +66,8 @@ class Tokens extends \Api\Database\DbModel{
 
     public static function revokeToken(String $selector){
         $token = self::find_by_attribute("selector",$selector);
+        if($token->status->status === "revoked")
+            return true;
         $token->status = \Api\Security\Tokens::revokeStatus();
         if($token->save_to_db())
             return true;

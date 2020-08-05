@@ -27,6 +27,8 @@ class TwigExtension extends AbstractExtension{
         new TwigFunction('generateConfirmation', array($this, 'generateConfirmation')),
         new TwigFunction('jsonDecode', array($this, 'jsonDecode')),
         new TwigFunction('updateUserInfo', array($this, 'updateUserInfo')),
+        new TwigFunction('deleteUserInfo', array($this, 'deleteUserInfo')),
+        new TwigFunction('updateTokens', array($this, 'updateTokens')),
         new TwigFunction('isJson', array($this, 'isJson')),
       );
     }
@@ -251,6 +253,24 @@ class TwigExtension extends AbstractExtension{
               return "There was an error while trying to send the confirmation email!";
         }
         return "User ".$user->username." has been updated!";
+      }
+    }
+    public function updateTokens(){
+      if(!isset($_POST['updateTokens']))
+        return null;
+      $tokens = \Api\Management\Tokens::find_all();
+      foreach($tokens as $token){
+        if($token->status->expireTime<time())
+          if(!$token->revokeToken($token->selector))
+            return "There was an error while trying to revoke the token identified by ".$token->selector;
+      }
+      return "Token status updated!";
+    }
+
+    public function deleteUserInfo($user){
+      if(isset($_POST['submit'])){
+        // $user->data->status = "queued-delete-1";
+        $user->delete();
       }
     }
     public function jsonDecode($val){

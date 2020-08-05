@@ -39,10 +39,14 @@ if($action === 'edit'){
         header("Refresh:0; url=/", true, 401);
         die("Insufficient permissions!");
     }
+    if(!isset($_GET['uuid']))
+        die("We can't select the user without UUID");
+    $user = \Api\Management\Users::find_by_attribute("uuid", $_GET['uuid']);
+    $vars['user'] = $user;
 }
 
 $vars['header'] = array('title'=>$action." user");
-$vars['bc'] = array('root' => 'Manage', 'directory'=> $action);
+$vars['bc'] = array('root' => 'Administrator', 'directory'=> array('Manage','Users'), 'last'=>$action);
 
 
-$template->render('pages/manage/edit-user', $vars);
+$template->render('pages/manage/user/'.$action, $vars);

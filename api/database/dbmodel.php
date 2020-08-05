@@ -53,7 +53,11 @@ class DbModel{
         $class = get_called_class();
         $obj = new $class;
         foreach($row as $key => $value)
-            if($obj->has_prop($key)) $obj->$key = $value;
+            if($obj->has_prop($key)){
+                if(static::isJson($value))
+                    $value = json_decode($value);
+                $obj->$key = $value;
+            }
         return $obj;
     }
 
@@ -75,6 +79,8 @@ class DbModel{
         $props = array();
         $mprops = $this->properties();
         foreach($mprops as $key => $value){
+            if(is_array($value) || is_object($value))
+                $value = json_encode($value);
             $props[$key] = $db->escape_string($value);
         }
         return $props;
@@ -98,5 +104,11 @@ class DbModel{
         if(!$db->query($sql))
             return false;
         return true;
+    }
+    public static function isJson($string) {
+        if(!is_string($string))
+            return false;
+        json_decode($string);
+        return (json_last_error() == JSON_ERROR_NONE) ? true : false;
     }
 }

@@ -14,9 +14,9 @@ class Permissions extends \Api\Database\DbModel{
     public function createPermission($name, $description){
         $this->name = $name;
         $this->description = $description;
-        
-        if($this->save_to_db())
-            return true;
+        if(!$this->getPermissionByName($name))
+            if($this->save_to_db())
+                return true;
         return false;
     }
 
@@ -24,12 +24,12 @@ class Permissions extends \Api\Database\DbModel{
         foreach($perms as $name => $description){
             $this->name = $name;
             $this->description = $description;
-            if(!$this->save_to_db())
-                die("There was an error while trying to add ".$name." permission to the database");     
+            if(!$this->getPermissionByName($name))
+                if(!$this->save_to_db())
+                    die("There was an error while trying to add ".$name." permission to the database");     
         }
         return true;
     }
-
     public static function getPermissionByName($name){
         $permission = self::find_by_attribute("name", $name);
         return !empty($permission) ? $permission : false;

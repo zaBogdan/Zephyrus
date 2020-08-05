@@ -5,6 +5,7 @@ namespace Api\Management;
 class Roles extends \Api\Database\DbModel{
     protected static $db_table = "roles";
     protected static $db_fields = array('id', 'name', 'permissions_list','decorations');
+    protected static $hierarchy = array('Founder','Administrator','Moderator','TrustedUser','User','Guest');
 
     public $id;
     public $name;
@@ -13,17 +14,14 @@ class Roles extends \Api\Database\DbModel{
 
     public function createRole($name, $permissions_list, $decorations, $ancestor = NULL){   
         $this->name = $name;
-        $this->decorations = json_encode($decorations);
         if(isset($ancestor)){
             $ancestor = self::find_by_attribute("name", $ancestor);
-            $perms =  json_decode($ancestor->permissions_list);
             foreach($perms as $perm){
                 if(!in_array($perm, $permissions_list)){
                   array_push($permissions_list, $perm);  
                 }
             }
         }
-        $this->permissions_list = json_encode($permissions_list);
         if($this->save_to_db())
             return true;
         return false;
@@ -37,12 +35,6 @@ class Roles extends \Api\Database\DbModel{
             return false;
 
         /**
-         * Handling the data
-         */
-        if(self::isJson($user->data))
-            $user->data = json_decode($user->data);
-
-        /**
          * Checking for permission
          */
         $role = $user->data->role;
@@ -52,8 +44,6 @@ class Roles extends \Api\Database\DbModel{
          * Getting all users permissions
          */
         $role = self::find_by_attribute("name", $role);
-        if(self::isJson($role->permissions_list))
-            $role->permissions_list = json_decode($role->permissions_list);
         
         //Role permissions
         $permissions = $role->permissions_list;
@@ -72,11 +62,49 @@ class Roles extends \Api\Database\DbModel{
         }
         return false;
     }
-
-    private static function isJson($string) {
-        if(!is_string($string))
+    
+    public static function addPermission(String $name,Array $permissions){
+        $role = self::find_by_attribute("name", $name);
+        $perms = array();
+        foreach($permissions as $perm){
+            $work = \Api\Management\Permissions::getPermissionByName($perm);
+            if(!$work){
+                $work = \Api\Management\Permissions::getPermissionById($perm);
+                if(!$work)
+                    return $perm." this permission doesn't exist in our database!";
+            }
+            array_push($perms, (int)$work->id);
+        }
+        foreach($perms as $perm){
+            if(!in_array($perm, $role->permissions_list)){
+              array_push($role->permissions_list, $perm);  
+            }
+        }
+        if(!$role->save_to_db())
             return false;
-        json_decode($string);
-        return (json_last_error() == JSON_ERROR_NONE) ? true : false;
+        return true;
+    }
+    public static function canEditUserRole(String $firstRole,String $secondRole){
+        /**
+         * User logged vs foreign User
+         */
+        
+        return (array_keys(self::$hierarchy, $firstRole, true) <= array_keys(self::$hierarchy, $secondRole, true));
+    }
+    public static function inheritPermissions(String $firstRole, String $secondRole){
+        $secondRole = self::find_by_attribute("name", $secondRole);
+        /**
+         * First role get the second role permissions!
+         */
+        return self::addPermission($firstRole, $secondRole->permissions_list);
+    }
+    public static function requiresAdministrative($roleName){
+        $role = self::find_by_attribute("name", $roleName);
+        return $role->decorations->administrative;
+    }
+
+    public static function getRolePermissions(String $name){
+        $role = self::find_by_attribute("name", $name);
+        return Permissions::getRolePermissions($role->permissions_list);
     }
 }

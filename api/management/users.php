@@ -120,7 +120,6 @@ class Users extends \Api\Database\DbModel{
             "status" => "notConfirmed",
             "special_perms" => array(),
         );
-        $this->data = json_encode($user_data);
 
         if($this->save_to_db()){
             /**

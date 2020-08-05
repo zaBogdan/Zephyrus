@@ -28,7 +28,6 @@ if(!$session->checkLogin()){
  * Get the logged user
  */
 $user = \Api\Management\Users::find_by_attribute("uuid", $_SESSION['user']);
-$user->data = json_decode($user->data);
 /**
  * Check if the user has enough permission
  */
@@ -41,14 +40,18 @@ if(!$role->hasPermission($user, "accessAdmin")){
 /**
  * Work with rendering. Modify this, make it cleaner.
  */
-
-$page = $_GET['page'];
+if(!isset($_GET['page']) || empty($_GET['page']))
+    $page = 'dashboard';
+else
+    $page = $_GET['page'];
 $name = $page;
 
 if($page === 'dashboard'){
     $vars['dashboard'] = array(
         'files' => 15,
         'role' => $user->data->role,
+        'permissions' => \Api\Management\Permissions::find_all(),
+        'rolePerms' => $role->getRolePermissions($user->data->role),
     );
 }else if($page === 'users'){
     $vars['table'] = array(

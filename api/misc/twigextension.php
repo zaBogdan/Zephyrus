@@ -26,6 +26,8 @@ class TwigExtension extends AbstractExtension{
         new TwigFunction('generateReset', array($this, 'generateReset')),
         new TwigFunction('generateConfirmation', array($this, 'generateConfirmation')),
         new TwigFunction('jsonDecode', array($this, 'jsonDecode')),
+        new TwigFunction('updateUserInfo', array($this, 'updateUserInfo')),
+        new TwigFunction('isJson', array($this, 'isJson')),
       );
     }
 
@@ -90,7 +92,6 @@ class TwigExtension extends AbstractExtension{
       $response = array("email"=>$email, "msg"=> NULL);
       $token = \Api\Management\Tokens::find_by_attribute("selector", $selector);
       $user = \Api\Management\Users::find_by_attribute("email", $email);
-      $user->data = json_decode($user->data);
       if($user->data->status=== "confirmed"){
         $token->revokeToken($selector);
         $response['msg'] = "This account is already confirmed!";
@@ -98,7 +99,6 @@ class TwigExtension extends AbstractExtension{
       }
       if($token->validateToken($user->uuid, "confirmEmail", $validator)){
         $user->data->status = "confirmed";
-        $user->data = json_encode($user->data);
         $user->save_to_db();
         $token->revokeToken($selector);
         header("Refresh:5; url=/admin", true, 303);
@@ -190,9 +190,80 @@ class TwigExtension extends AbstractExtension{
       return "Success";
     }
 
+    /**
+     * 
+     */
+    public function updateUserInfo($user, $loggedUser){
+      if(isset($_POST['submit'])){
+        $emailChanged = false;
+        $requestPasswordChange = false;
+        if(isset($_POST['email']) && !empty($_POST['email']) && $_POST['email']!==$user->email){
+            /**
+             * Handle the new email.
+             */
+            $email = $_POST['email'];
+            if($user->find_by_attribute("email", $email))
+              return $email." is already in our database.";
+            $user->email = $email;
+            $user->data->status = "notConfirmed";
+            $emailChanged=true;
+        }
+        if(isset($_POST['username']) && !empty($_POST['username']) && $_POST['username']!==$user->username){ 
+          $username = $_POST['username'];  
+          if($user->find_by_attribute("username", $username))
+            return $username." is already in our database!";          
+          $user->username = $username;
+        }
+        if(isset($_POST['firstname']) && !empty($_POST['firstname'])) $user->data->firstname = $_POST['firstname'];
+        if(isset($_POST['lastname']) && !empty($_POST['lastname'])) $user->data->lastname = $_POST['lastname'];
+        if(isset($_POST['role']) && !empty($_POST['role'])&& $_POST['role']!==$user->data->role){
+          $aRole = $_POST['role'];
+          global $role;
+          if(!$role->canEditUserRole($loggedUser->data->role, $user->data->role))
+            return "You can't modify this user role because it's higher than yours!";
+          if(!$role->hasPermission($loggedUser, "assignRole"))
+            return "You don't have permission to change the user role!";
+          if($role->requiresAdministrative($aRole))
+            if(!$role->hasPermission($loggedUser, "assignAdministrativeRole"))
+              return "You don't have permission to assign ADMINISTRATIVE roles!";
+            /**
+             * If is the same user
+             */
+          if($user->uuid === $loggedUser->uuid)
+            return "You can't change your own role!";
+          $user->data->role = $aRole;
+        }
+        if(isset($_POST['confirmEmail']) && !empty($_POST['confirmEmail'])){
+          $emailChanged = true;
+        }
+        if(isset($_POST['requestNewPassword']) && !empty($_POST['requestNewPassword'])){
+          $requestPasswordChange = true;
+        }
+        if($requestPasswordChange === true){
+          if(!$user->send_resetPassword())
+            return "There was an error while trying to send the request password email!";
+        }
+        if(!$user->save_to_db())
+          return "We can't save this to the database! Try again the request.";
 
-    public function jsonDecode(String $val){
-        return json_decode($val);
+        if($emailChanged === true){
+          if(!$user->send_confirmation())
+              return "There was an error while trying to send the confirmation email!";
+        }
+        return "User ".$user->username." has been updated!";
+      }
     }
+    public function jsonDecode($val){
+        if($this->isJson($val)){
+          return json_decode($val);
+        }
+        return $val;
+    }
+    public static function isJson($string) {
+      if(!is_string($string))
+          return false;
+      json_decode($string);
+      return (json_last_error() == JSON_ERROR_NONE) ? true : false;
+  }
 
 }

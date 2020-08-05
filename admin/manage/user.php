@@ -9,7 +9,6 @@ $action = $_GET['action'];
  * Get the logged user
  */
 $loggedUser = \Api\Management\Users::find_by_attribute("uuid", $_SESSION['user']);
-$loggedUser->data = json_decode($loggedUser->data);
 /**
  * Check if the user has enough permission
  */
@@ -24,21 +23,21 @@ if($action === 'edit'){
     if(!isset($_GET['uuid']))
         die("We can't select the user without UUID");
     $user = \Api\Management\Users::find_by_attribute("uuid", $_GET['uuid']);
-    $user->data = json_decode($user->data);
     $vars['user'] = $user;
+    $vars['loggedUser'] = $loggedUser;
     $roles = $role::find_all();
-    $arr = array();
-    foreach($roles as $role){
-        if($role->name===$user->data->role)
-            continue;
-        $arr[] = $role->name;
+    $roling = array();
+    foreach($roles as $rolee){
+        if($role->requiresAdministrative($rolee->name))
+            if(!$role->hasPermission($loggedUser, "assignAdministrativeRole"))
+                continue;
+        $roling[] = $rolee->name;
     }
-    $vars['roles'] = $arr;
-    if(isset($_POST['submit'])){
-        /**
-         * TO BE DONE
-         */
-        var_dump($_POST);
+    $vars['roles'] = $roling;
+}else if($action === 'delete'){
+    if(!$role->hasPermission($loggedUser, "deleteExistingUser")){
+        header("Refresh:0; url=/", true, 401);
+        die("Insufficient permissions!");
     }
 }
 

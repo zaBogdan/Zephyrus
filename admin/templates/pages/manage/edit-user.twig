@@ -4,6 +4,7 @@
 
 {% include "components/breadcrumb.twig" %}
 {% import 'components/forms.twig' as forms %}
+{% set response = updateUserInfo(user,loggedUser) %}
 
 <center><h3>Editing <b>{{user.username}}'s</b> data </h3></center>
 <hr>
@@ -36,25 +37,39 @@
         <div class="form-group">
             <div class="form-row">
                 <div class="col-md-6">
-                    <label for="inputRole">Role</label>
-                    <select id="role" class="form-control">
-                        <option selected>{{user.data.role}}</option>
-                        {% for role in roles %}
-                        <option value="{{role}}">{{role}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-md-6">
-                <label for="checkConfirmation">Status</label>
+                    <label for="checkConfirmation">Status</label>
                 {% set confirmed = (user.data.status=="confirmed") ? true : false %}
                 {% if confirmed != true %}
                     <br>
                     <h4><b>User is confirmed!</b></h4>
                 {% else %}
-                <h4>
+                <p class="text-muted">
+                With this you can resend the confirmation email to the user.
+                </p>
                 {{forms.radio('Send confirmation email', 'confirmEmail', 'confirmEmail')}}
-                </h4>
                 {% endif %}
+                </div>
+                <div class="col-md-6">
+                <label for="checkConfirmation">Reset password</label>
+                <p class="text-muted">
+                If checked it will send an email to <b>{{user.email}}</b>
+                </p>
+                {{forms.radio('Issue a request password', 'requestNewPassword', 'requestNewPassword')}}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-6">
+                    <label for="inputRole">Role</label>
+                    <select name="role" id="role" class="form-control">
+                        <option selected>{{user.data.role}}</option>
+                        {% for role in roles %}
+                        {% if role != user.data.role %}
+                        <option value="{{role}}">{{role}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
                 </div>
             </div>
         </div>

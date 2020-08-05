@@ -39,6 +39,7 @@ Next to do
 - assignRole
 - assignAdministrativeRole
 - revokeForeignToken
+- deleteExistingUser
 
 
 ### UserContent

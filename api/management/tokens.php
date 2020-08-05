@@ -23,10 +23,6 @@ class Tokens extends \Api\Database\DbModel{
      * @param fresh if needed, this can be passed for different enviorments.  
      */
     public function validateToken(String $uuid, String $action,String $validator, $fresh=NULL){
-        
-        $this->status = json_decode($this->status);
-        // var_dump($this->status);
-
         /**
          * Time checks
          * date("d-m-Y H:i:s");

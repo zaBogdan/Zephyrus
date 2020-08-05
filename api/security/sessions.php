@@ -19,7 +19,6 @@ class Sessions{
         $array = $token->save_token($user->uuid, "login", array("fresh"=>true, "longTerm"=>$longTerm));
         $actualToken = $array['token'];
         $validator = $array['trueValidator'];
-        $actualToken->status = json_decode($actualToken->status);
 
         /**
          * Encoding the token

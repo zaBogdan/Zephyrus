@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: database:3306
--- Generation Time: Aug 03, 2020 at 11:50 AM
+-- Generation Time: Aug 06, 2020 at 11:38 AM
 -- Server version: 5.7.31
 -- PHP Version: 7.4.6
 
@@ -20,26 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `zaEngine`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `content`
---
-
-DROP TABLE IF EXISTS `content`;
-CREATE TABLE `content` (
-  `id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `author` varchar(50) NOT NULL,
-  `category` varchar(50) NOT NULL,
-  `image` varchar(255) DEFAULT NULL,
-  `serial` varchar(25) NOT NULL,
-  `content` text NOT NULL,
-  `posted_on` varchar(20) NOT NULL,
-  `status` int(11) NOT NULL,
-  `format` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -79,7 +59,28 @@ INSERT INTO `permissions` (`id`, `name`, `description`) VALUES
 (19, 'createGroups', 'Ability to create groups'),
 (20, 'addComments', 'Ability to add comments on a post'),
 (21, 'removeComments', 'Ability to remove comments from a post'),
-(22, 'noValidationNeeded', 'Skip the moderation Queue, posts go public instantly');
+(22, 'noValidationNeeded', 'Skip the moderation Queue, posts go public instantly'),
+(23, 'readTokens', 'Get access to the tokens page.'),
+(24, 'deleteExistingUser', 'Delete foreign users.'),
+(25, 'deleteForeignContent', 'Delete foreign content.');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `posts`
+--
+
+DROP TABLE IF EXISTS `posts`;
+CREATE TABLE `posts` (
+  `id` int(11) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `author` int(12) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `text` text NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `date` text NOT NULL,
+  `serial` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -104,8 +105,8 @@ INSERT INTO `roles` (`id`, `name`, `permissions_list`, `decorations`) VALUES
 (3, 'User', '[15,17,18,19,20,21]', '{\"colour\":\"#000\"}'),
 (4, 'TrustedUser', '[22,15,17,18,19,20,21]', '{\"colour\":\"#000\"}'),
 (5, 'Moderator', '[1,6,7,8,9,10,11,12,13,14,22,15,17,18,19,20,21]', '{\"colour\":\"#000\"}'),
-(6, 'Administrator', '[3,5,6,1,7,8,9,10,11,12,13,14,22,15,17,18,19,20,21]', '{\"colour\":\"#000\"}'),
-(7, 'Founder', '[4,3,5,6,1,7,8,9,10,11,12,13,14,22,15,17,18,19,20,21]', '{\"colour\":\"#000\"}');
+(6, 'Administrator', '[3,5,6,1,7,8,9,10,11,12,13,14,22,15,17,18,19,20,21,23,24,16,25]', '{\"colour\":\"#000\"}'),
+(7, 'Founder', '[4,3,5,6,1,7,8,9,10,11,12,13,14,22,15,17,18,19,20,21,23,24,16,25]', '{\"colour\":\"#000\"}');
 
 -- --------------------------------------------------------
 
@@ -144,15 +145,15 @@ CREATE TABLE `users` (
 --
 
 --
--- Indexes for table `content`
---
-ALTER TABLE `content`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `permissions`
 --
 ALTER TABLE `permissions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `posts`
+--
+ALTER TABLE `posts`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -178,16 +179,16 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `content`
---
-ALTER TABLE `content`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- AUTO_INCREMENT for table `posts`
+--
+ALTER TABLE `posts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `roles`

@@ -27,13 +27,13 @@ class Sessions{
         /**
          * Setting up the cookie
          */
-        $validUntil = $actualToken->status->expireTime;
+        $validUntil = json_decode($actualToken->status)->expireTime;
         setcookie("loginCookie", $data, $validUntil);
         setcookie("userUUID", $user->uuid, $validUntil);
 
-        /**
-         * Setup the Session
-         */
+        // /**
+        //  * Setup the Session
+        //  */
         $_SESSION['token'] = $actualToken->selector.":".$validator;
         $_SESSION['user'] = $user->uuid;
     }

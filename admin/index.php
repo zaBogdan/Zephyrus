@@ -36,7 +36,6 @@ if(!$role->hasPermission($user, "accessAdmin")){
     header("Refresh:0; url=/", true, 401);
     die("Insufficient permissions!");
 }
-
 /**
  * Work with rendering. Modify this, make it cleaner.
  */
@@ -52,6 +51,7 @@ if($page === 'dashboard'){
         'role' => $user->data->role,
         'permissions' => \Api\Management\Permissions::find_all(),
         'rolePerms' => $role->getRolePermissions($user->data->role),
+        'postToDisplay' => \Api\Management\Posts::find_by_attribute("serial", "0f54b6c1f7b9c512"),
     );
 }else if($page === 'users'){
     $vars['table'] = array(
@@ -66,19 +66,32 @@ if($page === 'dashboard'){
         die("Insufficient permissions!");
     }
     $vars['table'] = array(
-        'icon' => 'fas fa-key',
+        'icon' => 'fas fa-shield-alt',
         'name' => 'Tokens',
         'rows' => array('Selector','Created at', 'Expiring at','Status', 'Fresh', 'Action'),
         'data' => \Api\Management\Tokens::find_all(),
         'tableName' => 'dataTable2',
     );
     $vars['time'] = time();
+}else if($page === 'posts'){
+    if(!$role->hasPermission($user, "readPosts")){
+        header("Refresh:0; url=/admin/", true, 401);
+        die("Insufficient permissions!");
+    }
+    $vars['table'] = array(
+        'icon' => 'fas fa-paste',
+        'name' => 'Posts',
+        'rows' => array('Serial','Title','Author','Created','Status','Last Edit','Actions'),
+        'data' => \Api\Management\Posts::find_all(),
+        'tableName' => 'dataTable3',
+    );
+    $vars['time'] = time();
 }
 
 
 
-$vars['header'] = array('title'=>$name);
-$vars['navbar'] = array('username'=> $user->username, "userPerms"=> $role->getRolePermissions($user->data->role));
+$vars['header']['title'] = $name;
+$vars['navbar'] = array('username'=> $user->username);
 $vars['bc'] = array('root' => 'Administrator', 'last'=> $name);
 $template = new \Api\Misc\Render();
 $template->render('pages/home/'.$page, $vars);

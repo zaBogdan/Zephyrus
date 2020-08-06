@@ -1,0 +1,72 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+
+{% include "components/breadcrumb.twig" %}
+{% import 'components/forms.twig' as forms %}
+{% set response = updatePost(post) %}
+<div class="text-center">
+    <h3>Editing <b>{{post.title}}</b> post. </h3>
+    <p class="text-muted">
+        {% if post.date.published != null%}
+        This was published on <i>{{post.date.published|date('d-M-Y h:i')}}</i>
+        {% else %}
+        This was created on <i>{{post.date.created|date('d-M-Y h:i')}}</i>
+        {% endif %}
+        {% if post.date.lastEdited != null%}
+        and last edited on <i>{{post.date.lastEdited|date('d-M-Y h:i')}}</i>
+        {% endif %}
+    </p>
+</div>
+<hr>
+<form action="" method="post" enctype="multipart/form-data">
+    <!-- <div class="row"> -->
+    <div class="col-12">
+        {% if response != null %}
+            <div class="alert alert-warning" role="alert">{{response}}</div>
+        {% endif %}
+        {# {{}} #}
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-6">
+                    {{ forms.input("title","the title of the post",post.title, {'autofocus': true}) }}
+                </div>
+                <div class="col-6">
+                    {{ forms.input("description","Description",post.description) }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-6">
+                    <label for="inputStatus">Status</label>
+                    <select name="status" id="status" class="form-control">
+                        <option value="{{post.status}}" selected>{{post.status| capitalize}}</option>
+                        {% for status in statuses %}
+                        <option value="{{status}}">{{status| capitalize}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+        </div>
+        <hr>
+        {{ forms.textarea('text','Edit your post content',post.text) }}
+        <br>
+        <button class="btn btn-primary btn-block" name="submit">Update post</button>
+</form>
+
+
+</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    tinymce.init({
+      selector: 'textarea',
+      plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinymcespellchecker',
+      toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
+      toolbar_mode: 'floating',
+      height : "480"
+    });
+  </script>
+{% endblock %}

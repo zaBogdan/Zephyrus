@@ -1,0 +1,28 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+
+{% include "components/breadcrumb.twig" %}
+{% import 'components/forms.twig' as forms %}
+{% set response = deletePost(post) %}
+
+<center><h3>Are you sure you want to delete <b>{{post.title}}</b>? </h3></center>
+<hr>
+<form action="" method="post" enctype="multipart/form-data">
+    <!-- <div class="row"> -->
+    <div class="col-12">
+        {% if response != null %}
+            <div class="alert alert-warning" role="alert">{{response}}</div>
+        {% endif %}
+        <div class="text-center">
+        <p><b>NOTE:</b> This action is ireversible! If you click the button down bellow 
+        all content that <i>{{user.username}}</i> created will be ereased forever!</p>
+        </div>
+        <br>
+        <div class="text-center">
+            <button class="btn btn-danger btn-lg" name="submit">Delete user</button>
+        </div>
+</form>
+</div>
+</div>
+{% endblock %}

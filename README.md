@@ -65,7 +65,7 @@ Legend:
 ! Bug/Security issue fixed
 ```
 
-Version 0.4 - Close to finish the API
+Version 0.4 - Final touches!
 - (+) Service installation stage completed.
 - (+) Project files restructured. (backend is now separated from frontend)
 - (+) Docker has been added to the project.
@@ -73,8 +73,8 @@ Version 0.4 - Close to finish the API
 - (+) Authentification system (Sessions) is now more secure and checks are made properly.
 - (+) Roles for users
 - (+) Rebranded to `Zephyrus`
-- (?) Posts are now completed (next queued)
-- (?) Home, Posts and Profile pages are now working and linked.
+- (+) Posts are now completed
+- (?) Home, Posts and Profile pages are now working and linked. (next queued)
 - (-) Removed first installation system, because it was broken.
 - (-) Removed old system of token & session generation. Now everything is more secure.
 > **Note** At this moment this version is in it's late alpha. Don't install this on your production system!

@@ -18,6 +18,7 @@ class TwigExtension extends AbstractExtension{
       return array(
         new TwigFunction('activeClass', array($this, 'activeClass'), array('needs_context' => TRUE)),
         new TwigFunction('getUsername', array($this, 'getUsername')),
+        new TwigFunction('getUsernameByID', array($this, 'getUsernameByID')),
         new TwigFunction('loginProcess', array($this, 'loginProcess')),
         new TwigFunction('registerProcess', array($this, 'registerProcess')),
         new TwigFunction('activateUser', array($this, 'activateUser')),
@@ -30,8 +31,10 @@ class TwigExtension extends AbstractExtension{
         new TwigFunction('deleteUserInfo', array($this, 'deleteUserInfo')),
         new TwigFunction('checkPermission', array($this, 'checkPermission')),
         new TwigFunction('updateTokens', array($this, 'updateTokens')),
+        new TwigFunction('createPost', array(new \Api\Management\Posts(), 'createPost')),
+        new TwigFunction('updatePost', array($this, 'updatePost')),
+        new TwigFunction('deletePost', array($this, 'deletePost')),
         new TwigFunction('isJson', array($this, 'isJson')),
-        
       );
     }
 
@@ -45,6 +48,9 @@ class TwigExtension extends AbstractExtension{
     }
     public function getUsername(String $uuid){
       return \Api\Management\Users::find_by_attribute("uuid",$uuid)->username;
+    }
+    public function getUsernameByID($id){
+      return \Api\Management\Users::find_by_attribute("id",$id)->username;
     }
 
     /**
@@ -257,6 +263,26 @@ class TwigExtension extends AbstractExtension{
         return "User ".$user->username." has been updated!";
       }
     }
+    public function updatePost($post){
+      if(!isset($_POST['submit']))
+          return null;
+      if(isset($_POST['title']) && !empty($_POST['title'])) $post->title = $_POST['title'];
+      if(isset($_POST['description']) && !empty($_POST['description'])) $post->description = $_POST['description'];
+      if(isset($_POST['text']) && !empty($_POST['text'])) $post->text = $_POST['text'];
+      if(isset($_POST['status']) && !empty($_POST['status']) && $_POST['status']!==$post->status){
+          $status = strtolower($_POST['status']);
+          if(!in_array($status, $post->getStatus()))
+              return "This is not a valid status!";
+          $post->status = $status;
+          if($status === 'public')
+              $post->date->published = time();
+          $post->date->lastEdited = time();
+      }
+
+      if(!$post->save_to_db())
+          return "Couldn't update the post with the serial ".$post->serial;
+      return "Post updated succesfully";
+    }
     public function updateTokens(){
       if(!isset($_POST['updateTokens']))
         return null;
@@ -268,16 +294,24 @@ class TwigExtension extends AbstractExtension{
       }
       return "Token status updated!";
     }
-
+    public function deletePost($post){
+      if(!isset($_POST['submit']))
+        return null;
+      $post->delete();
+      header("Refresh:3; url=/admin/?page=posts", true, 401);
+      return "The post was deleted!";
+    }
     public function deleteUserInfo($user){
       if(isset($_POST['submit'])){
         // $user->data->status = "queued-delete-1";
         $user->delete();
       }
     }
+    
 
     public function checkPermission($perm){
-      global $role,$user;
+      global $role;
+      $user = \Api\Management\Users::find_by_attribute("uuid", $_SESSION['user']);
       return $role->hasPermission($user, $perm);
     }
     public function jsonDecode($val){

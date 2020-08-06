@@ -38,7 +38,7 @@ $token = $_SESSION['token'];
  */
 // $perm = new \Api\Management\Permissions();
 // var_dump($perm->createPermission("readTokens", "Get access to the tokens page."));
-// var_dump($perm->createPermission("deleteExistingUser", "Delete foreign users."));
+// var_dump($perm->createPermission("deleteForeignContent", "Delete foreign content."));
 
 /**
  * Inherit permissions
@@ -49,8 +49,9 @@ $token = $_SESSION['token'];
  * Assign permissions to a role
  */
 // var_dump($role->addPermission("Administrator", array(
-//     "uploadSize"
+//     "deleteForeignContent"
 // )));
+// var_dump($role->inheritPermissions("Founder", "Administrator"));
 // var_dump(\Api\Management\Roles::getRolePermissions("Founder"));
 
 

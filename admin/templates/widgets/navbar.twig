@@ -77,13 +77,15 @@ Props: username
   {{ nav.item('dashboard','fas fa-fw fa-tachometer-alt')}}
 
   {# manager stuff #}
-  {{ nav.item('users','fas fa-user-shield')}}
+  {{ nav.item('users','fas fa-users')}}
   {% if checkPermission('readTokens') == true %}
-  {{ nav.item('tokens','fas fa-key')}}
+  {{ nav.item('tokens','fas fa-shield-alt')}}
+  {% endif %}
+  {% if checkPermission('readPosts') == true %}
+  {{ nav.item('posts','fas fa-paste','Posts')}}
   {% endif %}
   {# {{ nav.item('upload-files','fas fa-file-upload','Upload files')}} #}
   {# {{ nav.item('list-files','fas fa-file-download','Uploaded files')}} #}
-  {# {{ nav.item('add-post','fas fa-file-word','Add post')}} #}
   
   {# experiments #}
   <div class="dropdown-divider"></div>

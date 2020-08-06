@@ -1,7 +1,7 @@
 <?php
 require_once(__DIR__.'/../../api/init.php');
 
-if(!isset($_GET['action']))
+if(!isset($_GET['action'])  || empty($_GET['action']))
     die("No action set!");
 $action = $_GET['action'];
 
@@ -21,7 +21,7 @@ if($action === 'revoke'){
         die("Insufficient permissions!");
     }
 
-    if(!isset($_GET['selector']))
+    if(!isset($_GET['selector']) || empty($_GET['selector']))
         die("We can't select the user without UUID");
     $token = \Api\Management\Tokens::find_by_attribute("selector", $_GET['selector']);
     if(!$token)

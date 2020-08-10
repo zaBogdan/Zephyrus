@@ -2,12 +2,12 @@
 
 - [x] Tokens relationship with database
 - [x] Rework the sessions and how they behave.
-- [ ] Users must be refreshed, must add Restrictions, Roles and Access Levels
+- [x] Users must be refreshed, must add Restrictions, Roles and Access Levels
 - [ ] Implement the FileSystem 
 - [ ] Routing/Rendering engine implementation must be redone
 - [ ] Autoload files
-- [ ] Finish the transfer from oldAdmin to API 
-- [ ] Rebrand it: Zephyrus
+- [x] Finish the transfer from oldAdmin to API 
+- [x] Rebrand it: Zephyrus
 
 > **Note**: Everything that's under this is not implemented yet. To be done.
 
@@ -17,7 +17,6 @@ Done now:
  - Users have now Roles (explained down)
  - Permissions & Roles can be added only by code (UI will be in 0.5)
  - Confirmation email phase 1 is now done
-Next to do
  - Get all the checks done for confirmation email, forgot password 
  - Make sure that everything is secured (using permissions).
 

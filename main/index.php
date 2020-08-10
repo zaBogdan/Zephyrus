@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="apple-touch-icon" sizes="76x76" href="./style/img/apple-icon.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="./style/img/logo.svg">
   <link rel="icon" type="image/png" href="./style/img/logo.svg">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
@@ -15,8 +15,6 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- CSS Files -->
   <link href="./style/css/material-kit.css?v=2.0.7" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="./style/demo/demo.css" rel="stylesheet" />
 </head>
 
 <body class="index-page sidebar-collapse">
@@ -126,7 +124,7 @@
           </div>
         </div>
       </div>
-      <div class="section features text-center">
+      <div class="section sectionFeatures text-center">
         <div class="col-md-8 ml-auto mr-auto">
           <h2 class="title">Built-in features</h2>
         </div>
@@ -283,23 +281,9 @@
   <script src="./style/js/core/popper.min.js" type="text/javascript"></script>
   <script src="./style/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
   <script src="./style/js/plugins/moment.min.js"></script>
-  <!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
-  <script src="./style/js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
-  <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-  <script src="./style/js/plugins/nouislider.min.js" type="text/javascript"></script>
-  <!--  Google Maps Plugin    -->
   <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
   <script src="./style/js/material-kit.js?v=2.0.7" type="text/javascript"></script>
   <script>
-    $(document).ready(function() {
-      //init DateTimePickers
-      materialKit.initFormExtendedDatetimepickers();
-
-      // Sliders Init
-      materialKit.initSliders();
-    });
-
-
     function scrollToWhyUs() {
       if ($('.why-us').length != 0) {
         $("html, body").animate({
@@ -308,9 +292,9 @@
       }
     }
     function scrollToFeatures() {
-      if ($('.features').length != 0) {
+      if ($('.sectionFeatures').length != 0) {
         $("html, body").animate({
-          scrollTop: $('.features').offset().top
+          scrollTop: $('.sectionFeatures').offset().top
         }, 1000);
       }
     }

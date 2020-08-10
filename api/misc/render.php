@@ -6,8 +6,8 @@ class Render{
 
     public $twig;
 
-    public function __construct(){
-        $loader = new \Twig\Loader\FilesystemLoader(ROOT_DIR.'/admin/templates');
+    public function __construct($path='/admin/templates'){
+        $loader = new \Twig\Loader\FilesystemLoader(ROOT_DIR.$path);
         $this->twig = new \Twig\Environment($loader, [
             // 'cache' => ROOT_DIR.'/admin/cache',
             'cache' => false,

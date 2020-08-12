@@ -17410,7 +17410,12 @@ footer .pull-center {
   margin-left: 0;
   margin-right: 0;
 }
-
+.main-alert{
+  margin-top: 10rem;
+  position: absolute;
+  z-index: 900;
+  margin-left: 20% !important;
+}
 .card-plain .card-body {
   padding-left: 5px;
   padding-right: 5px;

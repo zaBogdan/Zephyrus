@@ -2,6 +2,7 @@
 
 {% block body %}
 {% import 'components/form.twig' as form %}
+{% set response = loginProcess() %}
 <div class="col-lg-4 col-md-6 mr-auto ml-auto">
    <div class="card">
       <div class="card-header card-header-text card-header-primary">
@@ -10,17 +11,18 @@
          </div>
       </div>
       <div class="card-body">
-         <p class="text-muted text-center">Please fill in your username and password.</p>
+         <p class="text-muted text-center">{{ response }}</p>
+         
          <form class="form" method="post">
-            {{ form.input('username', {'autofocus': true, 'required': true})}}
+            {{ form.input('username', {'value': user.username,'autofocus': true, 'required': true})}}
             {{ form.input('password', {'type': 'password', 'required': true})}}
             <div class="text-center">
                <button class="btn btn-success btn-round" type="submit" name="submit">Sign in</button>
             </div>
          </form>
          <div class="text-center">
-            <a href="/index.php?page=forgot-password" class="d-block small mt-3">Forgot Password?</a>
-            <a href="/index.php?page=register" class="d-block small">Register an account</a>
+            <a href="/auth?page=forgot-password" class="d-block small mt-3">Forgot Password?</a>
+            <a href="/auth?page=register" class="d-block small">Register an account</a>
          </div>
       </div>
    </div>

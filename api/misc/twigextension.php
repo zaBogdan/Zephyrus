@@ -24,7 +24,6 @@ class TwigExtension extends AbstractExtension{
         new TwigFunction('activateUser', array($this, 'activateUser')),
         new TwigFunction('sendResetPassword', array($this, 'sendResetPassword')),
         new TwigFunction('resetPassword', array($this, 'resetPassword')),
-        new TwigFunction('generateReset', array($this, 'generateReset')),
         new TwigFunction('generateConfirmation', array($this, 'generateConfirmation')),
         new TwigFunction('jsonDecode', array($this, 'jsonDecode')),
         new TwigFunction('updateUserInfo', array($this, 'updateUserInfo')),
@@ -65,9 +64,9 @@ class TwigExtension extends AbstractExtension{
               $longTerm = true;
               global $session;
               $session->handleSession($user, $longTerm);
-              header("Refresh:0; url=/admin", true, 200);
+              header("Refresh:0; url=/", true, 200);
           }else return "Username and password doesn't match!";
-      }else return "Please login to continue";
+      }else return "Please fill in your username and password.";
     }
     
     /**
@@ -78,44 +77,50 @@ class TwigExtension extends AbstractExtension{
         $user = new \Api\Management\Users();
         $msg = $user->create_user($_POST);
         if($msg===true){
-          header("Refresh:5; url=/admin", true, 303);
+          header("Refresh:5; url=/auth?page=login", true, 303);
           return "We've send you a confirmation email. Please confirm it to start using our application! You will shortly be redirected to the login screen!";
         }else return $msg;
-      }else return "Complete this form to start using our application";
+      }else return "Complete this form to get a new account";
     } 
 
     /**
      * This is called when you need to confirm your email.
      */
     public function activateUser(){
-      $response = array("email"=>NULL, "msg"=> NULL);
+      $response = array("email"=>NULL, "error_level"=> NULL, "error"=> null, "success"=>null);
       if(!(isset($_GET['selector']) && isset($_GET['validator']) && isset($_GET['email']))){
-        $response['msg'] = "The requested variables are not set!";
+        $response['error'] = "The requested variables are not set!";
         if(isset($_GET['email']))
         $response['email'] = $_GET['email'];
-        else $response['msg'] = "We can't regenerate a new request because your email is missing!";
+        else {
+          $response['error'] = "We can't regenerate a new request because your email is missing!";
+          $response['error_level'] = 1;
+        }
+        if(!$response['error_level']) $response['error_level']=2;
         return $response;
       }
-        $selector = $_GET['selector'];
-        $validator = $_GET['validator'];
-        $email = $_GET['email'];
+      $selector = $_GET['selector'];
+      $validator = $_GET['validator'];
+      $email = $_GET['email'];
       $response = array("email"=>$email, "msg"=> NULL);
       $token = \Api\Management\Tokens::find_by_attribute("selector", $selector);
       $user = \Api\Management\Users::find_by_attribute("email", $email);
       if($user->data->status=== "confirmed"){
         $token->revokeToken($selector);
-        $response['msg'] = "This account is already confirmed!";
+        $response['error'] = "This account is already confirmed!";
+        $response['error_level']=3;
         return $response;
       }
       if($token->validateToken($user->uuid, "confirmEmail", $validator)){
         $user->data->status = "confirmed";
         $user->save_to_db();
         $token->revokeToken($selector);
-        header("Refresh:5; url=/admin", true, 303);
-        $response['msg'] = 'Account is now confirmed!';
+        header("Refresh:5; url=/", true, 303);
+        $response['success'] = true;
         return $response;
       }
-      $response['msg'] = "This token is revoked or didn't pass the validation.";
+      $response['error'] = "This token is revoked or didn't pass the validation.";
+      $response['error_level']=2;
       return $response;
     }
 
@@ -139,12 +144,14 @@ class TwigExtension extends AbstractExtension{
      * This function is the actual reset 
      */
     public function resetPassword(){
-      $response = array("email"=>NULL, "msg"=> NULL);
+      $response = array("email"=>NULL, "error"=> NULL, "error_level"=>null, "success"=>null);
       if(!(isset($_GET['selector']) && isset($_GET['validator']) && isset($_GET['email']))){
-        $response['msg'] = "The requested variables are not set!";
+        $response['error'] = "The requested variables are not set!";
         if(isset($_GET['email']))
         $response['email'] = $_GET['email'];
-        else $response['msg'] = "We can't regenerate a new request because your email is missing!";
+        else {$response['error'] = "We can't regenerate a new request because your email is missing!";
+        $response['error_level'] = 1;}
+        if(!$response['error_level']) $response['error_level']=2;
         return $response;
       }
       $selector = $_GET['selector'];
@@ -155,46 +162,44 @@ class TwigExtension extends AbstractExtension{
       $user = \Api\Management\Users::find_by_attribute("email",$email);
       if(!$token->validateToken($user->uuid,"resetPassword",$validator)){
         $token->revokeToken($selector);
-        $response['msg'] = "Tokens are not valid! Click the button to get a reset password email!";
+        $response['error'] = "Tokens are not valid! Click the button to get a reset password email!";
+        $response['error_level'] = 2;
         return $response;
       }
       if(isset($_POST['submit'])){
-        if($_POST['newpassword'] !== $_POST['confirm_password'])
+        if($_POST['newpassword'] !== $_POST['confirm_password']){
+          $response['error'] = "Passwords doesn't match!";
+          $response['error_level'] = 3;
           return "Passwords doesn't match!";
+        }
         $user->password = $user->hashPassword($_POST['newpassword']);
         $token->revokeToken($selector);
         $user->save_to_db();
-        header("Refresh:3; url=/admin", true, 303);
-        $response['msg'] = "Password was reseted successfully. You are redirected to the login screen now";
+        header("Refresh:3; url=/auth?page=login", true, 303);
+        $response['success'] = true;
         return $response;
       }
-      $response['msg'] = "Enter your new password!";
       return $response;
     }
     /**
      * In case something went wrong
      */
-    public function generateReset(){
-      if(!isset($_GET['email'])){
-        return "The email is not set!";
-      }
-      $email = $_GET['email'];
-      $user = \Api\Management\Users::find_by_attribute("email",$email);
-      if(!$user)
-        return "User doesn't exist in our database!";
-      if(!$user->send_resetPassword())
-        return "There was an internal error! Please try again!";
-      return "Success";
-    }
-
     public function generateConfirmation(){
-      if(!isset($_GET['email'])){
-        return "The email is not set!";
-      }
+      if(!isset($_GET['email']) || empty($_GET['email']))
+        return "You must set the email before accessing this link!";
+      if(!isset($_POST['submit']))
+        return "Please verify if this is your email. If not change it.";
       $email = $_GET['email'];
       $user = \Api\Management\Users::find_by_attribute("email",$email);
       if(!$user)
         return "User doesn't exist in our database!";
+      if($user->data->status==="confirmed")
+        return "This user is already confirmed!";
+      if($user->email !== $email){
+        $user->email = $email;
+        if(!$user->save_to_db())
+          return "We couldn't update the email... Please try again!";
+      }
       if(!$user->send_confirmation())
         return "There was an internal error! Please try again!";
       return "Success";

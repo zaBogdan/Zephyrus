@@ -5,14 +5,16 @@ require_once(__DIR__.'/../api/init.php');
  * Checking if the application is installed.
  */
 if(intval(GET_ENV['CORE_RUN_SCRIPT'])!==2){
-    $msg = "Your service is not installed. Please go to ";
-    $msg .= '<a href="install" target="_blank">instalation page</a>.';
+    $vars['header']['title'] = 'Error';
+    $msg = "Your service is not installed. Before doing anything please go and install it!";
     $vars['error'] = array(
-        'title' => "zaEngine is not installed",
+        'name' => "Zephyrus is not installed",
         'message' => $msg,
+        'url' => "/admin/install",
+        'button' => 'Install'
     );
-    $template = new \Api\Misc\Render();
-    $template->render('pages/home/error', $vars);
+    $template = new \Api\Misc\Render('/main/templates');
+    $template->render('pages/misc/error', $vars);
     die();
 }
 
@@ -20,7 +22,7 @@ if(intval(GET_ENV['CORE_RUN_SCRIPT'])!==2){
  * Checking if the user is logged in
  */
 if(!$session->checkLogin()){
-    header("Refresh:0; url=/admin/auth.php", true, 401);
+    header("Refresh:0; url=/auth?page=login", true, 401);
     die("User is not logged in!");
 }
 
@@ -33,7 +35,7 @@ $user = \Api\Management\Users::find_by_attribute("uuid", $_SESSION['user']);
  */
 
 if(!$role->hasPermission($user, "accessAdmin")){
-    header("Refresh:0; url=/", true, 401);
+    header("Refresh:0; url=/?page=blog", true, 401);
     die("Insufficient permissions!");
 }
 /**
@@ -51,7 +53,6 @@ if($page === 'dashboard'){
         'role' => $user->data->role,
         'permissions' => \Api\Management\Permissions::find_all(),
         'rolePerms' => $role->getRolePermissions($user->data->role),
-        'postToDisplay' => \Api\Management\Posts::find_by_attribute("serial", "0f54b6c1f7b9c512"),
     );
 }else if($page === 'users'){
     $vars['table'] = array(

@@ -74,7 +74,7 @@ Version 0.4 - Final touches!
 - (+) Roles for users
 - (+) Rebranded to `Zephyrus`
 - (+) Posts are now completed
-- (?) Home, Posts and Profile pages are now working and linked. (next queued)
+- (?) Home, Posts and Profile pages are now working and linked. (phase 2: linking everything)
 - (-) Removed first installation system, because it was broken.
 - (-) Removed old system of token & session generation. Now everything is more secure.
 > **Note** At this moment this version is in it's late alpha. Don't install this on your production system!

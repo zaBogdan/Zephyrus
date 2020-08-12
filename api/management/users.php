@@ -141,7 +141,7 @@ class Users extends \Api\Database\DbModel{
             'p_two' => "In order to increase the security you need to confirm your 
             email, by clicking the link down below (which is valid for only 15 minutes). If you don't recognize this email please
             contact us at `support@zaengine.ro`",
-            'link' => "http://localhost:8000/admin/auth.php?page=confirm-email&selector=".$tokens['token']->selector."&validator=".$tokens['trueValidator']."&email=".$this->email, 
+            'link' => "http://localhost:8000/auth?page=confirm-email&selector=".$tokens['token']->selector."&validator=".$tokens['trueValidator']."&email=".$this->email, 
             'button'  => "Confirm Email!"
         );
         $response = $email->sendMessage($this->email, "Confirm your email",$val);
@@ -157,7 +157,7 @@ class Users extends \Api\Database\DbModel{
             'username' => $this->username, 
             'p_one' => "This is a request for reseting you password on Zephyrus CMS.", 
             'p_two' => "The link down below is available for only 15 minutes.",
-            'link' => "http://localhost:8000/admin/auth.php?page=reset-password&selector=".$tokens['token']->selector."&validator=".$tokens['trueValidator']."&email=".$this->email, 
+            'link' => "http://localhost:8000/auth?page=reset-password&selector=".$tokens['token']->selector."&validator=".$tokens['trueValidator']."&email=".$this->email, 
             'button'  => "Reset..."
         );
         $response = $email->sendMessage($this->email, "Reset your password",$val);

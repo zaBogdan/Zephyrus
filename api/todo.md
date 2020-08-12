@@ -10,7 +10,7 @@
 - [x] Rebrand it: Zephyrus
 
 # Frontend raw content
-Access this link: [Click me](https://github.com/zaBogdan/zaEngine/tree/6743cb4790e57db68d66f722f739b6ab32b00579)
+Access this link: [Click me](https://github.com/zaBogdan/Zephyrus/tree/6743cb4790e57db68d66f722f739b6ab32b00579)
 > **Note**: Everything that's under this is not implemented yet. To be done.
 
 # Phase: Users must be refreshed 

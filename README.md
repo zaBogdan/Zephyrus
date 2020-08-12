@@ -6,8 +6,8 @@ This is a Content Management System created for learning purposes. It has suffer
 
 # Installation with Docker
 I tried to automate as much as I could and these are the new steps:
-* Clone the repository 'git clone https://github.com/zaBogdan/zaEngine.git'
-* Change to the directory 'cd zaEngine'
+* Clone the repository 'git clone https://github.com/zaBogdan/Zephyrus.git'
+* Change to the directory 'cd Zephyrus'
 * Run the composer to get all dependencies 'composer install'
 * Fill up the 'docker-compose.yml.example' with credentials ( new ones )
 * Rename the file into 'docker-compose.yml'
@@ -20,8 +20,8 @@ And that's it. You've installed the application!
 
 # Installation without Docker
 Even if I don't recommend it because it can be a huge pain on some operating systems, these are the steps.
-* Clone the repository 'git clone https://github.com/zaBogdan/zaEngine.git'
-* Change to the directory 'cd zaEngine'
+* Clone the repository 'git clone https://github.com/zaBogdan/Zephyrus.git'
+* Change to the directory 'cd Zephyrus'
 * Run the composer to get all dependencies 'composer install'
 * Now you have everything needed, so you need to set up the webservice
 * You need PHP, Apache2, PHPMyAdmin and MySQL installed on your system
@@ -72,11 +72,12 @@ Version 0.4 - Final touches!
 - (+) Tokens now generate securely and use Selector:Validation schema.
 - (+) Authentification system (Sessions) is now more secure and checks are made properly.
 - (+) Roles for users
-- (+) Rebranded to `Zephyrus`
+- (+) Rebranded from `zaEngine` to `Zephyrus`
 - (+) Posts are now completed
 - (?) Home, Posts and Profile pages are now working and linked. (phase 2: linking everything)
 - (-) Removed first installation system, because it was broken.
 - (-) Removed old system of token & session generation. Now everything is more secure.
+- (-) FileSystem is removed for this update. Will be taken care of in the next one.
 > **Note** At this moment this version is in it's late alpha. Don't install this on your production system!
 
 Version 0.3

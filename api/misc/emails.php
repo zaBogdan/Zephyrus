@@ -18,7 +18,7 @@ class Email{
         global $sensitive;
         $template = $this->getTemplate($values); 
         $result = $this->mailGun->messages()->send($this->domain, array(
-            'from'	=> 'zaEngine <'.$sensitive->env['MAILGUN_EMAIL_SENDER'].'>',
+            'from'	=> 'Zephyrus <'.$sensitive->env['MAILGUN_EMAIL_SENDER'].'>',
             'to'	=> $to,
             'subject' => $subject,
             'text'	=> $template,

@@ -4,11 +4,11 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    container_name: zaEngine
+    container_name: Zephyrus
     depends_on: 
       - database
     volumes:
-      - /home/zabogdan/Documents/zaEngine:/var/www/html
+      - /home/zabogdan/Documents/Zephyrus:/var/www/html
     ports:
       - 8000:80
   database:
@@ -18,7 +18,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 24N7QaOlD@Hzj
-      MYSQL_DATABASE: zaEngine
+      MYSQL_DATABASE: Zephyrus
       MYSQL_USER: docker
       MYSQL_PASSWORD: jYhbup^F3d6*%
   phpmyadmin:

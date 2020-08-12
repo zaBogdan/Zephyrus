@@ -140,7 +140,7 @@ class Users extends \Api\Database\DbModel{
             to wish you a warm Welcome!", 
             'p_two' => "In order to increase the security you need to confirm your 
             email, by clicking the link down below (which is valid for only 15 minutes). If you don't recognize this email please
-            contact us at `support@zaengine.ro`",
+            contact us at `support@zephyrus.ro`",
             'link' => "http://localhost:8000/auth?page=confirm-email&selector=".$tokens['token']->selector."&validator=".$tokens['trueValidator']."&email=".$this->email, 
             'button'  => "Confirm Email!"
         );

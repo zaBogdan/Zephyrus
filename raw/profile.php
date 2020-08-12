@@ -13,46 +13,69 @@
 </head>
 
 <body class="profile-page sidebar-collapse">
-    <nav class="navbar navbar-transparent navbar-color-on-scroll bg-primary fixed-top navbar-expand-lg" color-on-scroll="100">
-    <div class="container">
-      <div class="navbar-translate">
-        <a class="navbar-brand" href="/main">
-        <img src="./style/img/logoText.svg" alt="Logo"  height="32" width="142" />
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="navbar-toggler-icon"></span>
-          <span class="navbar-toggler-icon"></span>
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      </div>
-      <div class="collapse navbar-collapse ">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0)" onclick="scrollToWhyUs()">
-              Popular
+    <nav class="navbar navbar-transparent navbar-color-on-scroll bg-white fixed-top navbar-expand-lg" color-on-scroll="100">
+    <div class="navbar-translate">
+            <a class="navbar-brand" href="/main">
+            <img src="./style/img/logo.svg" alt="Logo"  height="32" width="142" />
             </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0)" onclick="scrollToFeatures()">
-              Categories
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/blog/documentation" target="_blank">
-              New Releases
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="btn btn-outline btn-round" style="color: #9124A3;background-color: #fff" href="/main/login">
-              Create new
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <div class="page-header header-filter" data-parallax="true" style="background-image: url('./style/img/bg2.jpg');"></div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a href="#pablo" class="nav-link">Popular</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Categories
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="#">Documentation</a>
+                        <a class="dropdown-item" href="#">Adventure</a>
+                        <a class="dropdown-item" href="#">Horror</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#pablo" class="nav-link">Following</a>
+                </li>
+            </ul>
+            
+            
+            <ul class="navbar-nav ml-auto mr-5">
+            <form class="form-inline mr-3">
+              <div class="form-group no-border">
+                <input type="text" class="form-control" placeholder="Search">
+              </div>
+              <button type="submit" class="btn btn-white btn-raised btn-fab btn-round">
+                <i class="material-icons">search</i>
+              </button>
+            </form>
+            <li class="nav-item mr-auto">
+                <a href="#pablo" class="btn btn-white btn-just-icon btn-round">
+                    <i class="material-icons">add</i>
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img class="rounded-circle" style="width: 40px; height: 40px;" src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fd/fd4372b86edca6468c80bfa8c79361c250fbb22c_full.jpg" alt="zaBogdan">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink2">
+                        <a class="dropdown-item" href="#">Profile</a>
+                        <a class="dropdown-item" href="#">Settings</a>
+                        <hr>
+                        <a class="dropdown-item" href="#">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+</nav>
+  <div class="page-header header-filter" data-parallax="true" style="background-image: url('/main/style/img/bg2.jpg');"></div>
   <div class="main main-raised">
     <div class="profile-content">
       <div class="container">
@@ -101,30 +124,7 @@
         <div class="tab-content tab-space">
             <div class="tab-pane active" id="studio">
                 <div class="row">
-                <div class="col-md-6 ml-auto">
-                    <div class="info info-horizontal">
-                        <div class="icon">
-                        <img class="text-right rounded" src="https://images.genius.com/a720be5ebadf75e9b200ca8d64d4028b.960x960x1.jpg" style="height: 128px; width: 128px;" alt="Test">
-                        </div>
-                        <div class="description">
-                        <a href="/main/login">
-                            <h5 class="info-title">Nu vorbi de vise ca ale tale-s compromise</h5>
-                            <p class="text-muted">Aerozen</p>
-                        </a>
-                        </div>
-                    </div>
-                    <div class="info info-horizontal">
-                        <div class="icon">
-                        <img class="text-right rounded" src="https://images.genius.com/a720be5ebadf75e9b200ca8d64d4028b.960x960x1.jpg" style="height: 128px; width: 128px;" alt="Test">
-                        </div>
-                        <div class="description">
-                        <a href="/main/login">
-                            <h5 class="info-title">Nu vorbi de vise ca ale tale-s compromise</h5>
-                            <p class="text-muted">Aerozen</p>
-                        </a>
-                        </div>
-                    </div>
-                </div>
+                
                 <div class="col-md-6 mr-auto">
                 <div class="info info-horizontal">
                     <div class="icon">
@@ -199,12 +199,10 @@
       </div>
     </div>
   </footer>
-  <!--   Core JS Files   -->
   <script src="./style/js/core/jquery.min.js" type="text/javascript"></script>
   <script src="./style/js/core/popper.min.js" type="text/javascript"></script>
   <script src="./style/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
   <script src="./style/js/plugins/moment.min.js"></script>
-  <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
   <script src="./style/js/material-kit.js?v=2.0.7" type="text/javascript"></script>
 </body>
 

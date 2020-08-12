@@ -12,61 +12,95 @@
   <link href="./style/css/material-kit.css?v=2.0.7" rel="stylesheet" />
 </head>
 
-<body class="profile-page sidebar-collapse">
-    <nav class="navbar navbar-transparent navbar-color-on-scroll bg-primary fixed-top navbar-expand-lg" color-on-scroll="100">
-    <div class="container">
-      <div class="navbar-translate">
-        <a class="navbar-brand" href="/main">
-        <img src="./style/img/logoText.svg" alt="Logo"  height="32" width="142" />
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="navbar-toggler-icon"></span>
-          <span class="navbar-toggler-icon"></span>
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      </div>
-      <div class="collapse navbar-collapse ">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0)" onclick="scrollToWhyUs()">
-              Popular
+<body class="post-page sidebar-collapse">
+    <nav class="navbar fixed-top navbar-expand-lg" color-on-scroll="100">
+        <div class="navbar-translate">
+            <a class="navbar-brand" href="/main">
+            <img src="./style/img/logo.svg" alt="Logo"  height="32" width="142" />
             </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0)" onclick="scrollToFeatures()">
-              Categories
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/blog/documentation" target="_blank">
-              New Releases
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="btn btn-outline btn-round" style="color: #9124A3;background-color: #fff" href="/main/login">
-              Create new
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <div class="page-header header-filter" data-parallax="true" style="background-image: url('./style/img/bg9.jpg');"></div>
-  <div class="main main-raised">
-  <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a href="#pablo" class="nav-link">Popular</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Categories
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="#">Documentation</a>
+                        <a class="dropdown-item" href="#">Adventure</a>
+                        <a class="dropdown-item" href="#">Horror</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#pablo" class="nav-link">Following</a>
+                </li>
+            </ul>
+            
+            
+            <ul class="navbar-nav ml-auto mr-5">
+            <form class="form-inline mr-3">
+              <div class="form-group no-border">
+                <input type="text" class="form-control" placeholder="Search">
+              </div>
+              <button type="submit" class="btn btn-white btn-raised btn-fab btn-round">
+                <i class="material-icons">search</i>
+              </button>
+            </form>
+            <li class="nav-item mr-auto">
+                <a href="#pablo" class="btn btn-white btn-just-icon btn-round">
+                    <i class="material-icons">add</i>
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img class="rounded-circle" style="width: 40px; height: 40px;" src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fd/fd4372b86edca6468c80bfa8c79361c250fbb22c_full.jpg" alt="zaBogdan">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink2">
+                        <a class="dropdown-item" href="#">Profile</a>
+                        <a class="dropdown-item" href="#">Settings</a>
+                        <hr>
+                        <a class="dropdown-item" href="#">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+</nav>
+<div class="page-header header-filter" style="background-image: url('/main/style/img/bg10.jpg');">
+<div class="container">
       <div class="row">
-      <div class="col-md-8 ml-auto mr-auto text-center">
-            <h2 class="title">Hello world</h2>
-            <h5 class="description">
-              This is the first post on the platform bro....
-            </h5>
+        <div class="col-md-8 ml-auto mr-auto">
+          <div class="brand">
+            <h3 class="title">
+                How to give proof of concept when you didn't even released your app
+            </h3>
+            <div class="row">
+              <img class="image rounded-circle" src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fd/fd4372b86edca6468c80bfa8c79361c250fbb22c_full.jpg" alt="">
+              <div class="text">
+                <p class="author">By Bogdan Zavadovschi</p>
+                <p class="description">Published on 21 July 2020 </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      
     </div>
+</div>
+
+  <div class="main">
+
     <div class="container">
       <div class="section">
-        <p>
+        <p class="post">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Urna nec tincidunt praesent semper feugiat nibh. Viverra vitae congue eu consequat. Aliquam vestibulum morbi blandit cursus risus at ultrices mi. Cursus vitae congue mauris rhoncus aenean vel elit scelerisque. Suscipit adipiscing bibendum est ultricies integer quis. Scelerisque viverra mauris in aliquam sem. Aliquet enim tortor at auctor urna nunc id cursus metus. Dolor sit amet consectetur adipiscing elit duis tristique sollicitudin nibh. Donec ultrices tincidunt arcu non sodales. Nisi scelerisque eu ultrices vitae auctor eu augue ut. Viverra orci sagittis eu volutpat odio facilisis mauris sit. Feugiat pretium nibh ipsum consequat nisl vel pretium. Velit ut tortor pretium viverra suspendisse potenti. Id porta nibh venenatis cras. Ac tortor vitae purus faucibus ornare suspendisse. Urna neque viverra justo nec.
 Lectus magna fringilla urna porttitor rhoncus dolor. Gravida rutrum quisque non tellus orci ac auctor augue mauris. Nisl nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit. Nisi lacus sed viverra tellus. Neque aliquam vestibulum morbi blandit. Morbi tristique senectus et netus. Viverra justo nec ultrices dui sapien eget mi proin. Sagittis vitae et leo duis ut diam quam. Congue mauris rhoncus aenean vel. Ut aliquam purus sit amet luctus. Tempus egestas sed sed risus pretium quam vulputate dignissim suspendisse. Nulla malesuada pellentesque elit eget.
 In metus vulputate eu scelerisque felis. Lobortis feugiat vivamus at augue eget arcu. Eget magna fermentum iaculis eu non diam phasellus. Pharetra vel turpis nunc eget lorem. Ultrices vitae auctor eu augue ut. Habitasse platea dictumst quisque sagittis purus sit amet. Eget duis at tellus at urna condimentum mattis pellentesque id. At in tellus integer feugiat scelerisque varius morbi enim. Vivamus arcu felis bibendum ut tristique. Fermentum dui faucibus in ornare quam viverra orci sagittis. Quisque egestas diam in arcu cursus euismod quis. Volutpat diam ut venenatis tellus in metus vulputate eu scelerisque. Nulla facilisi morbi tempus iaculis urna id volutpat lacus laoreet. Nec nam aliquam sem et tortor.
@@ -103,7 +137,6 @@ Urna duis convallis convallis tellus id interdum velit laoreet. Odio ut enim bla
           </div>
         </div>
       </div>
-    </div>
     <div class="section recomended">
       <h3><b>More content:</b></h3>
       <hr>

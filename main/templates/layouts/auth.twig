@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+{# Header module #}
+{% include 'widgets/header.twig' %}
+
+<body class="login-page sidebar-collapse">
+    {# Navbar module #}
+    {% include 'widgets/normal_navbar.twig' %}
+
+  <div class="page-header header-filter" style="background-image: url('/main/style/img/bg8.jpg'); background-size: cover; background-position: top center;">
+    <div class="container">
+      <div class="row">
+            {# Custom page creation #}
+            {% block body %}
+            {% endblock %}
+      </div>
+    </div>
+  </div>
+
+    {# Footer module #}
+    {% include 'widgets/footer.twig' %}
+
+    {# Custom page scripts #}
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

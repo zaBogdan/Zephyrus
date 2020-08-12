@@ -1,0 +1,35 @@
+{% extends 'layouts/auth.twig' %}
+
+{% block body %}
+{% import 'components/form.twig' as form %}
+<div class="col-md-6 ml-auto mr-auto">
+      <div class="card">
+          <div class="card-header card-header-text card-header-success">
+            <div class="card-text text-center">
+              <h4 class="card-title">Create a new account</h4>
+            </div>
+          </div>
+          <div class="card-body">
+            <p class="text-muted text-center">Complete this form to get a new account</p>
+            {{ form.input('username', {'autofocus': true, 'required': true})}}
+            <div class="row">
+                <div class="col">
+                    {{ form.input('firstname', {'required': true})}}
+                </div>
+                <div class="col">
+                    {{ form.input('lastname', {'required': true})}}
+                </div>
+             </div>
+            {{ form.input('email', {'type': 'email', 'helpText': "You will need to confirm your email!", 'required': true})}}
+            {{ form.input('password', {'type': 'password', 'required': true})}}
+            <div class="text-center">
+               <button class="btn btn-success btn-round" type="submit" name="submit">Register</button>
+            </div>
+            <div class="text-center">
+                <a href="/index.php?page=login" class="d-block small mt-3">Login</a>
+                <a href="/index.php?page=forgot-password" class="d-block small">Forgot Password?</a>
+            </div>
+          </div>
+      </div>
+  </div>
+{% endblock %}

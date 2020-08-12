@@ -1,0 +1,10 @@
+{% macro input(name, options = []) %}
+{% set name = name|lower %}
+ <div class="form-group">
+    <label for="{{name}}" class="bmd-label-floating">{{name|capitalize}}</label>
+    <input type="{{options.type|default('text')}}" name="{{name}}" class="form-control" id="{{name}}" value="{{ value }}" autofocus="{{ options.autofocus|default('false') }}" {{ options.required == true ? "required" : null}}>
+    {% if options.helpText != null %}
+    <small id="{{name}}Help" class="form-text text-muted">{{options.helpText}}</small>
+    {% endif %}
+</div>
+{% endmacro %}

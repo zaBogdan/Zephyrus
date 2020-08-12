@@ -18270,13 +18270,73 @@ footer .pull-center {
 .index-page h4.description {
   font-size: 1.5em;
 }
-
+.blog-page .page-header{
+  height: 32rem;
+  background-position: top center;
+}
+.post-page .page-header{
+  height: 32rem;
+  background-position: top center;
+}
+.post-page .page-header .brand{
+  margin-top: 10rem !important;
+}
+.post-page .page-header .brand .title{
+  max-width: 36rem !important;
+  font-size: 32px;
+  font-weight: bold;
+  color: #fff !important;
+}
+.post-page .page-header .brand .image{
+  width: 64px !important;
+  height: 64px !important;
+}
+.post-page .page-header .brand .text{
+  flex-direction: column;
+  margin-left: 0.7rem;
+}
+.post-page .page-header .brand .author{
+  margin-top: 0.32rem;
+}
+.post-page .page-header .brand .description{
+  margin-top: -0.4rem;
+}
+.post-page .post{
+  font-size: 18px !important;
+}
+.blog-page .brand {
+  margin-top: 10rem !important;
+}
+.blog-page .brand .text-muted{
+  color: #e6dbdb !important;
+  font-weight: 100px;
+}
+.blog-page .brand h3{
+  max-width: 32rem !important;
+  font-size: 32px;
+  font-weight: bold;
+}
+.blog-page .brand a{
+  color: #fff !important;
+}
+.blog-page .category {
+  color: rgb(66, 97, 236) !important;
+}
+.blog-page .title{
+  color: #3F3F3F !important;
+  font-weight: 100 !important;
+  font-size: 18px !important;
+  font-family: "Roboto", sans-serif !important;
+}
 .section {
   padding: 70px 0;
 }
-
+.settings-page .page-header {
+  height: 0px;
+  margin-top: 12rem;
+}
 .profile-page .page-header {
-  height: 380px;
+  height: 500px;
   background-position: top center;
 }
 

@@ -1,0 +1,40 @@
+{% extends 'layouts/logged.twig' %}
+
+{% block body %}
+{# import section #}
+{% import "components/cards.twig" as card %}
+{% import "components/pagination.twig" as pages %}
+{# content #}
+<div class="page-header header-filter" style="background-image: url('/main/style/img/bg10.jpg');">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 ml-auto mr-auto">
+          <div class="brand">
+            <h5 class="text-muted">Featured article</h5>
+            <h3>
+                <a href="#" target="_blank">
+                How to give proof of concept when you didn't even released your app
+                </a>
+            </h3>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="main">
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                {% for i in range(1,9) %}
+                {{ card.blog(data.image, data.category, data.title, data.serial) }}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        {{ pages.page("blog_pages", 1, 5)}}
+    </div>
+</div>
+
+{% endblock %}

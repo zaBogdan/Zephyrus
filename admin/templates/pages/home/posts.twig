@@ -19,7 +19,7 @@
     <td>{{post.serial}}</td>
     <td>{{post.title}}</td>
     <td>{{getUsernameByID(post.author)}}</td>
-    <td>{{post.created|date('d-M-Y h:i')}}</td>
+    <td>{{post.date.created|date('d-M-Y h:i')}}</td>
     <td>{{post.status}}</td>
     {% if post.date.lastEdited != null %}
     <td>{{post.date.lastEdited|date('d-M-Y h:i')}}</td>

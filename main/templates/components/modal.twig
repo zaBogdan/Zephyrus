@@ -1,0 +1,21 @@
+{% block modal %}
+<div class="modal fade" id="{{modal.name}}" tabindex="-1" role="dialog" aria-labelledby="{{modal.name}}" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="{{modal.name}}">{{modal.title}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{modal.description}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <a class="btn btn-danger btn-round" href="{{ modal.link }}">{{ modal.button }}</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

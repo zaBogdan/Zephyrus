@@ -1,0 +1,67 @@
+{% extends 'layouts/logged.twig' %}
+
+{% block body %}
+{% import 'components/cards.twig' as card %}
+<div class="page-header header-filter" data-parallax="true" style="background-image: url('/main/style/img/bg8.jpg');"></div>
+  <div class="main">
+    <div class="profile-content">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 ml-auto mr-auto">
+            <div class="profile">
+              <div class="avatar">
+                <img src="{{author.image}}" alt="{{username}}" class="img-raised rounded-circle img-fluid">
+              </div>
+              <div class="name">
+                <h3 class="title">{{author.username}}</h3>
+                <h6 class="text-muted">{{author.name}}</h6>
+                <a href="#pablo" class="btn btn-just-icon btn-link btn-github"><i class="fa fa-github"></i></a>
+                <a href="#pablo" class="btn btn-just-icon btn-link btn-twitter"><i class="fa fa-twitter"></i></a>
+                <a href="#pablo" class="btn btn-just-icon btn-link btn-pinterest"><i class="fa fa-globe"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="description text-center">
+          <p>{{author.description}}</p>
+        </div>
+        <div class="row">
+          <div class="col-md-6 ml-auto mr-auto">
+            <div class="profile-tabs">
+              <ul class="nav nav-pills nav-pills-icons justify-content-center" role="tablist">
+                {% set active = true %}
+                {% for c in categories %}
+                    <li class="nav-item">
+                        <a class="nav-link {{loop.index == 1 ? "active" : null}}" href="#{{c.name|lower}}" role="tab" data-toggle="tab">
+                            <i class="material-icons">{{c.image}}</i> {{c.name}}
+                        </a>
+                    </li>
+                    {% set active = false %}
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="tab-content tab-space">
+            {% for c in categories %}
+            <div class="tab-pane {{loop.index==1 ? "active" : null}}" id="{{c.name|lower}}">
+                {% if loop.index==1 %}
+                <div class="row">
+                    {% for i in range(1,2) %}
+                    {{card.recomanded(data.image, data.title, data.author,data.serial)}}
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center">
+                    <b>Nothing here for now.</b>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

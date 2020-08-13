@@ -1,0 +1,88 @@
+{% extends 'layouts/settings.twig' %}
+
+{% block body %}
+{% import 'components/form.twig' as form %}
+{% set response = createPost(user) %}
+<div class="page-header header-filter" data-parallax="true"></div>
+<div class="main main-raised">  
+    <div class="container">
+        <div class="section text-center">
+        <h2 class="title">Create a new post</h2>
+        </div>
+    </div>
+    {% if response != true and response != null %}
+    <div class="col-md-6 ml-auto mr-auto alert alert-danger">
+        <div class="container">
+        <div class="alert-icon">
+            <i class="material-icons">error</i>
+        </div>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true"><i class="material-icons">clear</i></span>
+        </button>
+        <b>Error:</b> {{response}}
+        </div>
+    </div>
+    {% elseif response == true %}
+      <div class="col-md-6 ml-auto mr-auto alert alert-success">
+        <div class="container">
+        <div class="alert-icon">
+            <i class="material-icons">check</i>
+        </div>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true"><i class="material-icons">clear</i></span>
+        </button>
+        <b>Success:</b> Post has been successfully added to our database!
+        </div>
+    </div>  
+    {% endif %}
+    <div class="section">
+        <div class="container ">
+            <form method="post" action="">
+                <div class="row">
+                    <div class="col">
+                        {{ form.input('title', {'value': post.title,'required': true})}}
+                    </div>
+                    <div class="col">
+                        {{ form.input('description', {'value': post.description,'required': true})}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        {{ form.input('tags', {'helpText':'Please separate them with a <b>,</b> (comma)','value': post.tags,'required': true})}}
+                    </div>
+                    <div class="col">
+                        {{ form.input('category', {'value': post.category,'required': true})}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form.select('status', "public", {1: "private",2:"unlisted",3: "draft"}, null )}}
+                    </div>
+                </div>
+                {% if post.text == null %}
+                {% set value = "This editor is powered by TinyMCE" %}
+                {% else %}
+                {% set value = post.text %}
+                {% endif %}
+                {{ form.textarea('text',{'name': 'What do you have to say?','value':value }) }}
+                <div class="text-center">
+                    <button class="btn btn-success btn-block btn-round" type="submit" name="submit">Submit post</button>
+                </div>
+            </form>
+        <!-- Aici trebuie puse setarile -->
+        
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+  <script>
+    tinymce.init({
+      selector: 'textarea',
+      plugins: 'advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinymcespellchecker alignleft aligncenter alignright alignjustify',
+      toolbar: 'addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table alignleft aligncenter alignright alignjustify',
+      toolbar_mode: 'floating',
+      height : "480",
+    });
+  </script>
+{% endblock %}

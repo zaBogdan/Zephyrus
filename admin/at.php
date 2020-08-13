@@ -5,7 +5,7 @@ require_once(__DIR__.'/../api/init.php');
  * Checking if the user is logged in
  */
 if(!$session->checkLogin()){
-    header("Refresh:0; url=/admin/auth.php", true, 401);
+    header("Refresh:0; url=/auth?page=login", true, 401);
     die("User is not logged in!");
 }
 
@@ -32,7 +32,9 @@ $token = $_SESSION['token'];
 // echo "</pre>";
 // var_dump($role->canEditUserRole("Moderator", "Administrator"));
 
-
+$post = new \Api\Management\Posts();
+$string = "<script>,alert(1),</script>";
+var_dump($post->handle_tags($string));
 /**
  * Add a new permission
  */

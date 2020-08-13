@@ -15,7 +15,11 @@ class DbModel{
     public static function find_all(){
         return static::send_query("SELECT * FROM ".static::$db_table);
     }
-
+    public static function find_all_by_attribute(String $name, $data){
+        global $db;
+        $result = static::send_query("SELECT * FROM ".static::$db_table." WHERE ".$name."='{$db->escape_string($data)}'");
+        return !empty($result) ? $result : false;
+    }
     public static function find_by_attribute(string $name, $data){
         global $db;
         $result = static::send_query("SELECT * FROM ".static::$db_table." WHERE ".$name."='{$db->escape_string($data)}' LIMIT 1");

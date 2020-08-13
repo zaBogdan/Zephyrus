@@ -27,7 +27,7 @@
     <td>Never</td>
     {% endif %}
     <td>
-        <a href="/post.php?s={{ post.serial }}" class="btn btn-info" target="_blank"><i class="fas fa-eye"></i></a>
+        <a href="/?page=post&s={{post.serial}}" class="btn btn-info" target="_blank"><i class="fas fa-eye"></i></a>
         <a href="/admin/manage/posts.php?action=edit&serial={{ post.serial }}" class="btn btn-success"><i class="fas fa-pencil-alt"></i></a>
         <a href="/admin/manage/posts.php?action=delete&serial={{ post.serial }}" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
     </td>

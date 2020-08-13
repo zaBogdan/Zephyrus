@@ -1,10 +1,31 @@
 {% macro input(name, options = []) %}
 {% set name = name|lower %}
+{% autoescape 'html' %}
  <div class="form-group">
-    <label for="{{name}}" class="bmd-label-floating">{{options.name == null ? name|capitalize : options.name}}</label>
+    <label for="{{name}}" class="bmd-label-floating">{{options.name == null ? name|capitalize : options.name|capitalize}}</label>
     <input type="{{options.type|default('text')}}" name="{{name}}" class="form-control" id="{{name}}" value="{{ options.value|default(null) }}" autofocus="{{ options.autofocus|default('false') }}" {{ options.required == true ? "required" : null}}>
     {% if options.helpText != null %}
-    <small id="{{name}}Help" class="form-text text-muted">{{options.helpText}}</small>
+    <small id="{{name}}Help" class="form-text text-muted">{{options.helpText|raw}}</small>
     {% endif %}
 </div>
+{% endautoescape %}
+{% endmacro %}
+
+{% macro select(name, default, selections, options = []) %}
+<div class="form-group">
+    <label for="{{name}}">{{options.name == null ? name|capitalize : options.name|capitalize}}</label>
+    <select name="{{name}}" class="form-control selectpicker" data-style="btn btn-link" id="{{name}}">
+      <option value="{{default}}" selected>{{default| capitalize}}</option>
+      {% for status in selections %}
+      <option value="{{status}}" >{{status| capitalize}}</option>
+      {% endfor %}
+    </select>
+</div>
+{% endmacro %}
+
+{% macro textarea(name, options = []) %}
+<div class="form-group">
+    <label for="{{name}}">{{options.name == null ? name|capitalize : options.name|capitalize}}</label>
+    <textarea class="form-control" name="{{name}}" id="{{name}}" >{{options.value}}</textarea>
+  </div>
 {% endmacro %}

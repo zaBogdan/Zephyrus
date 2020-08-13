@@ -34,10 +34,28 @@ class Posts extends \Api\Database\DbModel{
         $status = time();
         if($this->status !== 'public')
             $status = null;
+        /**
+         * Adding tags and categories.
+         */
+        $tags = self::handle_tags($_POST['tags']);
+        if($tags === false)
+            return "You can add up to 5 tags that are under 10 characters each!";
+        
+
+        /**
+         * Must add categories and handelers for this!
+         */
+        $category = $_POST['category'];
+        
+        /**
+         * Save everything into data.
+         */
         $this->date = array(
             "created" => time(),
             "lastEdited" => null,
             "published" => $status,
+            "category" => $category,
+            "tags" => $tags
         );
         /**
          * Adding an unique serial. 
@@ -45,11 +63,27 @@ class Posts extends \Api\Database\DbModel{
         $this->serial = \Api\Security\Tokens::secureTokens(1);
         while(self::find_by_attribute("serial", $this->serial))
             $this->serial = \Api\Security\Tokens::secureTokens(1);
-        var_dump($this);
+
+ 
         if(!$this->save_to_db())
             return "There was an error while trying to save the post to the database!";
-        return "Post saved succesfully";
+        return true;
     }
 
+    public static function handle_tags($tags){
+        if(empty($tags) || !isset($tags))
+            return null;
+        $array = explode(',', $tags);
+        if(count($array)>5)
+            return false;
+        foreach($array as $tag){
+            if(strlen($tag)>10)
+                return false;
+        }
+        foreach($array as $tag){
+
+        }
+        return $array;
+    }
     
 }

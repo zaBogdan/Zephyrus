@@ -5,6 +5,7 @@
 {% import "components/cards.twig" as card %}
 {% import "components/pagination.twig" as pages %}
 {# content #}
+{% set response = getAllPosts() %}
 <div class="page-header header-filter" style="background-image: url('/main/style/img/bg10.jpg');">
     <div class="container">
       <div class="row">
@@ -12,8 +13,8 @@
           <div class="brand">
             <h5 class="text-muted">Featured article</h5>
             <h3>
-                <a href="#" target="_blank">
-                How to give proof of concept when you didn't even released your app
+                <a href="/?page=post&s=1ad7bd4e0d62ccd2" target="_blank">
+                HackTheBox - Zetta (Hard)
                 </a>
             </h3>
           </div>
@@ -25,8 +26,17 @@
     <div class="section">
         <div class="container">
             <div class="row">
-                {% for i in range(1,9) %}
-                {{ card.blog(data.image, data.category, data.title, data.serial) }}
+                {% for post in response.posts %}
+                {% set number = random(4,11) %}
+                {% set image = '/main/style/img/bg'~number~'.jpg'%}
+                {{ card.blog(image, "Dummy", post.title, post.serial) }}
+                {% endfor %}
+
+
+                {% for i in range(response.number+1,9) %}
+                {% set number = random(4,11) %}
+                {% set image = '/main/style/img/bg'~number~'.jpg'%}
+                {{ card.blog(image, data.category, data.title, data.serial) }}
                 {% endfor %}
             </div>
         </div>

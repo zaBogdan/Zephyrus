@@ -1,11 +1,20 @@
+# Version 0.5 - Pre-Checklist
+
+- [ ] Add Audit system.
+- [ ] Add Error Handler system
+- [ ] Autoload files
+- [ ] Redesign AdminCP 
+- [ ] Build Moderation panel
+- [ ] Rework the FileSystem 
+- [ ] Create a routing engine & make sure it's secure
+- [ ] Extend database class (generate tables based on classes)
+
+
 # Version 0.4 - Checklist
 
 - [x] Tokens relationship with database
 - [x] Rework the sessions and how they behave.
 - [x] Users must be refreshed, must add Restrictions, Roles and Access Levels
-- [ ] Implement the FileSystem 
-- [ ] Routing/Rendering engine implementation must be redone
-- [ ] Autoload files
 - [x] Finish the transfer from oldAdmin to API 
 - [x] Rebrand it: Zephyrus
 

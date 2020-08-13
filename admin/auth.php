@@ -6,7 +6,7 @@
 require_once(__DIR__.'/../api/init.php');
 
 
-header("Refresh:5; url=/", true, 303);
+header("Refresh:5; url=/auth?page=login", true, 303);
 die("This path is out of service! Please use /auth from now on. You will be redirected in 5 seconds.");
 
 /**

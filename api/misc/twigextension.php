@@ -18,6 +18,9 @@ class TwigExtension extends AbstractExtension{
       return array(
         new TwigFunction('activeClass', array($this, 'activeClass'), array('needs_context' => TRUE)),
         new TwigFunction('getUsername', array($this, 'getUsername')),
+        new TwigFunction('getPostBySerial', array($this, 'getPostBySerial')),
+        new TwigFunction('getUserInformation', array($this, 'getUserInformation')),
+        new TwigFunction('getAllPosts', array($this, 'getAllPosts')),
         new TwigFunction('getUsernameByID', array($this, 'getUsernameByID')),
         new TwigFunction('loginProcess', array($this, 'loginProcess')),
         new TwigFunction('registerProcess', array($this, 'registerProcess')),
@@ -34,6 +37,7 @@ class TwigExtension extends AbstractExtension{
         new TwigFunction('updatePost', array($this, 'updatePost')),
         new TwigFunction('deletePost', array($this, 'deletePost')),
         new TwigFunction('isJson', array($this, 'isJson')),
+        new TwigFunction('redirect', array($this, 'redirect')),
       );
     }
 
@@ -45,13 +49,45 @@ class TwigExtension extends AbstractExtension{
       if (isset($context['current_page']) && $context['current_page'] === $page)
         return 'active';
     }
+    public function redirect($url){
+      header("Refresh:0; url=".$url."", true, 400);
+    }
     public function getUsername(String $uuid){
       return \Api\Management\Users::find_by_attribute("uuid",$uuid)->username;
     }
-    public function getUsernameByID($id){
+    public static function getUsernameByID($id){
       return \Api\Management\Users::find_by_attribute("id",$id)->username;
     }
-
+    public static function getPostBySerial(){
+      if(!isset($_GET['s']) || empty($_GET['s']))
+          $_GET['s'] = "1cdf585abd705727"; //this is the fallback post!
+      $post = \Api\Management\Posts::find_by_attribute("serial", $_GET['s']);
+      if(!$post)
+        return false;
+      $user = \Api\Management\Users::find_by_attribute("id",$post->author);
+      $response = array("post"=> $post, "user"=> $user);
+      return $response;   
+    }
+    public static function getAllPosts(){
+      $post = \Api\Management\Posts::find_all_by_attribute("status", "public");
+      $response = array("posts"=>array_reverse($post), "number"=> count($post));
+      return $response;   
+    }
+    public static function getUserInformation(){
+      if(!isset($_GET['username']) || empty($_GET['username']))
+        return null;
+      $user = \Api\Management\Users::find_by_attribute("username", $_GET['username']);
+      if(!$user)
+        return "This username doesn't exists in our database";
+        var_dump($user);
+      $posts = \Api\Management\Posts::find_all_by_attribute("author", $user->id);
+      $public_posts = array();
+      foreach($posts as $post){
+        if($post->status==="public")
+          $public_posts[] = $post;
+      }
+      return array("user"=>$user, "posts"=> array_reverse($public_posts));
+    }
     /**
      * This function handles the login process (UI to API)
      */
@@ -325,7 +361,7 @@ class TwigExtension extends AbstractExtension{
         }
         return $val;
     }
-    public static function isJson($string) {
+    public static function isJson($string) { 
       if(!is_string($string))
           return false;
       json_decode($string);

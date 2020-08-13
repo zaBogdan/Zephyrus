@@ -51,11 +51,25 @@ if(!$role->hasPermission($user, "readPosts")){
 $page='blog';
 if(isset($_GET['page']) && !empty($_GET['page']))
     $page = $_GET['page'];
-
+$path = "home";
+$name = $page;
 $vars = array(
-    'user' => $user,
-    'header'=> array('title'=> $page),
-    'body'=>array('name'=>strtolower($page)),
+    "header" => array('title'=>$name),
+    "body" =>array('name'=>strtolower($page)),
+    "user" => $user,
+);
+
+if($page === 'create-new'){
+    $path = "manage";
+    $vars['header']['editor'] = true;
+    $name = "Create new post";
+    $vars['post'] = $_POST;
+}
+
+/**
+ * This must be removed once done all the implementation
+ */
+$values = array(
     'data' => array(
         'image' => 'https://i.imgur.com/IQgzFsi.png', 
         'category' => 'Documentation',
@@ -68,10 +82,6 @@ $vars = array(
     ),
     'author' => array(
         'image' => 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fd/fd4372b86edca6468c80bfa8c79361c250fbb22c_full.jpg',
-        'name' => "Bogdan Zavadovschi",
-        'date' => '1596709673',
-        'description' => 'Cyber Security Enthusiast & Project developer',
-        'username' => 'zaBogdan'
     ),
     'categories' => array(
         array(
@@ -88,5 +98,6 @@ $vars = array(
         ),
     ),
 );
+$vars = array_merge($vars, $values);
 $template = new \Api\Misc\Render('/main/templates');
-$template->render('/pages/home/'.strtolower($page), $vars);
+$template->render("/pages".'/'.$path.'/'.strtolower($page), $vars);

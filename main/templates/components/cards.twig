@@ -4,6 +4,7 @@ Variables:
 #}
 
 {% macro blog(img_url, category,title,serial)%}
+<a href="?page=post&s={{serial}}">
 <div class="card ml-3" style="width: 21rem;">
     <img class="card-img-top" src="{{img_url}}" style="height: 12rem;" rel="nofollow" alt="{{name}}">
     <div class="card-body text-center">
@@ -13,6 +14,7 @@ Variables:
         </p>
     </div>
 </div>
+</a>
 {% endmacro %}
 {% macro icon_top(icon, color, title, description)%}
 <div class="info">
@@ -36,7 +38,7 @@ Variables:
 {% endmacro %}
 
 {% macro recomanded(img_url, title, author, serial)%}
-<div class="info info-horizontal">
+<div class="info info-horizontal col-md-4">
     <div class="icon">
         <img class="text-right rounded" src="{{img_url}}" style="height: 128px; width: 128px;" alt="{{title}}">
     </div>
@@ -48,9 +50,9 @@ Variables:
     </div>
 </div>
 {% endmacro %}
-{% macro author_small(img_url, author, time)%}
+{% macro author_small(img_url, author, time, options=[])%}
 <div class="row">
-    <img class="image rounded-circle" src="{{img_url}}" alt="{{author}}">
+    <img class="image rounded-circle" src="{{img_url}}" alt="{{author}}" height="{{options.height|default(null)}}" width="{{options.width|default(null)}}">
     <div class="text">
         <p class="author">By {{author}}</p>
         <p class="description">Published on {{time|date('d M Y')}} </p>

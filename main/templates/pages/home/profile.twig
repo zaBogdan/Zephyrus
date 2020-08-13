@@ -2,6 +2,7 @@
 
 {% block body %}
 {% import 'components/cards.twig' as card %}
+{% set response = getUserInformation() %}
 <div class="page-header header-filter" data-parallax="true" style="background-image: url('/main/style/img/bg8.jpg');"></div>
   <div class="main">
     <div class="profile-content">
@@ -10,11 +11,11 @@
           <div class="col-md-6 ml-auto mr-auto">
             <div class="profile">
               <div class="avatar">
-                <img src="{{author.image}}" alt="{{username}}" class="img-raised rounded-circle img-fluid">
+                <img src="{{author.image}}" alt="{{response.user.username}}" class="img-raised rounded-circle img-fluid">
               </div>
               <div class="name">
-                <h3 class="title">{{author.username}}</h3>
-                <h6 class="text-muted">{{author.name}}</h6>
+                <h3 class="title">{{response.user.username}}</h3>
+                <h6 class="text-muted">{{response.user.data.firstname}} {{response.user.data.lastname}}</h6>
                 <a href="#pablo" class="btn btn-just-icon btn-link btn-github"><i class="fa fa-github"></i></a>
                 <a href="#pablo" class="btn btn-just-icon btn-link btn-twitter"><i class="fa fa-twitter"></i></a>
                 <a href="#pablo" class="btn btn-just-icon btn-link btn-pinterest"><i class="fa fa-globe"></i></a>
@@ -23,7 +24,7 @@
           </div>
         </div>
         <div class="description text-center">
-          <p>{{author.description}}</p>
+          <p>{{response.user.data.description}}</p>
         </div>
         <div class="row">
           <div class="col-md-6 ml-auto mr-auto">
@@ -47,8 +48,8 @@
             <div class="tab-pane {{loop.index==1 ? "active" : null}}" id="{{c.name|lower}}">
                 {% if loop.index==1 %}
                 <div class="row">
-                    {% for i in range(1,2) %}
-                    {{card.recomanded(data.image, data.title, data.author,data.serial)}}
+                    {% for post in response.posts %}
+                    {{card.recomanded(data.image, post.title, response.user.username,post.serial)}}
                     {% endfor %}
                 </div>
                 {% else %}

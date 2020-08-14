@@ -2,7 +2,7 @@
 <p align="center">
   <img src="https://imgur.com/uHDcZyk.jpg" alt="New logo"/>
 </p>
-This is a Content Management System created for learning purposes. It has suffered a lot of changes and improves during this commits. If you want to see a changelog of this look at the [Versions ](#versions). Project is not regularly maintained and can have severe security issues because of the little time I have.
+This is a Content Management System created for learning purposes. It has suffered a lot of changes and improves during this commits. If you want to see a changelog of this look at the [Versions](#versions). Project is not regularly maintained and can have severe security issues because of the little time I have.
 
 # Installation with Docker
 I tried to automate as much as I could and these are the new steps:

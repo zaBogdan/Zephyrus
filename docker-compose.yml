@@ -8,7 +8,7 @@ services:
     depends_on: 
       - database
     volumes:
-      - /home/zabogdan/Documents/Zephyrus:/var/www/html
+      - ./:/var/www/html
     ports:
       - 8000:80
   database:

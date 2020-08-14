@@ -64,6 +64,7 @@ if($page === 'create-new'){
     $vars['header']['editor'] = true;
     $name = "Create new post";
     $vars['post'] = $_POST;
+    $vars['env'] = $sensitive->env;
 }
 
 /**

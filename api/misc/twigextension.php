@@ -70,7 +70,9 @@ class TwigExtension extends AbstractExtension{
     }
     public static function getAllPosts(){
       $post = \Api\Management\Posts::find_all_by_attribute("status", "public");
-      $response = array("posts"=>array_reverse($post), "number"=> count($post));
+      if(!is_array($post))
+        $response = array("posts" => array(), "number"=> 0);
+      else $response = array("posts"=>array_reverse($post), "number"=> count($post));
       return $response;   
     }
     public static function getUserInformation(){

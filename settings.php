@@ -34,11 +34,7 @@ $user = \Api\Management\Users::find_by_attribute("uuid", $_SESSION['user']);
 /**
  * This all must be reworked and set like it should be!
  */
-$vars = array(
-    "header" => array(),
-    "body" =>array('name'=>strtolower($page)),
-    "user" => $user,
-);
+
 
 
 $page='edit-profile';
@@ -46,6 +42,13 @@ if(isset($_GET['page']) && !empty($_GET['page']))
     $page = $_GET['page'];
 $path = "settings";
 $name = $page;
+
+$vars = array(
+    "header" => array(),
+    "body" =>array('name'=>strtolower($page)),
+    "user" => $user,
+);
+
 
 if($page === 'edit-profile'){
     $name = 'Edit profile settings';

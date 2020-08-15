@@ -76,7 +76,7 @@ $values = array(
         'category' => 'Documentation',
         'title' => "How to give proof of concept when you didn't even released your app",
         'author' => 'zaBogdan',
-        'serial' => '39dc947dc48da9f5',
+        'serial' => '1cdf585abd705727',
         'tags' => array(
             'Zephyrus','HTB', 'HackTheBox', 'Blog', 'CMS', 'Documentation'
         )

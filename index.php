@@ -53,8 +53,8 @@ if(isset($_GET['page']) && !empty($_GET['page']))
     $page = $_GET['page'];
 $path = "home";
 $name = $page;
+
 $vars = array(
-    "header" => array('title'=>$name),
     "body" =>array('name'=>strtolower($page)),
     "user" => $user,
 );
@@ -98,6 +98,8 @@ $values = array(
         ),
     ),
 );
+
+$vars["header"]['title'] = $name;
 $vars = array_merge($vars, $values);
 $template = new \Api\Misc\Render('/main/templates');
 $template->render("/pages".'/'.$path.'/'.strtolower($page), $vars);

@@ -119,6 +119,7 @@ class Users extends \Api\Database\DbModel{
             "role" => "User",
             "status" => "notConfirmed",
             "special_perms" => array(),
+            "image" => "https://via.placeholder.com/150/008000/FFFFFF/64x64.png?text=".strtoupper($data['firstname'][0].$data['lastname'][0]),
         );
 
         if(!$this->save_to_db())

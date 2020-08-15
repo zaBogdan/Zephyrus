@@ -282,6 +282,7 @@ class TwigExtension extends AbstractExtension{
         }
         if(isset($_POST['firstname']) && !empty($_POST['firstname'])) $user->data->firstname = $_POST['firstname'];
         if(isset($_POST['lastname']) && !empty($_POST['lastname'])) $user->data->lastname = $_POST['lastname'];
+        $user->data->image = "https://via.placeholder.com/150/008000/FFFFFF/64x64.png?text=".strtoupper($user->data->firstname[0].$user->data->lastname[0]);
         if(isset($_POST['role']) && !empty($_POST['role'])&& $_POST['role']!==$user->data->role){
           $aRole = $_POST['role'];
           global $role;
@@ -379,6 +380,7 @@ class TwigExtension extends AbstractExtension{
       if(isset($_POST['lastname']) && !empty($_POST['lastname'])) $user->data->lastname = $_POST['lastname'];
       if(isset($_POST['biography']) && !empty($_POST['biography'])) $user->data->biography = $_POST['biography'];
       
+      $user->data->image = "https://via.placeholder.com/150/008000/FFFFFF/64x64.png?text=".strtoupper($user->data->firstname[0].$user->data->lastname[0]);
       /**
        * Check for urls
        */

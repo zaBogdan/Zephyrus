@@ -81,9 +81,6 @@ $values = array(
             'Zephyrus','HTB', 'HackTheBox', 'Blog', 'CMS', 'Documentation'
         )
     ),
-    'author' => array(
-        'image' => 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fd/fd4372b86edca6468c80bfa8c79361c250fbb22c_full.jpg',
-    ),
     'categories' => array(
         array(
             "name" => "Documentation",

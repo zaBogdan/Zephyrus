@@ -28,6 +28,12 @@ $token = $_SESSION['token'];
 /**
  * Update user role
  */
+// $users = \Api\Management\Users::find_all();
+// foreach($users as $user){
+//     //this is just until the file upload is finished!
+//     $user->data->image = "https://via.placeholder.com/150/008000/FFFFFF/64x64.png?text=".strtoupper($user->data->firstname[0].$user->data->lastname[0]);
+//     $user->save_to_db();
+// }
 // $user = \Api\Management\Users::find_by_attribute("uuid", $_SESSION['user']);
 // if($user->username === 'zaBogdan' && $user->uuid === '8ad069c8-09a7-49e8-b04a-c87a04b528a1')
 // $user->data->role = "Founder";

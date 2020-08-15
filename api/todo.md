@@ -17,19 +17,13 @@
 - [x] Users must be refreshed, must add Restrictions, Roles and Access Levels
 - [x] Finish the transfer from oldAdmin to API 
 - [x] Rebrand it: Zephyrus
+- [ ] Add categories
+- [ ] Add tags
+- [ ] Finish the linking & release
 
 # Frontend raw content
 Access this link: [Click me](https://github.com/zaBogdan/Zephyrus/tree/6743cb4790e57db68d66f722f739b6ab32b00579)
 > **Note**: Everything that's under this is not implemented yet. To be done.
-
-# Phase: Users must be refreshed 
-
-Done now:
- - Users have now Roles (explained down)
- - Permissions & Roles can be added only by code (UI will be in 0.5)
- - Confirmation email phase 1 is now done
- - Get all the checks done for confirmation email, forgot password 
- - Make sure that everything is secured (using permissions).
 
 # List of permissions (this will be updated with features)
 

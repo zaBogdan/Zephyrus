@@ -18277,6 +18277,9 @@ footer .pull-center {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.texthandler{
+  word-wrap: break-word !important;
+}
 .post-page .post{
   word-wrap: break-word !important;
 }

@@ -16,15 +16,21 @@
               <div class="name">
                 <h3 class="title">{{response.user.username}}</h3>
                 <h6 class="text-muted">{{response.user.data.firstname}} {{response.user.data.lastname}}</h6>
-                <a href="#pablo" class="btn btn-just-icon btn-link btn-github"><i class="fa fa-github"></i></a>
-                <a href="#pablo" class="btn btn-just-icon btn-link btn-twitter"><i class="fa fa-twitter"></i></a>
-                <a href="#pablo" class="btn btn-just-icon btn-link btn-pinterest"><i class="fa fa-globe"></i></a>
+                {% if response.user.data.github != null %}
+                <a href="{{response.user.data.github}}" target="_blank" class="btn btn-just-icon btn-link btn-github"><i class="fa fa-github"></i></a>
+                {% endif %}
+                {% if response.user.data.twitter != null %}
+                <a href="{{response.user.data.twitter}}" target="_blank" class="btn btn-just-icon btn-link btn-twitter"><i class="fa fa-twitter"></i></a>
+                {% endif %}
+                {% if response.user.data.website != null %}
+                <a href="{{response.user.data.website}}" target="_blank" class="btn btn-just-icon btn-link btn-pinterest"><i class="fa fa-globe"></i></a>
+                {% endif %}
               </div>
             </div>
           </div>
         </div>
-        <div class="description text-center">
-          <p>{{response.user.data.description}}</p>
+        <div class="text-center">
+          <p style="white-space: pre-line">{{response.user.data.biography}}</p>
         </div>
         <div class="row">
           <div class="col-md-6 ml-auto mr-auto">

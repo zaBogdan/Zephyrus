@@ -38,6 +38,29 @@ class Sessions{
         $_SESSION['user'] = $user->uuid;
     }
 
+    /**
+     * hasFreshToken checks if a user has fresh tokens
+     * 
+     * @return bool 
+     */
+    public static function hasFreshToken(){
+        if(!self::checkLogin())
+            return false;
+        $goodToken = \explode(":", $_SESSION['token']);
+        $token = \Api\Management\Tokens::find_by_attribute("selector",$goodToken[0]);
+        if($token->validateToken($_SESSION['user'], "login", $goodToken[1],true))
+            return true;
+        return false;
+    }
+    /**
+     * generateNewFresh revoke existing tokens and generate new one!
+     */
+    public static function generateNewFresh(){
+        $user = \Api\Management\Users::find_by_attribute("uuid", $_SESSION['user']);
+        self::destroySession();
+        self::handleSession($user, false);
+    }
+
     public static function checkLogin(){
         /**
          * If user just logged in

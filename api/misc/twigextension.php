@@ -25,6 +25,7 @@ class TwigExtension extends AbstractExtension{
         new TwigFunction('loginProcess', array($this, 'loginProcess')),
         new TwigFunction('registerProcess', array($this, 'registerProcess')),
         new TwigFunction('activateUser', array($this, 'activateUser')),
+        new TwigFunction('generateFreshTokens', array($this, 'generateFreshTokens')),
         new TwigFunction('sendResetPassword', array($this, 'sendResetPassword')),
         new TwigFunction('resetPassword', array($this, 'resetPassword')),
         new TwigFunction('generateConfirmation', array($this, 'generateConfirmation')),
@@ -32,6 +33,9 @@ class TwigExtension extends AbstractExtension{
         new TwigFunction('updateUserInfo', array($this, 'updateUserInfo')),
         new TwigFunction('deleteUserInfo', array($this, 'deleteUserInfo')),
         new TwigFunction('checkPermission', array($this, 'checkPermission')),
+        new TwigFunction('updatePasswords', array($this, 'updatePasswords')),
+        new TwigFunction('updateEmail', array($this, 'updateEmail')),
+        new TwigFunction('updateUserProfile', array($this, 'updateUserProfile')),
         new TwigFunction('updateTokens', array($this, 'updateTokens')),
         new TwigFunction('createPost', array(new \Api\Management\Posts(), 'createPost')),
         new TwigFunction('updatePost', array($this, 'updatePost')),
@@ -81,7 +85,7 @@ class TwigExtension extends AbstractExtension{
       $user = \Api\Management\Users::find_by_attribute("username", $_GET['username']);
       if(!$user)
         return "This username doesn't exists in our database";
-        var_dump($user);
+        // var_dump($user);
       $posts = \Api\Management\Posts::find_all_by_attribute("author", $user->id);
       $public_posts = array();
       foreach($posts as $post){
@@ -161,7 +165,16 @@ class TwigExtension extends AbstractExtension{
       $response['error_level']=2;
       return $response;
     }
-
+    public function generateFreshTokens($user){
+      if(!isset($_POST['submit']))
+        return "In order to make changes you need to confirm your password!";
+      global $session;
+      if(!$user->check_user($user->username, $_POST['password']))
+        return "Password is invalid! Please try again!";
+      $session->generateNewFresh();
+      header("Refresh:0;", true, 303);
+      return "You've renewed your session! Wait to get redirected!";
+    }
     /**
      * This handles the process of sending an email!
      */
@@ -350,8 +363,113 @@ class TwigExtension extends AbstractExtension{
         $user->delete();
       }
     }
-    
+    public function updateUserProfile(){
+      if(!isset($_POST['submit']))
+        return null;
+      $response = array("error"=> null, "success"=>null);
+      $user = \Api\Management\Users::find_by_attribute("uuid", $_SESSION['user']);
+      if(isset($_POST['username']) && !empty($_POST['username']) && $_POST['username']!==$user->username){ 
+        $username = $_POST['username'];  
+        if($user->find_by_attribute("username", $username))
+          $response['error'] = $username." is already in our database!"; 
+        if($response['error']) return $response;         
+        $user->username = $username;
+      }
+      if(isset($_POST['firstname']) && !empty($_POST['firstname'])) $user->data->firstname = $_POST['firstname'];
+      if(isset($_POST['lastname']) && !empty($_POST['lastname'])) $user->data->lastname = $_POST['lastname'];
+      if(isset($_POST['biography']) && !empty($_POST['biography'])) $user->data->biography = $_POST['biography'];
+      
+      /**
+       * Check for urls
+       */
+      $url_regex = '/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/';
+      if(isset($_POST['github']) && !empty($_POST['github'])){
+        // if(!preg_match_all($url_regex, $_POST['github'], $test,PREG_PATTERN_ORDER))
+        //   $response['error'] = "You must insert an URL for the GITHUB profile!";
+        // if($response['error']) return $response;   
+        $user->data->github = $_POST['github'];
+      }
+      if(isset($_POST['twitter']) && !empty($_POST['twitter'])){
+        // if(!preg_match($url_regex, $_POST['twitter']))
+        //   $response['error'] = "You must insert an URL for the TWITTER profile!";
+        // if($response['error']) return $response;         
+        $user->data->twitter = $_POST['twitter'];
+      }
+      if(isset($_POST['website']) && !empty($_POST['website'])){
+        // if(!preg_match($url_regex, $_POST['website']))
+        //   $response['error'] = "You must insert an URL for your WEBSITE!";
+        // if($response['error']) return $response;         
+        $user->data->website = $_POST['website'];
+      }
+      /**
+       * Finally update the database.
+       */
+      if(!$user->save_to_db())
+        $response['error'] = "There was an error while trying to update your profile!";
+      if(!$response['error']) $response['success'] = true;
+      return $response;
+    }
 
+    public function updatePasswords(){
+      if(!isset($_POST['submit']))
+        return null;
+      $response = array("error"=> null, "success"=>null);
+      $user = \Api\Management\Users::find_by_attribute("uuid", $_SESSION['user']);
+      /**
+       * Check the old password
+       */
+      if(!$user->check_user($user->username, $_POST['old_password']))
+        $response['error'] = "Your old password is invalid! Please try again!";
+      if($response['error']) return $response; 
+      
+      /**
+       * Check if passwords match
+       */
+      if($_POST['new_password'] !== $_POST['confirm_password'])
+        $response['error'] = "New password doesn't match! Please try again!";
+      if($response['error']) return $response; 
+
+      /**
+       * Check if old_password!=new_password
+       */
+      if($_POST['new_password'] === $_POST['old_password'])
+        $response['error'] = "There was an error while trying to update your password!";
+      if($response['error']) return $response; 
+
+      /**
+       * Updating the password
+       */
+      $user->password = $user->hashPassword($_POST['new_password']);
+      if(!$user->save_to_db())
+        $response['error'] = "There was an error while trying to update your password!";
+      if(!$response['error']) $response['success'] = true; 
+      return $response;
+    }
+
+    public function updateEmail(){
+      if(!isset($_POST['submit']))
+        return null;
+      $response = array("error"=> null, "success"=>null);
+      $email = $_POST['email'];
+
+      if($email !== $_POST['confirm_email'])
+        $response['error'] = "New email doesn't match! Please try again!";
+      if($response['error']) return $response; 
+      
+      if(\Api\Management\Users::find_by_attribute("email", $email))
+        $response['error'] = "This email is already in use!";
+      if($response['error']) return $response; 
+      $user = \Api\Management\Users::find_by_attribute("uuid", $_SESSION['user']);
+      $user->email = $email;
+      $user->data->status = "notConfirmed";
+      if(!$user->save_to_db())
+        $response['error'] = "There was an error while trying to update your email!";
+      if($response['error']) return $response;
+      if(!$user->send_confirmation())
+        $response['error'] = "There was an error while trying to send the confirmation email!";
+      if(!$response['error']) $response['success']=true; 
+      return $response;
+    }
     public function checkPermission($perm){
       global $role;
       $user = \Api\Management\Users::find_by_attribute("uuid", $_SESSION['user']);

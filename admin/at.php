@@ -18,8 +18,13 @@ $token = $_SESSION['token'];
  * Go check what you've done
  * ----------------------------------------------------
  */
+// echo "<pre>";
+// var_dump($session->hasFreshToken());
+// echo "</pre>";
 
-
+// echo "<pre>";
+// var_dump($session->generateNewFresh());
+// echo "</pre>";
 /**
  * Update user role
  */
@@ -32,9 +37,9 @@ $token = $_SESSION['token'];
 // echo "</pre>";
 // var_dump($role->canEditUserRole("Moderator", "Administrator"));
 
-$post = new \Api\Management\Posts();
-$string = "<script>,alert(1),</script>";
-var_dump($post->handle_tags($string));
+// $post = new \Api\Management\Posts();
+// $string = "<script>,alert(1),</script>";
+// var_dump($post->handle_tags($string));
 /**
  * Add a new permission
  */

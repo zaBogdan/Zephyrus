@@ -1,0 +1,62 @@
+{% extends 'pages/settings/main.twig' %}
+{% set response = updateUserProfile() %}
+
+
+{% block settings %}
+{% import 'components/form.twig' as form %}
+    <form method="post" action="" enctype="multipart/form-data">
+        {{ form.input('dummyEmailNotUsed', {'name': 'Email','value': user.email,'readonly': true})}}
+        {{ form.input('username', {'value': user.username,'autofocus': true})}}
+        {{ form.input('firstname', {'value': user.data.firstname!=null ? user.data.firstname : data.firstname})}}
+        {{ form.input('lastname', {'value': user.data.lastname!=null ? user.data.lastname : data.lastname})}}
+        {% set value = user.data.biography == null ? data.biography : user.data.biography %}
+        {{ form.textarea('biography',{'name': 'biography','value':value }) }}
+        <div class="row">
+            <div class="col-lg-4">
+                {{ form.input_icon('github', 'fa fa-github', {'value': user.data.github!=null ? user.data.github : data.github})}}
+            </div>
+            <div class="col-lg-4">
+                {{ form.input_icon('twitter','fa fa-twitter', {'value': user.data.twitter!=null ? user.data.twitter : data.twitter})}}
+            </div>
+            <div class="col-lg-4">
+                {{ form.input_icon('website','fa fa-globe', {'value': user.data.website!=null ? user.data.website : data.website})}}
+            </div>
+        </div>
+        <div class="text-center">
+            <button class="btn btn-primary btn-round" type="submit" name="submit">Submit changes</button>
+        </div>
+    </form>
+{% endblock %}
+
+{% block alerts %}
+{% if response.error != null %}
+        <div class ="mr-auto ml-auto mb-auto" style="position: relative;">
+            <div class="alert alert-danger">
+                <div class="container">
+                <div class="alert-icon">
+                    <i class="material-icons">error_outline</i>
+                </div>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                </button>
+                <b>Error:</b> {{response.error}}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% if response.success == true %}
+        <div class ="mr-auto ml-auto mb-auto" style="position: relative;">
+            <div class="alert alert-success">
+                <div class="container">
+                <div class="alert-icon">
+                    <i class="material-icons">check</i>
+                </div>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                </button>
+                <b>Success:</b> Your profile has been updated successfully!
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

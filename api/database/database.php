@@ -10,11 +10,13 @@ class Database{
 
     private function connect_to_db(){
         global $sensitive;
+        if(!$sensitive->env['DATABASE_HOST'])
+            return "The app isn't yet installed!";
         $this->connection = new \mysqli(
             $sensitive->env['DATABASE_HOST'],
             $sensitive->env['DATABASE_USERNAME'],
             $sensitive->env['DATABASE_PASSWORD'],
-            $sensitive->env['DATABASE_NAME']
+            $sensitive->env['DATABASE_NAME'],
         );
 
         if($this->connection->connect_errno)

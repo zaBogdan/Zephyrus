@@ -73,6 +73,15 @@
                     </div>
                 </div>
             </div>
+            <h4>Text editor</h4>
+              <hr>
+              <h6 class="text-muted">
+                This application is using TinyMCE as text editor. Please fill in the API Key from your 
+                <a href="https://www.tiny.cloud/my-account/dashboard/" target="_blank">TinyMCE dashboard</a>.
+              </h6><br />
+              <div class="form-group">
+                  {{ forms.input('TINYMCE_KEY','Enter your API Key',null,{'type':'text', "name": "Tiny API Key"}) }}
+              </div>
             <h4>Application secret key</h4>
               <hr>
               <h6 class="text-muted">

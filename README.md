@@ -2,19 +2,18 @@
 <p align="center">
   <img src="https://imgur.com/uHDcZyk.jpg" alt="New logo"/>
 </p>
-This is a Content Management System created for learning purposes. It has suffered a lot of changes and improves during this commits. If you want to see a changelog of this look at the [Versions ](#versions). Project is not regularly maintained and can have severe security issues because of the little time I have.
+This is a Content Management System created for learning purposes. It has suffered a lot of changes and improves during this commits. If you want to see a changelog of this look at the Versions. Project is not regularly maintained and can have severe security issues because of the little time I have.
 
 # Installation with Docker
 I tried to automate as much as I could and these are the new steps:
 * Clone the repository 'git clone https://github.com/zaBogdan/Zephyrus.git'
 * Change to the directory 'cd Zephyrus'
 * Run the composer to get all dependencies 'composer install'
-* Fill up the 'docker-compose.yml.example' with credentials ( new ones )
-* Rename the file into 'docker-compose.yml'
-* Start up docker with 'docker-compose up'
+* Make sure you change credentials from 'docker-compose.yml' file
+* Start up docker with 'docker-compose up --build' (use --build only first time!)
 * Go to the web at 'http://localhost:8000/admin/install/' and follow the instructions there
 
-> **Note:** The credentials in 'docker-compose.yml' can be anything you want. There are just for setup purposes.
+> **Note:** The credentials in 'docker-compose.yml' can be anything you want. There are just for setup purposes. But make you need to reuse them in order to make the connection to database!
 
 And that's it. You've installed the application!
 
@@ -24,7 +23,7 @@ Even if I don't recommend it because it can be a huge pain on some operating sys
 * Change to the directory 'cd Zephyrus'
 * Run the composer to get all dependencies 'composer install'
 * Now you have everything needed, so you need to set up the webservice
-* You need PHP, Apache2, PHPMyAdmin and MySQL installed on your system
+* You need PHP, Apache2, PHPMyAdmin and MySQL installed on your system. Also an active Mailgun account and a TinyMCE one.
 * Go to the web at 'http://localhost:8000/admin/install/' and follow the instructions there
 
 > **Note** I recommend this tutorial for installing the LAMP stack if you are on a linux distro: https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-16-04

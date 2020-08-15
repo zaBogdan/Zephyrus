@@ -53,7 +53,7 @@ if($action === 'create'){
     $vars['post'] = $post;
 }
 
-
+$vars['env'] = $sensitive->env;
 $vars['header'] = array('title'=>$action." post", 'editor'=>true);
 $vars['navbar'] = array('username'=> $loggedUser->username);
 $vars['bc'] = array('root' => 'Administrator', 'directory'=> array('Manage','Posts'), 'last'=>$action);

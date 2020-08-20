@@ -28,7 +28,9 @@ $token = $_SESSION['token'];
 /**
  * Update user role
  */
-// $users = \Api\Management\Users::find_all();
+$posts = \Api\Management\Posts::find_by_attribute("status", "public");
+
+htmlspecialchars(var_dump($posts));
 // foreach($users as $user){
 //     //this is just until the file upload is finished!
 //     $user->data->image = "https://via.placeholder.com/150/008000/FFFFFF/64x64.png?text=".strtoupper($user->data->firstname[0].$user->data->lastname[0]);

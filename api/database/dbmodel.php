@@ -3,29 +3,53 @@
 namespace Api\Database;
 
 class DbModel{
-
     /**
-     * Public functions:
-     * -> find_all @return all data from the db
-     * -> find_by_attribute @return the first user with that attribute ( username, id or uuid )
-     * -> send_query @return an array of the class object with the required data
-     * -> save_to_db 
-     * -> delete
+     * Retrieve all the content from a specific table
+     * @return array
      */
     public static function find_all(){
         return static::send_query("SELECT * FROM ".static::$db_table);
     }
-    public static function find_all_by_attribute(String $name, $data){
+
+    /**
+     * Retrieve the content from a specifiec table by an identifier.
+     * @param String $name The identifier tag you want to search
+     * @param $data The value which should be filtered by
+     * @param $items=1 The amount of data you want
+     * 
+     * @return Array or Object depending on the limit.
+     */
+    public static function find_by_attribute(String $name, $data, $items = 1){
         global $db;
-        $result = static::send_query("SELECT * FROM ".static::$db_table." WHERE ".$name."='{$db->escape_string($data)}'");
+        /**
+         * Building the querry
+         */
+        $sql = "SELECT * FROM ".static::$db_table." WHERE ".$name."='{$db->escape_string($data)}'";
+        $items = $items == 0 ? null : $sql.="  LIMIT {$items}";
+        $result = static::send_query($sql);
+
+        /**
+         * Handle the case if $result is not array
+         */
+        $result = is_array($result) && sizeof($result) >= 2 ? $result : array_shift($result); 
+
         return !empty($result) ? $result : false;
     }
-    public static function find_by_attribute(string $name, $data){
-        global $db;
-        $result = static::send_query("SELECT * FROM ".static::$db_table." WHERE ".$name."='{$db->escape_string($data)}' LIMIT 1");
-        return !empty($result) ? array_shift($result) : false;
+
+    /**
+     * Keeping this function until full deprecation
+     * Will be deprecated in version 0.5
+     */
+    public static function find_all_by_attribute(string $name, $data){
+        return self::find_by_attribute($name, $data, 0);
     }
 
+    /**
+     * Send a specific querry to the database. 
+     * 
+     * @param String $query the sql sequence that you want to send
+     * @return Array
+     */
     public static function send_query($query){
         global $db;
         $result = $db->query($query);
@@ -39,9 +63,18 @@ class DbModel{
         return $obj;
     }
     
+    /**
+     * Handles the Create/Update functions 
+     * @return Boolean either the querry succeded or not
+     */
     public function save_to_db(){
         return isset($this->id) ? $this->update() : $this->create();
     }
+
+    /**
+     * Handles the Delete function
+     * @return Boolean either the querry succeded or not
+     */
     public function delete(){
         global $db;
         $sql = "DELETE FROM ".static::$db_table." WHERE id = ".$db->escape_string($this->id)." ";
@@ -49,6 +82,16 @@ class DbModel{
             return false;
     }
 
+    /**
+     * Checks if a string is JSON or not.
+     * @return Boolean either the string is JSON format or not.
+     */
+    public static function isJson($string) {
+        if(!is_string($string))
+            return false;
+        json_decode($string);
+        return (json_last_error() == JSON_ERROR_NONE) ? true : false;
+    }
 
     /**
      * Private functions 
@@ -108,11 +151,5 @@ class DbModel{
         if(!$db->query($sql))
             return false;
         return true;
-    }
-    public static function isJson($string) {
-        if(!is_string($string))
-            return false;
-        json_decode($string);
-        return (json_last_error() == JSON_ERROR_NONE) ? true : false;
     }
 }

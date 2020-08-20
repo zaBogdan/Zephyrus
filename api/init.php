@@ -22,6 +22,7 @@ require_once ROOT_DIR.'/api/management/users.php';
 require_once ROOT_DIR.'/api/management/tokens.php';
 require_once ROOT_DIR.'/api/management/permissions.php';
 require_once ROOT_DIR.'/api/management/posts.php';
+require_once ROOT_DIR.'/api/management/categories.php';
 require_once ROOT_DIR.'/api/management/roles.php';
 
 // Api\Misc

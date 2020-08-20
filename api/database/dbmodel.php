@@ -8,7 +8,7 @@ class DbModel{
      * @return array
      */
     public static function find_all(){
-        return static::send_query("SELECT * FROM ".static::$db_table);
+        return static::send_query("SELECT a.id AS '".static::$db_table."_id', a.* FROM ".static::$db_table." a");
     }
 
     /**
@@ -24,10 +24,9 @@ class DbModel{
         /**
          * Building the querry
          */
-        $sql = "SELECT * FROM ".static::$db_table." WHERE ".$name."='{$db->escape_string($data)}'";
+        $sql = "SELECT a.id AS '".static::$db_table."_id', a.* FROM ".static::$db_table." a WHERE ".$name."='{$db->escape_string($data)}'";
         $items = $items == 0 ? null : $sql.="  LIMIT {$items}";
         $result = static::send_query($sql);
-
         /**
          * Handle the case if $result is not array
          */
@@ -56,11 +55,11 @@ class DbModel{
         if(empty($result)) return false;
 
 
-        $obj = array();
+        $data = array();
         while($row = mysqli_fetch_assoc($result))
-            //create an array of Class Inherited Objects
-            $obj[] = static::build($row);
-        return $obj;
+            $data[] = static::parser($row);
+        
+        return $data;
     }
     
     /**
@@ -95,6 +94,42 @@ class DbModel{
 
     /**
      * Private functions 
+     */
+    public static function parser($row){
+        /**
+         * Building the array
+         */
+        $array = array();
+        $pos = 0;
+        foreach($row as $key => $value){
+            if (\strpos($key, '_id')) { 
+                $name = "\Api\Management\\".\ucfirst(explode("_", $key)[0]);
+                $array[$name]['id'] = $value;
+                continue;
+            }
+            if(!array_key_exists($key, $array))
+            $array[$name][$key] = $value;
+        }
+        return static::construct($array);
+    }
+    private static function construct(Array $array){
+        $objects = array();
+        foreach($array as $class => $data){
+            $obj = new $class;
+            foreach($data as $key => $value)
+                if($obj->has_prop($key)){
+                    if(static::isJson($value))
+                        $value = json_decode($value);
+                    $obj->$key = $value;
+                }
+            $objects[] = $obj;
+        }
+        return count($objects)>=2? $objects : array_shift($objects);
+    }
+
+    /**
+     * Function is deprecated. 
+     * No longer in use. I keep it just in case (until next commit)
      */
     private static function build($row){
         $class = get_called_class();
@@ -132,6 +167,21 @@ class DbModel{
         }
         return $props;
     }
+    private function createLink($firstID, $secondID){
+        global $db;
+        $sql = "INSERT INTO ".static::$mtm_table." (";
+        $sql.= implode(",", array_values(static::$mtm_fields)).") VALUES (NULL, '{$firstID}', '{$secondID}');";
+        if(!$db->query($sql))
+            return false;
+        return true;
+    }
+
+    /**
+     * This function must be implemented
+     */
+    private function updateLink($id, $firstID, $secondID){
+        return null;
+    }
     private function create(){
         global $db;
         $props = $this->clear_props();
@@ -139,6 +189,9 @@ class DbModel{
         $sql.= "VALUES ('".implode("','", array_values($props))."') ";
         if(!$db->query($sql))
             return false;
+        if(isset(static::$mtm_table))
+            if(!self::createLink($db->connection->insert_id, $this->foreignKey))
+                return false;
         return true;
     }
     private function update(){

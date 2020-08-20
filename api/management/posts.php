@@ -6,6 +6,8 @@ namespace Api\Management;
 class Posts extends \Api\Database\DbModel{
     protected static $db_table = "posts";
     protected static $db_fields = array('id', 'title','author','status', 'description', 'text', 'date','serial');
+    protected static $mtm_table = "posts_categories";
+    protected static $mtm_fields = array('id','postID', 'categoryID');
     protected static $allowedStatus = array('public', 'private', 'unlisted', 'draft');
 
     public $id;
@@ -20,6 +22,7 @@ class Posts extends \Api\Database\DbModel{
     public static function getStatus(){
         return self::$allowedStatus;
     }
+
     public function createPost($user){
         global $role;
         if(!isset($_POST['submit']))
@@ -29,6 +32,11 @@ class Posts extends \Api\Database\DbModel{
         $this->description = $_POST['description'];
         $this->text = $_POST['text'];
         $this->status = $_POST['status'];
+        $category = \Api\Management\Categories::find_by_attribute("name", $_POST['category']);
+        if(!$category)
+            return $_POST['category']." doesn't exists!";
+        $this->foreignKey = $category->id;
+
         if(!in_array($this->status, self::$allowedStatus))
             return "You can only have ".strtoupper(implode(', ', self::$allowedStatus))." as status to your posts!";
         $status = time();
@@ -67,7 +75,7 @@ class Posts extends \Api\Database\DbModel{
  
         if(!$this->save_to_db())
             return "There was an error while trying to save the post to the database!";
-        return true;
+        return "Success";
     }
 
     public static function handle_tags($tags){

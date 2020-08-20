@@ -18,6 +18,30 @@ $token = $_SESSION['token'];
  * Go check what you've done
  * ----------------------------------------------------
  */
+
+/**
+ * Some new features to the database.
+ */
+// $posts = \Api\Management\Posts::send_query("SELECT p.id AS 'posts_id', p.*, c.id AS 'categories_id', c.* FROM `posts` p INNER JOIN `posts_categories` b ON b.postID = p.id INNER JOIN `categories` c ON c.id = b.categoryID WHERE p.serial='014759186e62b8f4' LIMIT 1");
+echo "<pre>";
+$posts = \Api\Management\Posts::find_by_attribute('serial','014759186e62b8f4');
+// var_dump($posts);
+echo "</pre>";
+
+
+
+// $category->name = "Horror";
+// $category->data = array("color"=> "#ec4242");
+// $category->save_to_db();
+// $post = \Api\Management\Posts::find_by_attribute("serial", "8994c7d8317e2c50");
+// $post->id=null;
+// $post->foreignKey = 1;
+// $post->save_to_db();
+ /**
+  * End of section
+  */
+
+
 // echo "<pre>";
 // var_dump($session->hasFreshToken());
 // echo "</pre>";
@@ -28,9 +52,6 @@ $token = $_SESSION['token'];
 /**
  * Update user role
  */
-$posts = \Api\Management\Posts::find_by_attribute("status", "public");
-
-htmlspecialchars(var_dump($posts));
 // foreach($users as $user){
 //     //this is just until the file upload is finished!
 //     $user->data->image = "https://via.placeholder.com/150/008000/FFFFFF/64x64.png?text=".strtoupper($user->data->firstname[0].$user->data->lastname[0]);

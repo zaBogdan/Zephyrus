@@ -10,7 +10,7 @@
         <h2 class="title">Create a new post</h2>
         </div>
     </div>
-    {% if response != true and response != null %}
+    {% if response != "Success" and response != null %}
     <div class="col-md-6 ml-auto mr-auto alert alert-danger">
         <div class="container">
         <div class="alert-icon">
@@ -22,7 +22,8 @@
         <b>Error:</b> {{response}}
         </div>
     </div>
-    {% elseif response == true %}
+    {% endif %}
+    {% if response == "Success" %}
       <div class="col-md-6 ml-auto mr-auto alert alert-success">
         <div class="container">
         <div class="alert-icon">

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: database:3306
--- Generation Time: Aug 06, 2020 at 11:38 AM
+-- Generation Time: Aug 20, 2020 at 03:41 PM
 -- Server version: 5.7.31
--- PHP Version: 7.4.6
+-- PHP Version: 7.4.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,8 +18,31 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `zaEngine`
+-- Database: `Zephyrus`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
+DROP TABLE IF EXISTS `categories`;
+CREATE TABLE `categories` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `data` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`id`, `name`, `data`) VALUES
+(1, 'Information', '{\"color\":\"#4261ec\"}'),
+(2, 'Documentation', '{\"color\":\"#42ec5e\"}'),
+(3, 'Adventure', '{\"color\":\"#ec8642\"}'),
+(4, 'Horror', '{\"color\":\"#ec4242\"}');
 
 -- --------------------------------------------------------
 
@@ -85,6 +108,19 @@ CREATE TABLE `posts` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `posts_categories`
+--
+
+DROP TABLE IF EXISTS `posts_categories`;
+CREATE TABLE `posts_categories` (
+  `id` int(11) NOT NULL,
+  `postID` int(11) NOT NULL,
+  `categoryID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `roles`
 --
 
@@ -145,6 +181,12 @@ CREATE TABLE `users` (
 --
 
 --
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `permissions`
 --
 ALTER TABLE `permissions`
@@ -155,6 +197,13 @@ ALTER TABLE `permissions`
 --
 ALTER TABLE `posts`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `posts_categories`
+--
+ALTER TABLE `posts_categories`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `categoryID` (`categoryID`,`postID`);
 
 --
 -- Indexes for table `roles`
@@ -179,6 +228,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
@@ -188,6 +243,12 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `posts_categories`
+--
+ALTER TABLE `posts_categories`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --

@@ -73,7 +73,7 @@ class TwigExtension extends AbstractExtension{
       return $response;   
     }
     public static function getAllPosts(){
-      $post = \Api\Management\Posts::find_all_by_attribute("status", "public");
+      $post = \Api\Management\Posts::find_by_attribute("status", "public",9);
       if(!is_array($post))
         $response = array("posts" => array(), "number"=> 0);
       else $response = array("posts"=>array_reverse($post), "number"=> count($post));
@@ -86,7 +86,7 @@ class TwigExtension extends AbstractExtension{
       if(!$user)
         return "This username doesn't exists in our database";
         // var_dump($user);
-      $posts = \Api\Management\Posts::find_all_by_attribute("author", $user->id);
+      $posts = \Api\Management\Posts::find_by_attribute("author", $user->id,0);
       $public_posts = array();
       foreach($posts as $post){
         if($post->status==="public")

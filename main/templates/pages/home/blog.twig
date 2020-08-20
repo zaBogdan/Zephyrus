@@ -32,12 +32,14 @@
                 {{ card.blog(image, "Dummy", post.title, post.serial) }}
                 {% endfor %}
 
-
-                {% for i in range(response.number+1,9) %}
-                {% set number = random(4,11) %}
-                {% set image = '/main/style/img/bg'~number~'.jpg'%}
-                {{ card.blog(image, data.category, data.title, data.serial) }}
-                {% endfor %}
+                {% set number = response.number == 9 ? 10 : response.number %}
+                {% if number < 9 %}
+                  {% for i in range(number,9) %}
+                  {% set number = random(4,11) %}
+                  {% set image = '/main/style/img/bg'~number~'.jpg'%}
+                  {{ card.blog(image, data.category, data.title, data.serial) }}
+                  {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>

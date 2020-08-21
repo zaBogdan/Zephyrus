@@ -22,12 +22,15 @@ $token = $_SESSION['token'];
 /**
  * Some new features to the database.
  */
-// $posts = \Api\Management\Posts::send_query("SELECT p.id AS 'posts_id', p.*, c.id AS 'categories_id', c.* FROM `posts` p INNER JOIN `posts_categories` b ON b.postID = p.id INNER JOIN `categories` c ON c.id = b.categoryID WHERE p.serial='014759186e62b8f4' LIMIT 1");
+$user =\Api\Management\Users::find_by_attribute("uuid",  $_SESSION['user']);
+// $posts = \Api\Management\Posts::send_query("SELECT p.id AS 'posts_id', p.*, c.id AS 'categories_id', c.* FROM `posts` p INNER JOIN `posts_categories` b ON b.postID = p.id INNER JOIN `categories` c ON c.id = b.categoryID WHERE p.author='{$user->id}' AND p.status='public'");
 echo "<pre>";
-$posts = \Api\Management\Posts::find_by_attribute('serial','014759186e62b8f4');
+// $posts = \Api\Management\Posts::find_by_attribute('serial','014759186e62b8f4');
 // var_dump($posts);
 echo "</pre>";
-
+// $category = \Api\Management\Categories::find_by_attribute('name', 'Horror');
+// $category->data->icon = "bedtime";
+// $category->save_to_db();
 
 
 // $category->name = "Horror";
@@ -89,7 +92,18 @@ echo "</pre>";
 // )));
 // var_dump($role->inheritPermissions("Founder", "Administrator"));
 // var_dump(\Api\Management\Roles::getRolePermissions("Founder"));
+$posts = \Api\Management\Posts::find_all();
+foreach($posts as $post){
+  // $image= file_get_contents("https://picsum.photos/1920/1080");
+  // $name  = md5($test).".jpg";
+  // file_put_contents($name , $image);
+  echo 'Serial '.$post->serial.' has image link to '.$post->date->image."<br>";
+  $var = explode('/', $post->date->image);
+  // $post->date->image = "/storage/posts/".$var[6];
+  var_dump($post->date->image);
+  echo "<br><br><br>";
 
-
-
-die("Nothing for now");
+  // $post->save_to_db();
+}
+// die("Nothing for now");
+?>

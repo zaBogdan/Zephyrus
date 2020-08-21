@@ -57,6 +57,7 @@ $name = $page;
 $vars = array(
     "body" =>array('name'=>strtolower($page)),
     "user" => $user,
+    "nav" => array('categories' => \Api\Management\Categories::find_all()),
 );
 
 if($page === 'create-new'){
@@ -65,39 +66,10 @@ if($page === 'create-new'){
     $name = "Create new post";
     $vars['post'] = $_POST;
     $vars['env'] = $sensitive->env;
+}else if($page === 'blog'){
+    $vars['featured'] = array_shift(\Api\Management\Posts::send_query("SELECT p.id AS 'posts_id', p.* FROM `posts` p WHERE p.status='public' ORDER BY id DESC LIMIT 1"));
 }
 
-/**
- * This must be removed once done all the implementation
- */
-$values = array(
-    'data' => array(
-        'image' => 'https://i.imgur.com/IQgzFsi.png', 
-        'category' => 'Documentation',
-        'title' => "How to give proof of concept when you didn't even released your app",
-        'author' => 'zaBogdan',
-        'serial' => '1cdf585abd705727',
-        'tags' => array(
-            'Zephyrus','HTB', 'HackTheBox', 'Blog', 'CMS', 'Documentation'
-        )
-    ),
-    'categories' => array(
-        array(
-            "name" => "Documentation",
-            "image" => "verified"
-        ),
-        array(
-            "name" => "Adventure",
-            "image" => "speed"
-        ),
-        array(
-            "name" => "Popular",
-            "image" => "local_fire_department"
-        ),
-    ),
-);
-
 $vars["header"]['title'] = $name;
-$vars = array_merge($vars, $values);
 $template = new \Api\Misc\Render('/main/templates');
 $template->render("/pages".'/'.$path.'/'.strtolower($page), $vars);

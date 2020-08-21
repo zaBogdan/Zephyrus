@@ -6,15 +6,15 @@
 {% import "components/pagination.twig" as pages %}
 {# content #}
 {% set response = getAllPosts() %}
-<div class="page-header header-filter" style="background-image: url('/main/style/img/bg10.jpg');">
+<div class="page-header header-filter" style="background-image: url('/main/style/img/bg.svg');">
     <div class="container">
       <div class="row">
         <div class="col-md-8 ml-auto mr-auto">
           <div class="brand">
             <h5 class="text-muted">Featured article</h5>
             <h3>
-                <a href="/?page=post&s=1ad7bd4e0d62ccd2" target="_blank">
-                HackTheBox - Zetta (Hard)
+                <a href="/?page=post&s={{featured.serial}}" target="_blank">
+                {{ featured.title }}
                 </a>
             </h3>
           </div>
@@ -26,20 +26,9 @@
     <div class="section">
         <div class="container">
             <div class="row">
-                {% for post in response.posts %}
-                {% set number = random(4,11) %}
-                {% set image = '/main/style/img/bg'~number~'.jpg'%}
-                {{ card.blog(image, "Dummy", post.title, post.serial) }}
+                {% for post in response %}
+                {{ card.blog(post[0].date.image, post[1].name, post[0].title, post[0].serial, {'color': post[1].data.color}) }}
                 {% endfor %}
-
-                {% set number = response.number == 9 ? 10 : response.number %}
-                {% if number < 9 %}
-                  {% for i in range(number,9) %}
-                  {% set number = random(4,11) %}
-                  {% set image = '/main/style/img/bg'~number~'.jpg'%}
-                  {{ card.blog(image, data.category, data.title, data.serial) }}
-                  {% endfor %}
-                {% endif %}
             </div>
         </div>
     </div>

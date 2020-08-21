@@ -3,13 +3,14 @@ Name: card
 Variables: 
 #}
 
-{% macro blog(img_url, category,title,serial)%}
+{% macro blog(img_url, category,title,serial, options = [])%}
 <a href="?page=post&s={{serial}}">
 <div class="card ml-3" style="width: 21rem;">
     <img class="card-img-top" src="{{img_url}}" style="height: 12rem;" rel="nofollow" alt="{{name}}">
     <div class="card-body text-center">
         <p class="card-text">
-            <p class="category">{{category|upper}}</p>
+          {% set color = options.color != null ? 'style="color: '~options.color~' !important"' : null  %}
+            <p class="category" {{color != null ? color|raw : null}}>{{category|upper}}</p>
             <a class="title" href="?page=post&s={{serial}}">{{title}}</a>
         </p>
     </div>

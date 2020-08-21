@@ -6,7 +6,7 @@
 {% if data == false %}
 {% do redirect('/?page=blog') %}
 {% endif %}
-<div class="page-header header-filter" style="background-image: url('/main/style/img/bg10.jpg');">
+<div class="page-header header-filter" style="background-image: url('{{data.post.date.image}}');">
 <div class="container">
       <div class="row">
         <div class="col-md-8 ml-auto mr-auto">
@@ -40,14 +40,14 @@
         <p class="text-muted text-right">
           Published <b>10 days</b> ago <i>(edited)</i>
         </p>
-        {{card.author_big(data.user.username, author.description, data.user.username)}}
+        {{card.author_big(data.user.username, data.user.data.biography, data.user.username)}}
       </div>
     <div class="section recomended">
         <h3><b>More content:</b></h3>
         <hr>
         <div class="row">
-            {% for i in range(1,6) %}
-                {{card.recomanded("/main/style/img/bg11.jpg", "	TinyMCE full editor mode", "zaBogdan", "dummy")}}
+            {% for c in data.recomanded  %}
+                {{card.recomanded(c[0].date.image, c[0].title, c[2].username, c[0].serial)}}
             {% endfor %}
         </div>
     </div>

@@ -75,6 +75,7 @@ function install_application(){
         }
         
         mkdir($path, 0755);
+        mkdir($path."/posts", 0755);
         $msg = "<i>FileSystem:</i> Storage folder has been created!";
     }catch(Exception $e){
         $msg = "<i>FileSystem:</i> You don't have the right permissions!";

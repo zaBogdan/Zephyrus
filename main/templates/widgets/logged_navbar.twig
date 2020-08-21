@@ -12,7 +12,16 @@
     </div>
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
+            {% for c in nav.categories %}
             <li class="nav-item">
+                <a href="/?page=blog&c={{c.name}}" class="nav-link">
+                  <i class="material-icons">{{c.data.icon}}</i>
+                  {{c.name}}
+                </a>
+            </li>
+            {% endfor %}
+            <!-- To be changed in future versions -->
+            <!-- <li class="nav-item">
                 <a href="#pablo" class="nav-link">Popular</a>
             </li>
             <li class="nav-item dropdown">
@@ -27,7 +36,7 @@
             </li>
             <li class="nav-item">
                 <a href="#pablo" class="nav-link">Following</a>
-            </li>
+            </li> -->
         </ul>
         <ul class="navbar-nav ml-auto mr-5">
         <form class="form-inline mr-3">
@@ -65,7 +74,8 @@
                     {% if checkPermission('accessAdmin') == true %}
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/admin">Admin</a>
-                    <a class="dropdown-item" href="#">Moderator</a>
+                    <!-- Soon to be added -->
+                    <!-- <a class="dropdown-item" href="#">Moderator</a> -->
                     {% endif %}
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal">Logout</a>

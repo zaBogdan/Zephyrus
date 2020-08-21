@@ -37,10 +37,10 @@
             <div class="profile-tabs">
               <ul class="nav nav-pills nav-pills-icons justify-content-center" role="tablist">
                 {% set active = true %}
-                {% for c in categories %}
+                {% for c in response.categories %}
                     <li class="nav-item">
                         <a class="nav-link {{loop.index == 1 ? "active" : null}}" href="#{{c.name|lower}}" role="tab" data-toggle="tab">
-                            <i class="material-icons">{{c.image}}</i> {{c.name}}
+                            <i class="material-icons">{{c.data.icon}}</i> {{c.name|capitalize}}
                         </a>
                     </li>
                     {% set active = false %}
@@ -50,21 +50,24 @@
           </div>
         </div>
         <div class="tab-content tab-space">
-            {% for c in categories %}
+          {% if response.categories|length and response.posts|length %}
+            {% for c in response.categories %}
             <div class="tab-pane {{loop.index==1 ? "active" : null}}" id="{{c.name|lower}}">
-                {% if loop.index==1 %}
                 <div class="row">
-                    {% for post in response.posts %}
-                    {{card.recomanded(data.image, post.title, response.user.username,post.serial)}}
-                    {% endfor %}
+                  {% for p in response.posts %}
+                    {% if p[1].name == c.name %}
+                      {% set po = p[0] %}
+                      {{card.recomanded(data.image, po.title, response.user.username ,po.serial)}}
+                    {% endif %}
+                  {% endfor %}
                 </div>
-                {% else %}
-                <div class="text-center">
-                    <b>Nothing here for now.</b>
-                </div>
-                {% endif %}
             </div>
             {% endfor %}
+            {% else %}
+                <div class="text-center">
+                  <b>This user doesn't have any content.</b>
+                </div>
+              {% endif %}
         </div>
 
         </div>

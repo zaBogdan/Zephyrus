@@ -19,6 +19,7 @@ class TwigExtension extends AbstractExtension{
         new TwigFunction('activeClass', array($this, 'activeClass'), array('needs_context' => TRUE)),
         new TwigFunction('getUsername', array($this, 'getUsername')),
         new TwigFunction('getPostBySerial', array($this, 'getPostBySerial')),
+        new TwigFunction('getRecomandedPosts', array($this, 'getRecomandedPosts')),
         new TwigFunction('getUserInformation', array($this, 'getUserInformation')),
         new TwigFunction('getAllPosts', array($this, 'getAllPosts')),
         new TwigFunction('getUsernameByID', array($this, 'getUsernameByID')),
@@ -69,15 +70,24 @@ class TwigExtension extends AbstractExtension{
       if(!$post)
         return false;
       $user = \Api\Management\Users::find_by_attribute("id",$post->author);
-      $response = array("post"=> $post, "user"=> $user);
+      $response = array("post"=> $post, "user"=> $user, "recomanded"=> self::getRecomandedPosts());
       return $response;   
     }
+    public static function getRecomandedPosts(){
+      $posts = \Api\Management\Posts::send_query("SELECT p.id AS 'posts_id', p.*, c.id AS 'categories_id', c.*, u.id AS 'users_id', u.* FROM `posts` p INNER JOIN `posts_categories` b ON b.postID = p.id INNER JOIN `categories` c ON c.id = b.categoryID INNER JOIN `users` u ON u.id=p.author WHERE p.status='public' ORDER BY p.id DESC LIMIT 6");
+      return array_reverse($posts);  
+    }
     public static function getAllPosts(){
-      $post = \Api\Management\Posts::find_by_attribute("status", "public",9);
-      if(!is_array($post))
-        $response = array("posts" => array(), "number"=> 0);
-      else $response = array("posts"=>array_reverse($post), "number"=> count($post));
-      return $response;   
+      $sql = "SELECT p.id AS 'posts_id', p.*, c.id AS 'categories_id', c.* FROM `posts` p INNER JOIN `posts_categories` b ON b.postID = p.id INNER JOIN `categories` c ON c.id = b.categoryID ";
+      $sql.= "WHERE p.status='public' ";
+      if(isset($_GET['c']) && !empty($_GET['c'])){
+        if(\Api\Management\Categories::find_by_attribute("name", $_GET['c']))
+          $sql .= " AND c.name='".$_GET['c']."' ";
+      }
+      $sql.= " LIMIT 9";
+      var_dump($sql);
+      $posts = \Api\Management\Posts::send_query($sql);
+      return array_reverse($posts);   
     }
     public static function getUserInformation(){
       if(!isset($_GET['username']) || empty($_GET['username']))
@@ -85,14 +95,13 @@ class TwigExtension extends AbstractExtension{
       $user = \Api\Management\Users::find_by_attribute("username", $_GET['username']);
       if(!$user)
         return "This username doesn't exists in our database";
-        // var_dump($user);
-      $posts = \Api\Management\Posts::find_by_attribute("author", $user->id,0);
-      $public_posts = array();
+      $posts = \Api\Management\Posts::send_query("SELECT p.id AS 'posts_id', p.*, c.id AS 'categories_id', c.* FROM `posts` p INNER JOIN `posts_categories` b ON b.postID = p.id INNER JOIN `categories` c ON c.id = b.categoryID WHERE p.author='{$user->id}' AND p.status='public'");
+      $categories = array();
       foreach($posts as $post){
-        if($post->status==="public")
-          $public_posts[] = $post;
+        if(!in_array($post[1], $categories))
+          $categories[] = $post[1];
       }
-      return array("user"=>$user, "posts"=> array_reverse($public_posts));
+      return array("user"=>$user, "posts"=> array_reverse($posts), "categories"=>$categories);
     }
     /**
      * This function handles the login process (UI to API)
@@ -475,6 +484,8 @@ class TwigExtension extends AbstractExtension{
     public function checkPermission($perm){
       global $role;
       $user = \Api\Management\Users::find_by_attribute("uuid", $_SESSION['user']);
+      if(!$user)
+        return false;
       return $role->hasPermission($user, $perm);
     }
     public function jsonDecode($val){

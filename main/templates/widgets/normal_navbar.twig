@@ -41,11 +41,19 @@
               Documentation
             </a>
           </li>
+          {% if checkPermission('readPosts') != true %}
           <li class="nav-item">
             <a class="btn btn-outline btn-round" style="color: #9124A3;background-color: #fff" href="/auth?page=login">
               Login
             </a>
           </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="btn btn-outline btn-round" style="color: #9124A3;background-color: #fff" href="/?page=blog">
+              Home
+            </a>
+          </li>
+          {% endif %}
         </ul>
       </div>
     </div>

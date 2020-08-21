@@ -17,8 +17,12 @@
 - [x] Users must be refreshed, must add Restrictions, Roles and Access Levels
 - [x] Finish the transfer from oldAdmin to API 
 - [x] Rebrand it: Zephyrus
-- [ ] Add categories
+- [x] Add categories
 - [ ] Add tags
+- [ ] Add pagination
+- [ ] Finish posts page
+- [ ] Add search
+- [ ] Complete the admin panel
 - [ ] Finish the linking & release
 
 # Frontend raw content

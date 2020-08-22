@@ -55,8 +55,8 @@ class Posts extends \Api\Database\DbModel{
          */
         $category = $_POST['category'];
         $image= file_get_contents("https://picsum.photos/1920/1080");
-        $name  = md5($test).".jpg";
-        file_put_contents($name , $image);
+        $name  = md5($image.$this->title).".jpg";
+        file_put_contents(ROOT_DIR."/storage/posts/".$name , $image);
         /**
          * Save everything into data.
          */
@@ -74,7 +74,6 @@ class Posts extends \Api\Database\DbModel{
         $this->serial = \Api\Security\Tokens::secureTokens(1);
         while(self::find_by_attribute("serial", $this->serial))
             $this->serial = \Api\Security\Tokens::secureTokens(1);
- 
         if(!$this->save_to_db())
             return "There was an error while trying to save the post to the database!";
         return "Success";

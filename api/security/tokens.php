@@ -61,7 +61,7 @@ class Tokens{
     public static function bounder(String $action, String $token, String $uuid){
         return md5(
             strtolower($action).".".
-            substr($token, 0, 4).substr($token, -4, 4).".".
+            $token.".".
             $uuid.".".
             GET_ENV['CORE_SECRET_KEY']
         );

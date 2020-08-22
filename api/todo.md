@@ -20,10 +20,11 @@
 - [x] Finish the transfer from oldAdmin to API 
 - [x] Rebrand it: Zephyrus
 - [x] Add categories
-- [ ] Add pagination
-- [ ] Finish posts page
-- [ ] Add search
-- [ ] Complete the admin panel
+- [x] Add pagination
+- [x] Finish posts page
+- [ ] Add `search`
+- [ ] Add `edit/delete` posts
+- [ ] Complete the admin panel (Fields for User & Posts, Categories tab)
 - [ ] Finish the linking & release
 
 # Frontend raw content

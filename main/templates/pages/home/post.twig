@@ -3,9 +3,6 @@
 {% block body %}
 {% import 'components/cards.twig' as card %}
 {% set data = getPostBySerial()%}
-{% if data == false %}
-{% do redirect('/?page=blog') %}
-{% endif %}
 <div class="page-header header-filter" style="background-image: url('{{data.post.date.image}}');">
 <div class="container">
       <div class="row">
@@ -14,7 +11,7 @@
             <h3 class="title">
             {{data.post.title}}
             </h3>
-            {{card.author_small(data.user.data.image, data.user.username, data.post.published)}}
+            {{card.author_small(data.user.data.image, data.user.username, data.post.date.published)}}
           </div>
         </div>
       </div>
@@ -33,12 +30,12 @@
         <hr/>
         <p>
         <h5><b>Tags: </b></h5>
-        {% for key in data.post.tags %}
-        <span class="badge badge-default">{{key|upper}}</span>
+        {% for key in data.post.date.tags %}
+        <span class="badge badge-info">{{key|upper}}</span>
         {% endfor %}
         </p>
         <p class="text-muted text-right">
-          Published <b>10 days</b> ago <i>(edited)</i>
+          Published <b>{{data.post.date.published != null ? intToTime(data.post.date.published) : intToTime(data.post.date.created)}}</b> ago {{data.post.date.lastEdited != null ? "<i>(edited)</i>" : null}}
         </p>
         {{card.author_big(data.user.username, data.user.data.biography, data.user.username)}}
       </div>

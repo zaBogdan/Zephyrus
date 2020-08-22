@@ -57,7 +57,7 @@
                   {% for p in response.posts %}
                     {% if p[1].name == c.name %}
                       {% set po = p[0] %}
-                      {{card.recomanded(data.image, po.title, response.user.username ,po.serial)}}
+                      {{card.recomanded(po.date.image, po.title, response.user.username ,po.serial)}}
                     {% endif %}
                   {% endfor %}
                 </div>

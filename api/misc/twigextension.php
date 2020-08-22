@@ -18,6 +18,7 @@ class TwigExtension extends AbstractExtension{
       return array(
         new TwigFunction('activeClass', array($this, 'activeClass'), array('needs_context' => TRUE)),
         new TwigFunction('getUsername', array($this, 'getUsername')),
+        new TwigFunction('intToTime', array($this, 'intToTime')),
         new TwigFunction('getPostBySerial', array($this, 'getPostBySerial')),
         new TwigFunction('getRecomandedPosts', array($this, 'getRecomandedPosts')),
         new TwigFunction('getUserInformation', array($this, 'getUserInformation')),
@@ -43,6 +44,7 @@ class TwigExtension extends AbstractExtension{
         new TwigFunction('deletePost', array($this, 'deletePost')),
         new TwigFunction('isJson', array($this, 'isJson')),
         new TwigFunction('redirect', array($this, 'redirect')),
+        new TwigFunction('currentUrl', array($this, 'currentUrl')),
       );
     }
 
@@ -54,6 +56,27 @@ class TwigExtension extends AbstractExtension{
       if (isset($context['current_page']) && $context['current_page'] === $page)
         return 'active';
     }
+    public function intToTime($date1){
+      $date2 = strtotime(date('Y-m-d H:i:s'));
+      $seconds_ago = $date2 - $date1;
+      $value = 0;
+      if ($seconds_ago >= 31536000) {
+          $value = intval($seconds_ago / 31536000) . " years ago";
+      } elseif ($seconds_ago >= 2419200) {
+          $value = intval($seconds_ago / 2419200) . " months ago";
+      } elseif ($seconds_ago >= 86400) {
+          $value = intval($seconds_ago / 86400) . " days ago";
+      } elseif ($seconds_ago >= 3600) {
+          $value = intval($seconds_ago / 3600) . " hours ago";
+      } elseif ($seconds_ago >= 60) {
+          $value = intval($seconds_ago / 60) . " minutes ago";
+      } else {
+          $value = intval($seconds_ago)." seconds ago";
+      }
+      if($value <= 0)
+        return false;
+      return $value;
+    }
     public function redirect($url){
       header("Refresh:0; url=".$url."", true, 400);
     }
@@ -64,30 +87,87 @@ class TwigExtension extends AbstractExtension{
       return \Api\Management\Users::find_by_attribute("id",$id)->username;
     }
     public static function getPostBySerial(){
+      $response = null;
       if(!isset($_GET['s']) || empty($_GET['s']))
-          $_GET['s'] = "1cdf585abd705727"; //this is the fallback post!
+          $response = self::fillWithDummyData("Post doesn't exists");
       $post = \Api\Management\Posts::find_by_attribute("serial", $_GET['s']);
       if(!$post)
         return false;
+      if($post->status !== 'public')
+        $response = self::fillWithDummyData("This post is private");
       $user = \Api\Management\Users::find_by_attribute("id",$post->author);
-      $response = array("post"=> $post, "user"=> $user, "recomanded"=> self::getRecomandedPosts());
+      if(empty($response))
+        $response = array("post"=> $post, "user"=> $user, "recomanded"=> self::getRecomandedPosts());
       return $response;   
+    }
+
+    private static function fillWithDummyData($title){
+      $response = array(
+        "post"=> array(
+          'title' => $title,
+          'date' => array(
+            'image' => '/main/style/img/bg16.png',
+            'published' => 1565265600,
+            'tags'=> array('private', "tryharder")
+          ),
+          'text' => "Wanna read some lore ipsum? Or you better read something interesting on other posts?",
+        ),
+        'user' => array(
+          'username' => "Zephyrus System",
+          'data'=>array(
+            'image' => '/main/style/img/logo.svg'
+          )
+        ), 
+        "recomanded"=> self::getRecomandedPosts()
+      );
+      return $response;
     }
     public static function getRecomandedPosts(){
       $posts = \Api\Management\Posts::send_query("SELECT p.id AS 'posts_id', p.*, c.id AS 'categories_id', c.*, u.id AS 'users_id', u.* FROM `posts` p INNER JOIN `posts_categories` b ON b.postID = p.id INNER JOIN `categories` c ON c.id = b.categoryID INNER JOIN `users` u ON u.id=p.author WHERE p.status='public' ORDER BY p.id DESC LIMIT 6");
       return array_reverse($posts);  
     }
+    public static function currentUrl() {
+      $protocol = strpos(strtolower($_SERVER['SERVER_PROTOCOL']),'https') === FALSE ? 'http' : 'https';
+      $host     = $_SERVER['HTTP_HOST'];
+      $script   = $_SERVER['SCRIPT_NAME'];
+      $params   = self::removeExtraPages();
+  
+      return $protocol . '://' . $host . $script . '?' . $params;
+    }
+    private static function removeExtraPages(){
+      $params   = $_SERVER['QUERY_STRING'];
+      $array = explode("&", $params);
+      $arr = array();
+      foreach($array as $key){
+        $linkers = explode("=", $key);
+        if($linkers[0]=='pg')
+          continue;
+        $arr[] = $key;
+      }
+      return implode("&",$arr);
+    }
     public static function getAllPosts(){
       $sql = "SELECT p.id AS 'posts_id', p.*, c.id AS 'categories_id', c.* FROM `posts` p INNER JOIN `posts_categories` b ON b.postID = p.id INNER JOIN `categories` c ON c.id = b.categoryID ";
       $sql.= "WHERE p.status='public' ";
       if(isset($_GET['c']) && !empty($_GET['c'])){
-        if(\Api\Management\Categories::find_by_attribute("name", $_GET['c']))
-          $sql .= " AND c.name='".$_GET['c']."' ";
+        $cat = \Api\Management\Categories::find_by_attribute("name", $_GET['c']);
+        if($cat)
+          $sql .= "AND c.name='".$_GET['c']."'";
       }
-      $sql.= " LIMIT 9";
-      var_dump($sql);
+      $sql.= " LIMIT 9 ";
+      if(isset($_GET['pg']) && !empty($_GET['pg'])){
+        $nr = 9*($_GET['pg']-1);
+        $sql.= " OFFSET ".$nr;
+      }
       $posts = \Api\Management\Posts::send_query($sql);
-      return array_reverse($posts);   
+      $sql = "SELECT COUNT(p.id) AS 'posts_id' FROM `posts` p INNER JOIN `posts_categories` b ON b.postID = p.id INNER JOIN `categories` c ON c.id = b.categoryID WHERE p.status='public' ";
+      if(isset($_GET['c']) && !empty($_GET['c'])){
+        if($cat)
+          $sql .= " AND c.name='".$_GET['c']."'";
+      }
+      $nr = \Api\Management\Posts::send_query($sql)[0]->id;
+      $count = (int)($nr/9+($nr%9==0 && $nr>=9 ? 0 : 1));
+      return array("posts"=>array_reverse($posts), "count"=> $count);   
     }
     public static function getUserInformation(){
       if(!isset($_GET['username']) || empty($_GET['username']))

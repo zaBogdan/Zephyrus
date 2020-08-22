@@ -13,6 +13,7 @@
           <div class="brand">
             <h5 class="text-muted">Featured article</h5>
             <h3>
+              
                 <a href="/?page=post&s={{featured.serial}}" target="_blank">
                 {{ featured.title }}
                 </a>
@@ -26,16 +27,18 @@
     <div class="section">
         <div class="container">
             <div class="row">
-                {% for post in response %}
+                {% for post in response.posts %}
                 {{ card.blog(post[0].date.image, post[1].name, post[0].title, post[0].serial, {'color': post[1].data.color}) }}
                 {% endfor %}
             </div>
         </div>
     </div>
 
+    {% if response.count > 1%}
     <div class="section">
-        {{ pages.page("blog_pages", 1, 5)}}
-    </div>
+        {{ pages.page("blog_pages", body.pg, response.count)}}
+      </div>
+    {% endif %}
 </div>
 
 {% endblock %}

@@ -22,12 +22,12 @@ $token = $_SESSION['token'];
 /**
  * Some new features to the database.
  */
-$user =\Api\Management\Users::find_by_attribute("uuid",  $_SESSION['user']);
+// $user =\Api\Management\Users::find_by_attribute("uuid",  $_SESSION['user']);
 // $posts = \Api\Management\Posts::send_query("SELECT p.id AS 'posts_id', p.*, c.id AS 'categories_id', c.* FROM `posts` p INNER JOIN `posts_categories` b ON b.postID = p.id INNER JOIN `categories` c ON c.id = b.categoryID WHERE p.author='{$user->id}' AND p.status='public'");
-echo "<pre>";
+// echo "<pre>";
 // $posts = \Api\Management\Posts::find_by_attribute('serial','014759186e62b8f4');
 // var_dump($posts);
-echo "</pre>";
+// echo "</pre>";
 // $category = \Api\Management\Categories::find_by_attribute('name', 'Horror');
 // $category->data->icon = "bedtime";
 // $category->save_to_db();
@@ -92,18 +92,44 @@ echo "</pre>";
 // )));
 // var_dump($role->inheritPermissions("Founder", "Administrator"));
 // var_dump(\Api\Management\Roles::getRolePermissions("Founder"));
-$posts = \Api\Management\Posts::find_all();
-foreach($posts as $post){
-  // $image= file_get_contents("https://picsum.photos/1920/1080");
-  // $name  = md5($test).".jpg";
-  // file_put_contents($name , $image);
-  echo 'Serial '.$post->serial.' has image link to '.$post->date->image."<br>";
-  $var = explode('/', $post->date->image);
-  // $post->date->image = "/storage/posts/".$var[6];
-  var_dump($post->date->image);
-  echo "<br><br><br>";
+// $posts = \Api\Management\Posts::find_all();
+// foreach($posts as $post){
+//   // $image= file_get_contents("https://picsum.photos/1920/1080");
+//   // $name  = md5($test).".jpg";
+//   // file_put_contents($name , $image);
+//   echo 'Serial '.$post->serial.' has image link to '.$post->date->image."<br>";
+//   $var = explode('/', $post->date->image);
+//   // $post->date->image = "/storage/posts/".$var[6];
+//   var_dump($post->date->image);
+//   echo "<br><br><br>";
 
-  // $post->save_to_db();
-}
+//   // $post->save_to_db();
+// }
 // die("Nothing for now");
+// echo strtotime("8 Aug 2019 12:00:00", time());
+// echo \Api\Misc\TwigExtension::currentUrl();
+$nr = 27;
+echo (int)($nr/9+($nr%9==0 && $nr>=9 ? 0 : 1));
+echo "<br>";
+$post = \Api\Management\Posts::send_query("SELECT COUNT(*) AS posts_id FROM posts");
+var_dump($post);
+// $date1 = $post->date->created;
+// $date1 = 1598103775;
+// $date2 = strtotime(date('Y-m-d H:i:s'));
+// $seconds_ago = $date2 - $date1;
+// $value = 0;
+// if ($seconds_ago >= 31536000) {
+//     $value = intval($seconds_ago / 31536000) . " years ago";
+// } elseif ($seconds_ago >= 2419200) {
+//     $value = intval($seconds_ago / 2419200) . " months ago";
+// } elseif ($seconds_ago >= 86400) {
+//     $value = intval($seconds_ago / 86400) . " days ago";
+// } elseif ($seconds_ago >= 3600) {
+//     $value = intval($seconds_ago / 3600) . " hours ago";
+// } elseif ($seconds_ago >= 60) {
+//     $value = intval($seconds_ago / 60) . " minutes ago";
+// } else {
+//     $value = intval($seconds_ago)." seconds ago";
+// }
+// echo $value;
 ?>

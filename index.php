@@ -53,9 +53,12 @@ if(isset($_GET['page']) && !empty($_GET['page']))
     $page = $_GET['page'];
 $path = "home";
 $name = $page;
+$pg = 1;
+if(isset($_GET['pg']) && !empty($_GET['pg']))
+    $pg = $_GET['pg'];
 
 $vars = array(
-    "body" =>array('name'=>strtolower($page)),
+    "body" =>array('name'=>strtolower($page), 'pg'=> $pg),
     "user" => $user,
     "nav" => array('categories' => \Api\Management\Categories::find_all()),
 );

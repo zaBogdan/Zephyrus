@@ -1,11 +1,13 @@
 # Version 0.5 - Pre-Checklist
 
 - [ ] Add Audit system.
+- [ ] Add tags
 - [ ] Add Error Handler system
 - [ ] Autoload files
 - [ ] Redesign AdminCP 
 - [ ] Build Moderation panel
 - [ ] Rework the FileSystem 
+- [ ] Rework the DatabaseSystem 
 - [ ] Create a routing engine & make sure it's secure
 - [ ] Extend database class (generate tables based on classes)
 
@@ -18,7 +20,6 @@
 - [x] Finish the transfer from oldAdmin to API 
 - [x] Rebrand it: Zephyrus
 - [x] Add categories
-- [ ] Add tags
 - [ ] Add pagination
 - [ ] Finish posts page
 - [ ] Add search

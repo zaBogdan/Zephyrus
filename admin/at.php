@@ -31,7 +31,7 @@ $token = $_SESSION['token'];
 // $category = \Api\Management\Categories::find_by_attribute('name', 'Information');
 // $category->data->icon = "info";
 // $category->save_to_db();
-
+var_dump($posts = \Api\Management\Posts::search("AdmCP"));
 
 // $category->name = "Horror";
 // $category->data = array("color"=> "#ec4242");

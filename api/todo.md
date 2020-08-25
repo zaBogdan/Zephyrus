@@ -22,8 +22,8 @@
 - [x] Add categories
 - [x] Add pagination
 - [x] Finish posts page
-- [ ] Add `search`
-- [x] Add `edit/delete` posts
+- [x] Add `search`
+- [ ] Add `edit/delete` posts
 - [x] Complete the admin panel (Fields for User & Posts, Categories tab)
 - [ ] Finish the linking & release
 

@@ -40,6 +40,7 @@ class TwigExtension extends AbstractExtension{
         new TwigFunction('updateUserProfile', array($this, 'updateUserProfile')),
         new TwigFunction('updateTokens', array($this, 'updateTokens')),
         new TwigFunction('createPost', array(new \Api\Management\Posts(), 'createPost')),
+        new TwigFunction('search', array(new \Api\Management\Posts(), 'search')),
         new TwigFunction('updatePost', array($this, 'updatePost')),
         new TwigFunction('deletePost', array($this, 'deletePost')),
         new TwigFunction('isJson', array($this, 'isJson')),

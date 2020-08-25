@@ -18277,6 +18277,18 @@ footer .pull-center {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.search-image img{
+  width: 20rem !important;
+  height: 10rem !important;
+  max-width: inherit !important;
+  max-height: inherit !important;
+}
+.search-text p{
+  width: 20rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .texthandler{
   word-wrap: break-word !important;
 }

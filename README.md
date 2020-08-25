@@ -56,7 +56,7 @@ These are the bugs found during pentesting session. If you find more please info
 
 # Versions
 
-This application is in early Alpha stage!
+This application is in early Alpha stage ( 0.4 current build ) !
 Legend:
 ```json
 + New feature added
@@ -74,7 +74,7 @@ Version 0.4 - Almost there!
 - (+) Roles for users
 - (+) Rebranded from `zaEngine` to `Zephyrus`
 - (+) Posts are now completed
-- (?) Home, Posts and Profile pages are now working and linked. (phase 3: final touches)
+- (+) Home, Posts and Profile pages are now working and linked.
 - (-) Removed first installation system, because it was broken.
 - (-) Removed old system of token & session generation. Now everything is more secure.
 - (-) FileSystem is removed for this update. Will be taken care of in the next one.

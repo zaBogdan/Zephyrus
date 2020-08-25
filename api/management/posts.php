@@ -79,6 +79,14 @@ class Posts extends \Api\Database\DbModel{
         return "Success";
     }
 
+    public static function search(){
+        if(!isset($_POST['submitSearch']) || empty($_POST['search']))
+            return null;
+        $name = $_POST['search'];
+        $posts = \Api\Management\Posts::send_query("SELECT p.id AS 'posts_id', p.* FROM `posts` p WHERE p.title LIKE '%$name%' OR p.text LIKE '%$name%'");
+        return empty($posts) ? "Your search `".$name."` didn't return any post!" : $posts;
+    }   
+
     public static function handle_tags($tags){
         if(empty($tags) || !isset($tags))
             return null;

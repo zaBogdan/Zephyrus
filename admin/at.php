@@ -28,8 +28,8 @@ $token = $_SESSION['token'];
 // $posts = \Api\Management\Posts::find_by_attribute('serial','014759186e62b8f4');
 // var_dump($posts);
 // echo "</pre>";
-// $category = \Api\Management\Categories::find_by_attribute('name', 'Horror');
-// $category->data->icon = "bedtime";
+// $category = \Api\Management\Categories::find_by_attribute('name', 'Information');
+// $category->data->icon = "info";
 // $category->save_to_db();
 
 
@@ -88,5 +88,9 @@ $token = $_SESSION['token'];
 // var_dump($role->inheritPermissions("Founder", "Administrator"));
 // var_dump(\Api\Management\Roles::getRolePermissions("Founder"));
 // die("Nothing for now");
-
+//         $title = "test";
+//         $image= file_get_contents("https://picsum.photos/1920/1080");
+//         // $name  = md5($image.$title).".jpg";
+//         $name = "c2144f7e0a75ca2e9393e73a4d3de764.jpg"
+//         file_put_contents(ROOT_DIR."/storage/posts/".$name , $image);
 ?>

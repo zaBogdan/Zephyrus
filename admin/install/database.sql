@@ -39,10 +39,10 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `name`, `data`) VALUES
-(1, 'Information', '{\"color\":\"#4261ec\"}'),
-(2, 'Documentation', '{\"color\":\"#42ec5e\"}'),
-(3, 'Adventure', '{\"color\":\"#ec8642\"}'),
-(4, 'Horror', '{\"color\":\"#ec4242\"}');
+(1, 'Information', '{\"color\":\"#4261ec\",\"icon\":\"info\"}'),
+(2, 'Documentation', '{\"color\":\"#42ec5e\",\"icon\":\"verified\"}'),
+(3, 'Adventure', '{\"color\":\"#ec8642\",\"icon\":\"speed\"}'),
+(4, 'Horror', '{\"color\":\"#ec4242\",\"icon\":\"bedtime\"}');
 
 -- --------------------------------------------------------
 

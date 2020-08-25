@@ -87,6 +87,14 @@ if($page === 'dashboard'){
         'tableName' => 'dataTable3',
     );
     $vars['time'] = time();
+}else if($page === 'categories'){
+    $vars['table'] = array(
+        'icon' => 'fas fa-layer-group',
+        'name' => 'Categories',
+        'rows' => array('name','color', 'action'),
+        'data' => \Api\Management\Categories::find_all(),
+        'tableName' => 'dataTable4',
+    );
 }
 
 

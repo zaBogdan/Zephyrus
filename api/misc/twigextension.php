@@ -45,6 +45,8 @@ class TwigExtension extends AbstractExtension{
         new TwigFunction('isJson', array($this, 'isJson')),
         new TwigFunction('redirect', array($this, 'redirect')),
         new TwigFunction('currentUrl', array($this, 'currentUrl')),
+        new TwigFunction('createCategory', array($this, 'createCategory')),
+        new TwigFunction('editCategory', array($this, 'editCategory')),
       );
     }
 
@@ -389,6 +391,29 @@ class TwigExtension extends AbstractExtension{
             return "You can't change your own role!";
           $user->data->role = $aRole;
         }
+        if(isset($_POST['biography']) && !empty($_POST['biography'])) $user->data->biography = $_POST['biography'];      
+        /**
+         * Check for urls
+         */
+        $url_regex = '/^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/';
+        if(isset($_POST['github']) && !empty($_POST['github'])){
+          // if(!preg_match_all($url_regex, $_POST['github'], $test,PREG_PATTERN_ORDER))
+          //   $response['error'] = "You must insert an URL for the GITHUB profile!";
+          // if($response['error']) return $response;   
+          $user->data->github = $_POST['github'];
+        }
+        if(isset($_POST['twitter']) && !empty($_POST['twitter'])){
+          // if(!preg_match($url_regex, $_POST['twitter']))
+          //   $response['error'] = "You must insert an URL for the TWITTER profile!";
+          // if($response['error']) return $response;         
+          $user->data->twitter = $_POST['twitter'];
+        }
+        if(isset($_POST['website']) && !empty($_POST['website'])){
+          // if(!preg_match($url_regex, $_POST['website']))
+          //   $response['error'] = "You must insert an URL for your WEBSITE!";
+          // if($response['error']) return $response;         
+          $user->data->website = $_POST['website'];
+        }
         if(isset($_POST['confirmEmail']) && !empty($_POST['confirmEmail'])){
           $emailChanged = true;
         }
@@ -424,7 +449,12 @@ class TwigExtension extends AbstractExtension{
               $post->date->published = time();
           $post->date->lastEdited = time();
       }
-
+      if(isset($_POST['tags']) && !empty($_POST['tags'])){
+        $tags = \Api\Management\Posts::handle_tags($_POST['tags']);
+        if($tags === false)
+          return "You can add up to 5 tags that are under 10 characters each!";
+        $post->date->tags = $tags;
+      }
       if(!$post->save_to_db())
           return "Couldn't update the post with the serial ".$post->serial;
       return "Post updated succesfully";
@@ -439,6 +469,37 @@ class TwigExtension extends AbstractExtension{
             return "There was an error while trying to revoke the token identified by ".$token->selector;
       }
       return "Token status updated!";
+    }
+    public function createCategory(){
+      if(!isset($_POST['submit']))
+        return null;
+
+      $cat = new \Api\Management\Categories();
+      if(\Api\Management\Categories::find_by_attribute("name", $_POST['name']))
+        return "This category already exists!";
+      $cat->name = $_POST['name'];
+      $cat->data = array(
+        "color" => $_POST['color'],
+        "icon" => $_POST['icon'],
+      );
+      if(!$cat->save_to_db())
+        return "There was an errory while trying to create the category!";
+      return "Category saved to the database!";
+    }
+
+    public function editCategory($name){
+      if(!isset($_POST['submit']))
+        return null;
+
+      $cat = \Api\Management\Categories::find_by_attribute("name", $name);
+      if(!$cat)
+        return "This category doesn't exists!";
+      if(isset($_POST['name']) && !empty($_POST['name'])) $cat->name = $_POST['name'];
+      if(isset($_POST['color']) && !empty($_POST['color'])) $cat->data->color = $_POST['color'];
+      if(isset($_POST['icon']) && !empty($_POST['icon'])) $cat->data->icon = $_POST['icon'];
+      if(!$cat->save_to_db())
+        return "There was an errory while trying to create the category!";
+      return "Category succesfully updated!";
     }
     public function deletePost($post){
       if(!isset($_POST['submit']))

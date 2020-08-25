@@ -36,6 +36,19 @@
         </div>
         <div class="form-group">
             <div class="form-row">
+                <div class="col-md-4">
+                    {{ forms.input("github","Firstname of the user",user.data.github) }}
+                </div>
+                <div class="col-md-4">
+                    {{ forms.input("twitter","Lastname of the user",user.data.twitter) }}
+                </div>
+                <div class="col-md-4">
+                    {{ forms.input("website","Lastname of the user",user.data.website) }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
                 <div class="col-md-6">
                     <label for="checkConfirmation">Status</label>
                 {% set confirmed = (user.data.status=="confirmed") ? true : false %}
@@ -58,6 +71,7 @@
                 </div>
             </div>
         </div>
+        {{ forms.textarea('biography','Biography',user.data.biography) }}
         <div class="form-group">
             <div class="form-row">
                 <div class="col-md-6">

@@ -26,11 +26,17 @@
 <div class="main">
     <div class="section">
         <div class="container">
+        {% if response.posts is iterable and response.posts is not empty %}
             <div class="row">
                 {% for post in response.posts %}
                 {{ card.blog(post[0].date.image, post[1].name, post[0].title, post[0].serial, {'color': post[1].data.color}) }}
                 {% endfor %}
             </div>
+          {% else %}
+            <div class="text-center"> 
+                  <h3>There are no posts available!</h3>
+              </div>
+          {% endif %}
         </div>
     </div>
 

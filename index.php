@@ -64,13 +64,23 @@ $vars = array(
 );
 
 if($page === 'create-new'){
-    $path = "manage";
+    $path = "manage/posts";
     $vars['header']['editor'] = true;
     $name = "Create new post";
     $vars['post'] = $_POST;
     $vars['env'] = $sensitive->env;
 }else if($page === 'blog'){
     $vars['featured'] = array_shift(\Api\Management\Posts::send_query("SELECT p.id AS 'posts_id', p.* FROM `posts` p WHERE p.status='public' ORDER BY id DESC LIMIT 1"));
+}else if($page === 'edit'){
+    if(!(isset($_POST['s']) && !empty($_POST['s']))){
+        header("Refresh:0; url=/", true, 401);
+        die("Insufficient permissions!");
+    }
+    $path = "manage/posts";
+    $vars['header']['editor'] = true;
+    $name = "Edit your post";
+    $vars['post'] = $_POST;
+    $vars['env'] = $sensitive->env;
 }
 
 $vars["header"]['title'] = $name;

@@ -49,7 +49,6 @@ function install_application(){
     }catch(Exception $e){
         die("<i>Database:</i> Invalid sql file!");
     }
-    
     //Creating the storage folder
     $msg = "<i>FileSystem:</i> Checking the permissions.";
     array_push($response, $msg);

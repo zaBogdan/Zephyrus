@@ -43,12 +43,17 @@ These are the bugs found during pentesting session. If you find more please info
 
 > **Note** Not all bugs found here are solved. at the end there are specified vulnerable versions.
 
-- [x] A valid token can be used anywhere, no matter of it's scope (<0.2)
-- [x] Emails lose their style (<0.3)
-- [x] You can't install the application if you are not logged in, and you can't login because there is no database. (Only for 0.3)
+- [ ] There is no way to get administrator using the front-end/back-end logic. You must manually change it from the phpmyadmin > Zephyrus > users. I will implement it in the following version. For now, insert the following querry: 
+```
+UPDATE `users` SET `data`='{"firstname":"demo","lastname":"demo","registrationDate":1606411771,"role":"Administrator","status":"confirmed","special_perms":[],"image":"https:\/\/via.placeholder.com\/150\/008000\/FFFFFF\/64x64.png?text=DD"}' WHERE id=1
+```
+> Note: you just need to change from the `data` column json attribute `role` into `Administrator` (it is case sensitive!!)
 - [x] Session cookies are not encrypted. (<0.4)
 - [x] Remote code execution in `Upload Files` page. (<0.4)
 - [x] Tokens are the same as UUID, not generated securely. (<0.4)
+- [x] You can't install the application if you are not logged in, and you can't login because there is no database. (Only for 0.3)
+- [x] Emails lose their style (<0.3)
+- [x] A valid token can be used anywhere, no matter of it's scope (<0.2)
 
 # Next updates
 Because this version is working-ish (it still has a few installation bugs) I've decided to set this repository to public. Well the work for version 0.5 will be done on `development-0.5` branch. 
@@ -56,7 +61,7 @@ Because this version is working-ish (it still has a few installation bugs) I've 
 
 # Versions
 
-This application is in early Alpha stage ( 0.4 current build ) !
+This application is in early Alpha stage ( 0.4 current stable build ) !
 Legend:
 ```json
 + New feature added

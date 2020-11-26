@@ -1,0 +1,75 @@
+{#
+Name: card
+Variables: 
+#}
+
+{% macro blog(img_url, category,title,serial, options = [])%}
+<a href="?page=post&s={{serial}}">
+<div class="card ml-3" style="width: 21rem;">
+    <img class="card-img-top" src="{{img_url}}" style="height: 12rem;" rel="nofollow" alt="{{name}}">
+    <div class="card-body text-center">
+        <p class="card-text">
+          {% set color = options.color != null ? 'style="color: '~options.color~' !important"' : null  %}
+            <p class="category" {{color != null ? color|raw : null}}>{{category|upper}}</p>
+            <a class="title" href="?page=post&s={{serial}}">{{title}}</a>
+        </p>
+    </div>
+</div>
+</a>
+{% endmacro %}
+{% macro icon_top(icon, color, title, description)%}
+<div class="info">
+    <div class="icon icon-{{color}}">
+        <i class="material-icons">{{icon}}</i>
+    </div>
+    <h4 class="info-title">{{title}}</h4>
+    <p>{{description|raw}}.</p>
+</div>
+{% endmacro %}
+{% macro icon_left(icon, color, title, description)%}
+<div class="info info-horizontal">
+            <div class="icon icon-{{color}}">
+              <i class="material-icons">{{icon}}</i>
+            </div>
+            <div class="description">
+              <h4 class="info-title">{{title}}</h4>
+              <p>{{description|raw}}.</p>
+            </div>
+          </div>
+{% endmacro %}
+
+{% macro recomanded(img_url, title, author, serial)%}
+<div class="info info-horizontal col-md-4">
+    <div class="icon">
+        <img class="text-right rounded" src="{{img_url}}" style="height: 128px; width: 128px;" alt="{{title}}">
+    </div>
+    <div class="description">
+        <a href="?page=post&s={{serial}}">
+        <h5 class="info-title">{{title}}</h5>
+        <p class="text-muted">{{author}}</p>
+        </a>
+    </div>
+</div>
+{% endmacro %}
+{% macro author_small(img_url, author, time, options=[])%}
+<div class="row">
+    <img class="image rounded-circle" src="{{img_url}}" alt="{{author}}" height="{{options.height|default(null)}}" width="{{options.width|default(null)}}">
+    <div class="text">
+        <p class="author">By {{author}}</p>
+        <p class="description">Published on {{time|date('d M Y')}} </p>
+    </div>
+</div>
+{% endmacro %}
+{% macro author_big(name, description, username)%}
+<div class="card">
+          <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted">Written by</h6>
+            <h4 class="card-title">{{name}}</h4>
+            <p class="card-text">{{description}}</p>
+            <div class="text-right">
+              {# <a href="" class="card-link btn btn-sm btn-outline-primary" disabled>Follow</a> #}
+              <a href="?page=profile&username={{username}}" class="card-link btn btn-sm btn-outline-success">Read more posts</a>
+            </div>
+          </div>
+        </div>
+{% endmacro %}

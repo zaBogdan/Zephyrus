@@ -1,0 +1,72 @@
+{% macro input(name, options = []) %}
+{% set name = name|lower %}
+{% autoescape 'html' %}
+ <div class="form-group">
+    <label for="{{name}}" class="bmd-label-floating">{{options.name == null ? name|capitalize : options.name|capitalize}}</label>
+    <input type="{{options.type|default('text')}}" name="{{name}}" class="form-control" id="{{name}}" value="{{ options.value|default(null) }}" autofocus="{{ options.autofocus|default('false') }}" {{ options.required == true ? "required" : null}} {{ options.readonly == true ? "readonly" : null}}>
+    {% if options.helpText != null %}
+    <small id="{{name}}Help" class="form-text text-muted">{{options.helpText|raw}}</small>
+    {% endif %}
+</div>
+{% endautoescape %}
+{% endmacro %}
+
+{% macro select(name, default, selections, options = []) %}
+<div class="form-group">
+    <label for="{{name}}">{{options.name == null ? name|capitalize : options.name|capitalize}}</label>
+    <select name="{{name}}" class="form-control selectpicker" data-style="btn btn-link" id="{{name}}">
+      <option value="{{default}}" selected>{{default| capitalize}}</option>
+      {% for status in selections %}
+      <option value="{{status}}" >{{status| capitalize}}</option>
+      {% endfor %}
+    </select>
+</div>
+{% endmacro %}
+
+{% macro textarea(name, options = []) %}
+<div class="form-group">
+    <label for="{{name}}">{{options.name == null ? name|capitalize : options.name|capitalize}}</label>
+    <textarea class="form-control" name="{{name}}" id="{{name}}" >{{options.value}}</textarea>
+  </div>
+{% endmacro %}
+
+{% macro input_icon(name,icon, options=[]) %}
+<div class="form-group">
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text">
+        <i class="{{icon}}"></i>
+      </span>
+    </div>
+    <input name={{name}} type="{{options.type|default('text')}}" class="form-control" placeholder="{{options.placeholder == null ? name|capitalize : options.placeholder}}" value="{{options.value}}" autofocus="{{options.autofocus}}" {{ options.required == true ? "required" : null}}>
+  </div>
+</div>
+{% endmacro %}
+
+{% macro checkbox(name, description, options=[])%}
+<div class="form-check">
+    <label class="form-check-label">
+        <input class="form-check-input" type="checkbox" name="{{name}}" value="{{name}}" autofocus="{{options.autofocus}}" required="{{options.required|default('false')}}" {{options.checked==true ? "checked" :null}}>
+        {{description}}
+        <span class="form-check-sign">
+            <span class="check"></span>
+        </span>
+    </label>
+</div>
+{% endmacro %}
+
+
+{# Don't use it! Still in process #}
+{% macro file_upload(name, options=[])%}
+<div class="form-group form-file-upload form-file-multiple">
+  <input type="file" name="{{name}}" class="inputFileHidden disabled" disabled>
+  <div class="input-group disabled">
+      <input type="text" class="form-control inputFileVisible disabled" placeholder="{{options.placeholder == null ? name|capitalize : options.placeholder}}" autofocus="{{options.autofocus}}" required="{{options.required|default('false')}}">
+      <span class="input-group-btn">
+          <button type="button" class="btn btn-fab btn-round btn-disabled btn-primary">
+              <i class="material-icons">attach_file</i>
+          </button>
+      </span>
+  </div>
+</div>
+{% endmacro %}

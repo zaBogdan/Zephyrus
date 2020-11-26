@@ -1,0 +1,36 @@
+{% extends 'auth.twig' %}
+
+
+{% block content %}
+{% set reponse = activateUser() %}
+{% if reponse.msg == "Account is now confirmed!" %}
+<div class="container mx-auto mt-5">
+        <div class="jumbotron text-center">
+          <h1 class="display-4">Thank you!</h1>
+          <p class="lead">You are now ready to use our application!</p>
+          <hr class="my-4">
+          <p>{{reponse.msg}} <br/> You will be redirected in 10 seconds!</p>
+          <p class="lead">
+            <a class="btn btn-success btn-lg" href="/admin" role="button">Go now</a>
+          </p>
+        </div>
+{% else %}
+<div class="container mx-auto mt-5">
+        <div class="jumbotron text-center">
+          <h1 class="display-4">Ooops... Something went wrong.</h1>
+          <p class="lead">There was an error with your confirmation.</p>
+          <hr class="my-4">
+          <p>{{ reponse.msg }}</p>
+          <p class="lead">
+            {% if reponse.msg == "This account is already confirmed!" %}
+            <a class="btn btn-success btn-lg" href="/admin" role="button">Login</a>
+            {% elseif reponse.msg == "We can't regenerate a new request because your email is missing!" %}
+            <a class="btn btn-danger btn-lg" href="/admin/auth/" role="button">Go home</a>
+            {% else %}
+            <a class="btn btn-primary btn-lg" href="/admin/auth?page=generate-confirmation&email={{reponse.email}}" role="button">Try again</a>
+            {% endif %}
+          </p>
+        </div>
+{% endif %}
+
+{% endblock %}

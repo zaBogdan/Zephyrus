@@ -1,0 +1,53 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+{% include "components/breadcrumb.twig" %}
+<form action="" method="post" enctype="multipart/form-data">
+<div class="text-right">
+         <a href="/admin/manage/posts.php?action=create" class="btn btn-info"><i class="fas fa-plus"></i> Add post</a>
+</div>
+</form>
+<hr>
+{% if response != null %}
+    <div class="alert alert-warning" role="alert">{{response}}</div>
+{% endif %}
+{% embed "components/table.twig" %}
+{% block table_data %}
+{% for post in table.data %}
+<tr>
+    <td>{{post.id}}</td>
+    <td>{{post.serial}}</td>
+    <td>{{post.title}}</td>
+    <td>{{getUsernameByID(post.author)}}</td>
+    <td>{{post.date.created|date('d-M-Y h:i')}}</td>
+    <td>{{post.status}}</td>
+    {% if post.date.lastEdited != null %}
+    <td>{{post.date.lastEdited|date('d-M-Y h:i')}}</td>
+    {% else %}
+    <td>Never</td>
+    {% endif %}
+    <td>
+        <a href="/?page=post&s={{post.serial}}" class="btn btn-info" target="_blank"><i class="fas fa-eye"></i></a>
+        <a href="/admin/manage/posts.php?action=edit&serial={{ post.serial }}" class="btn btn-success"><i class="fas fa-pencil-alt"></i></a>
+        <a href="/admin/manage/posts.php?action=delete&serial={{ post.serial }}" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
+    </td>
+</tr>
+{% endfor %}
+{% endblock %}
+{% endembed  %}
+
+{% endblock %}
+
+{% block scripts %}
+<script src="/admin/style/datatables/jquery.dataTables.js"></script>
+<script src="/admin/style/datatables/dataTables.bootstrap4.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable3').DataTable({
+            "order": [
+                [0, "desc"]
+            ]
+        });
+    });
+</script>
+{% endblock %}

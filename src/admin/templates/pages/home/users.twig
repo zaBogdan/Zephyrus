@@ -1,0 +1,39 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+{% include "components/breadcrumb.twig" %}
+
+{% embed "components/table.twig" %}
+{% block table_data %}
+{% for user in table.data %}
+{% set data = jsonDecode(user.data) %}
+<tr>
+    <td>{{user.id}}</td>
+    <td>{{user.uuid}}</td>
+    <td>{{user.username}} </td>
+    <td>{{user.email}} </td>
+    <td>{{ (data.status=="confirmed") ? "Yes" : "No" }} </td>
+    <td>{{data.role}} </td>
+    <td>
+        <a href="/?page=profile&username={{ user.username }}" target="_blank" class="btn btn-info"><i class="fas fa-user-circle"></i></a>
+        <a href="/admin/manage/user.php?action=edit&uuid={{ user.uuid }}" class="btn btn-success"><i class="fas fa-user-cog"></i></a>
+        <!-- To be solved -->
+        <a href="/admin/manage/user.php?action=delete&uuid={{ user.uuid }}" class="btn btn-danger"><i class="fas fa-user-minus"></i></a>
+    </td>
+</tr>
+{% endfor %}
+{% endblock %}
+{% endembed  %}
+
+
+{% endblock %}
+
+{% block scripts %}
+<script src="/admin/style/datatables/jquery.dataTables.js"></script>
+<script src="/admin/style/datatables/dataTables.bootstrap4.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+</script>
+{% endblock %}

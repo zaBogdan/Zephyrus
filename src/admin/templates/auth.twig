@@ -1,0 +1,40 @@
+{% block header %}
+<!DOCTYPE html>
+<html lang="en">
+{# PATH IS OUT OF SERVICE. SOON WILL BE DEPRECATED! #}
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" type="image/svg+xml" href="/admin/style/img/logo.svg">
+
+  <title>{{ header.root | default('Zephyrus')}} - {{ header.title | capitalize }}</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="/admin/style/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+  <!-- Custom styles for this template-->
+  <link href="/admin/style/css/sb-admin.css" rel="stylesheet">
+
+</head>
+{% endblock %}
+<body class="bg-dark">
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+    
+    {% block scripts %}
+      <!-- Bootstrap core JavaScript-->
+        <script src="/admin/style/jquery/jquery.min.js"></script>
+        <script src="/admin/style/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Core plugin JavaScript-->
+        <script src="/admin/style/jquery-easing/jquery.easing.min.js"></script>
+        <script src="/admin/style/js/bootstrap-notify.min.js"></script>
+    {% endblock %}
+</body>
+</html>

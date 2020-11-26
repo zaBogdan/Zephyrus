@@ -1,0 +1,16 @@
+{#
+Name: bc
+Props: root, directory
+#}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="{{bc.url}}">{{ bc.root | capitalize }}</a>
+    </li>
+
+    {% for directory in bc.directory %}
+        <li class="breadcrumb-item">
+            <a href="#"> {{ directory | capitalize }} </a>
+        </li>
+    {% endfor %}
+        <li class="breadcrumb-item active">{{ bc.last | capitalize }}</li>
+</ol>

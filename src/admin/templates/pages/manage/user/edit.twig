@@ -1,0 +1,97 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+
+{% include "components/breadcrumb.twig" %}
+{% import 'components/forms.twig' as forms %}
+{% set response = updateUserInfo(user,loggedUser) %}
+
+<center><h3>Editing <b>{{user.username}}'s</b> data </h3></center>
+<hr>
+<form action="" method="post" enctype="multipart/form-data">
+    <!-- <div class="row"> -->
+    <div class="col-12">
+        {% if response != null %}
+            <div class="alert alert-warning" role="alert">{{response}}</div>
+        {% endif %}
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-6">
+                    {{ forms.input("email","user existing email",user.email, {'autofocus': true}) }}
+                </div>
+                <div class="col-6">
+                    {{ forms.input("username","username",user.username ) }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-6">
+                    {{ forms.input("firstname","Firstname of the user",user.data.firstname) }}
+                </div>
+                <div class="col-md-6">
+                    {{ forms.input("lastname","Lastname of the user",user.data.lastname) }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-4">
+                    {{ forms.input("github","Firstname of the user",user.data.github) }}
+                </div>
+                <div class="col-md-4">
+                    {{ forms.input("twitter","Lastname of the user",user.data.twitter) }}
+                </div>
+                <div class="col-md-4">
+                    {{ forms.input("website","Lastname of the user",user.data.website) }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-6">
+                    <label for="checkConfirmation">Status</label>
+                {% set confirmed = (user.data.status=="confirmed") ? true : false %}
+                {% if confirmed == true %}
+                    <br>
+                    <h4>User is <span style="color:green">confirmed</span>!</h4>
+                {% else %}
+                <p class="text-muted">
+                With this you can resend the confirmation email to the user.
+                </p>
+                {{forms.radio('Send confirmation email', 'confirmEmail', 'confirmEmail')}}
+                {% endif %}
+                </div>
+                <div class="col-md-6">
+                <label for="checkConfirmation">Reset password</label>
+                <p class="text-muted">
+                If checked it will send an email to <b>{{user.email}}</b>
+                </p>
+                {{forms.radio('Issue a request password', 'requestNewPassword', 'requestNewPassword')}}
+                </div>
+            </div>
+        </div>
+        {{ forms.textarea('biography','Biography',user.data.biography) }}
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-6">
+                    <label for="inputRole">Role</label>
+                    <select name="role" id="role" class="form-control">
+                        <option selected>{{user.data.role}}</option>
+                        {% for role in roles %}
+                        {% if role != user.data.role %}
+                        <option value="{{role}}">{{role}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <br>
+        <button class="btn btn-primary btn-block" name="submit">Update user</button>
+</form>
+
+
+</div>
+</div>
+{% endblock %}

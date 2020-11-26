@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+{# Header module #}
+{% include 'widgets/header.twig' %}
+
+<body class="{{body.name}}-page sidebar-collapse">
+    {# Navbar module #}
+    {% include 'widgets/logged_navbar.twig' %}
+    {% if user.data.status != "confirmed" %}
+    <div class="main-alert alert alert-warning">
+        <div class="container">
+        <div class="alert-icon">
+            <i class="material-icons">warning</i>
+        </div>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true"><i class="material-icons">clear</i></span>
+        </button>
+        <b>Warning:</b> You haven't confirmed your email adress <b>{{user.email}}</b>! Click <b><a href="/auth?page=confirm-account&email={{user.email}}">here</a></b> to get to the account confirmation page!
+        </div>
+    </div>
+    {% endif %}
+    {# Custom page creation #}
+    {% block body %}
+    {% endblock %}
+
+    {% set vars = {'modal': {
+            'name': 'logoutModal',
+            'title': 'Ready to Leave?',
+            'description': 'Select "Logout" below if you are ready to end your current session.',
+            'button': 'Logout',
+            'link': '/auth?page=logout'
+    }}%}
+    {% include 'components/modal.twig' with vars %}
+    {# Footer module #}
+    {% include 'widgets/footer.twig' %}
+
+    {# Custom page scripts #}
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

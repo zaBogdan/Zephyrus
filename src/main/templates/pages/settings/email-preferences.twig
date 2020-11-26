@@ -1,0 +1,54 @@
+{% extends 'pages/settings/main.twig' %}
+{% set response = null %}
+{% set response = {'error_level':1, 'error': 'This is not yet implemented! In queue for next update!'} %}
+
+
+{% block settings %}
+{% import 'components/form.twig' as form %}
+    <form method="post" action="">
+        {{ form.checkbox('security','Recieve emails regarding security', {'checked':true}) }}
+        <br>
+        {{ form.checkbox('opinion','Participate in polls about new features/changes', {'checked':true}) }}
+        <br>
+        {{ form.checkbox('marketing','Subscribe to platform newsletter', {'checked':false}) }}
+        <br>
+        {{ form.checkbox('new_posts','Get notifications about new posts that are in a specific category or hashtag that you follow', {'checked':false}) }}
+        <br>
+        <div class="text-center">
+            <button class="btn btn-primary btn-round" type="submit" name="submit">Update settings</button>
+        </div>
+    </form>
+{% endblock %}
+
+{% block alerts %}
+{% if response.error_level != null and response.error_level <= 3 %}
+        <div class ="mr-auto ml-auto mb-auto" style="position: relative;">
+            <div class="alert alert-danger">
+                <div class="container">
+                <div class="alert-icon">
+                    <i class="material-icons">error_outline</i>
+                </div>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                </button>
+                <b>Error:</b> {{response.error}}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% if response.success == true %}
+        <div class ="mr-auto ml-auto mb-auto" style="position: relative;">
+            <div class="alert alert-success">
+                <div class="container">
+                <div class="alert-icon">
+                    <i class="material-icons">check</i>
+                </div>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                </button>
+                <b>Success:</b> Account has been changed confirmed. You will be redirected in 5 seconds!
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

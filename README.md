@@ -4,12 +4,13 @@
 </p>
 This is a Content Management System created for learning purposes. It has suffered a lot of changes and improves during this commits. If you want to see a changelog of this look at the Versions. Project is not regularly maintained and can have severe security issues because of the little time I have.
 
+# MUST BE CHANGED!!! The installation proccess sufferend a lot of changes!
 # Installation with Docker
 I tried to automate as much as I could and these are the new steps:
 * Clone the repository 'git clone https://github.com/zaBogdan/Zephyrus.git'
 * Change to the directory 'cd Zephyrus'
 * Run the composer to get all dependencies 'composer install'
-* Make sure you change credentials from 'docker-compose.yml' file
+* Make sure you add the enviorment variables to 
 * Start up docker with 'docker-compose up --build' (use --build only first time!)
 * Go to the web at 'http://localhost:8000/admin/install/' and follow the instructions there
 
@@ -64,8 +65,8 @@ Legend:
 - Feature removed.
 ! Bug/Security issue fixed
 ```
-
 Version 0.4 - Almost there!
+- (+) Project is now restructured. 
 - (+) Service installation stage completed.
 - (+) Project files restructured. (backend is now separated from frontend)
 - (+) Docker has been added to the project.
@@ -75,7 +76,7 @@ Version 0.4 - Almost there!
 - (+) Rebranded from `zaEngine` to `Zephyrus`
 - (+) Posts are now completed
 - (+) Home, Posts and Profile pages are now working and linked.
-- (-) Removed first installation system, because it was broken.
+- (-) Removed first installation system, redesigned a new one.
 - (-) Removed old system of token & session generation. Now everything is more secure.
 - (-) FileSystem is removed for this update. Will be taken care of in the next one.
 > **Note** At this moment this version is in it's late beta. Don't install this on your production system!

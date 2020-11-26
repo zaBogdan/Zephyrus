@@ -4,30 +4,26 @@
 </p>
 This is a Content Management System created for learning purposes. It has suffered a lot of changes and improves during this commits. If you want to see a changelog of this look at the Versions. Project is not regularly maintained and can have severe security issues because of the little time I have.
 
-# MUST BE CHANGED!!! The installation proccess sufferend a lot of changes!
-# Installation with Docker
-I tried to automate as much as I could and these are the new steps:
-* Clone the repository 'git clone https://github.com/zaBogdan/Zephyrus.git'
-* Change to the directory 'cd Zephyrus'
-* Run the composer to get all dependencies 'composer install'
-* Make sure you add the enviorment variables to 
-* Start up docker with 'docker-compose up --build' (use --build only first time!)
-* Go to the web at 'http://localhost:8000/admin/install/' and follow the instructions there
+# Linux/MacOS installation using Docker Compose
+In the hope that I will be able to migrate fast from one computer to another I've migrated the whole project to Docker containers using them along with Docker-Compose. 
+Here is what you have to do
+* You must have `docker` and `docker compose` installed on your system!
+* Clone the repository `git clone https://github.com/zaBogdan/Zephyrus.git`
+* Change the directory to `cd Zephyrus`
+* Open `.env.example` and change the `DB_ROOT_PASSWORD` and `DB_USER_PASSWORD` to secure  passwords. We recommand passwords longer that 16 characters. 
+* Change `.env.example` to `.env`
+* Run `chmod +x build.sh`
+* Now just execute `./build.sh` and it will take care of everything 
 
-> **Note:** The credentials in 'docker-compose.yml' can be anything you want. There are just for setup purposes. But make you need to reuse them in order to make the connection to database!
+Post installation things to do 
+* If you want to start the containters use `docker-compose start`
+* If you want to close them use `docker-compose stop`
+* If you want to benefit from mail services I've implemented them  using Mailgun, so you will need an account to login.
+* Because the scope of this project was to learn how PHP works and to improve it as much as I can I didn't focus on writing a from scratch text editor so I've used Twig. You will also need an API key.
 
-And that's it. You've installed the application!
-
-# Installation without Docker
-Even if I don't recommend it because it can be a huge pain on some operating systems, these are the steps.
-* Clone the repository 'git clone https://github.com/zaBogdan/Zephyrus.git'
-* Change to the directory 'cd Zephyrus'
-* Run the composer to get all dependencies 'composer install'
-* Now you have everything needed, so you need to set up the webservice
-* You need PHP, Apache2, PHPMyAdmin and MySQL installed on your system. Also an active Mailgun account and a TinyMCE one.
-* Go to the web at 'http://localhost:8000/admin/install/' and follow the instructions there
-
-> **Note** I recommend this tutorial for installing the LAMP stack if you are on a linux distro: https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-16-04
+This script was tested on 
+* Arch Linux (5.9.8-arch1-1)
+* MacOS Big Sur
 
 # Future plans
 Even if it's in an alpha stage this project will be maintained but it will not have regular updates, because I am short on time. Hopefully it will become one day a powerful, scalable CMS.
@@ -53,6 +49,9 @@ These are the bugs found during pentesting session. If you find more please info
 - [x] Session cookies are not encrypted. (<0.4)
 - [x] Remote code execution in `Upload Files` page. (<0.4)
 - [x] Tokens are the same as UUID, not generated securely. (<0.4)
+
+# Next updates
+Because this version is working-ish (it still has a few installation bugs) I've decided to set this repository to public. Well the work for version 0.5 will be done on `development-0.5` branch. 
 
 
 # Versions

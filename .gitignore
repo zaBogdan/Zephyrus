@@ -1,5 +1,5 @@
-vendor/
-storage/
-oldAdmin
-.env
-.DS_STORE
+**/vendor/
+**/storage/*
+**/oldAdmin
+**/.env
+**/.DS_STORE

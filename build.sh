@@ -1,12 +1,14 @@
 #!/bin/sh
 echo "[+] Checking if .env file is configured..."
 [ -f ".env" ] || { echo "[!] File does not exists! Please copy the data from .env.example and change it!"; exit; }
-[ $(stat -c %a src) = 775 ] || { 
-echo "[+] Setting up the permissions! We will need sudo access."
-sudo chown -R $(echo $USER):http ./src
-sudo chmod -R 775 ./src
+[ "$OSTYPE" != "darwin"* ] || {
+    [ $(stat -c %a src) = 775 ] || { 
+        echo "[+] Setting up the permissions! We will need sudo access."
+        sudo chown -R $(echo $USER):http ./src
+        sudo chmod -R 775 ./src
+    }
+    echo "[+] Permissions set."
 }
-echo "[+] Permissions set."
 echo "[+] Checking if composer is installed..."
 [ -f "/usr/bin/composer" ] || {
     echo "[-] It seems it doesn't exists. We will install it quickly";

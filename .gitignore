@@ -1,5 +1,4 @@
 **/vendor/
-**/storage/*
 **/oldAdmin
 **/.env
 **/.DS_STORE

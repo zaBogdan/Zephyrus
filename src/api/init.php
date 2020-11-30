@@ -35,6 +35,14 @@ require_once ROOT_DIR.'/api/misc/emails.php';
 require_once ROOT_DIR.'/api/security/tokens.php';
 require_once ROOT_DIR.'/api/security/sessions.php';
 
+/**
+ * In development classes.
+ */
+require_once ROOT_DIR.'/api/database/queryBuilder.php';
+require_once ROOT_DIR.'/api/database/databasemodel.php';
+require_once ROOT_DIR.'/api/database/fakeUser.php';
+require_once ROOT_DIR.'/api/database/fakePost.php';
+
 
 /**
  * Working with classes

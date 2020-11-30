@@ -7,7 +7,6 @@ class Database{
     public function __construct(){
         $this->connect_to_db();
     }
-
     private function connect_to_db(){
         global $sensitive;
         if(!$sensitive->env['DATABASE_HOST'])
